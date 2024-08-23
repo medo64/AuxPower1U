@@ -34,7 +34,7 @@
 |  1 | R 18K 1% 0.125W (0805)                             | R57      | RMCF0805FT18K0CT-ND                                         |
 |  5 | R 180K 1% 0.125W (0805)                            | R58-R62  | 738-RMCF0805FT180KCT-ND                                     |
 |  5 | U CurrentMonitor [ZXCT1009] (SOT23-3)              | U1-U5    | ZXCT1109QSA-7DICT-ND                                        |
-|  1 | PIC18F26K83                                        | U6       |                                                             |
+|  1 | U Micro [PIC18F26K83] (SOIC-28)                    | U6       | PIC18F26K83-I/SO-ND                                         |
 |  1 | U Expander I2C [PI4IOE5V6416LEX] (TSSOP-24)        | U7       | PI4IOE5V6416LEXDICT-ND                                      |
 |  1 | U Temperature Analog 2% [MCP9701A] (SOT23-3)       | U8       | MCP9701AT-E/TTCT-ND                                         |
 |  1 | VR Linear 5V 1A [AS7805ADTR-G1] (TO252-2)          | VR1      | AS7805ADTR-G1DICT-ND                                        |

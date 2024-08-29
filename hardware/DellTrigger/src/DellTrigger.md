@@ -14,4 +14,5 @@
 |  1 | R 330 (0805)                     | R1      |                                                                                   |
 |  1 | R 10K (0805)                     | R2      |                                                                                   |
 |  1 | U Eeprom [DS2501]                | U1      | https://www.aliexpress.com/i/3256805931621593.html                                |
-|  1 | Dell pigtail 4.5x3.0mm           |         | https://www.amazon.com/ELNONE-Adapter-Pigtail-4-5x3-0mm-Replacement/dp/B0CGPXBT87 |
+|  1 | Barrel DC 5.5x2.1mm              |         | https://www.aliexpress.us/item/2251832813612130.html                              |
+|  1 | Pigtail Dell 4.5x3.0mm           |         | https://www.amazon.com/ELNONE-Adapter-Pigtail-4-5x3-0mm-Replacement/dp/B0CGPXBT87 |

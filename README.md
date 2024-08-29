@@ -12,20 +12,6 @@ Features:
 
 ## Components
 
-### Case
-
-
-### Power Supply
-
-
-### Other
-
-#### DellTrigger
-
-For the purpose of powering Dell 3050 Micro, one needs to trick computer to
-recognize charger correctly. For that purpose, [a simple circuit](https://forum.arcadecontrols.com/index.php?topic=118584.0)
-is needed.
-
-#### FanController
-
-Optional board to run PWM fans dependant on temperature.
+* [DellTrigger](hardware/DellTrigger/README.md): Emulating Dell charger for 5.5x2.1mm input
+* FanController: Optional board to run PWM fans dependant on temperature
+* MainController: Allowing for monitoring and resetting of lines

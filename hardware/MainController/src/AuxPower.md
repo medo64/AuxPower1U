@@ -30,7 +30,7 @@
 |  7 | R 3.3K 1% 0.125W (0805)                            | R35-R41  | RMCF0805FT3K30CT-ND                                         |
 |  5 | R 6.2K 0.125W 1% (0805)                            | R42-R46  | RMCF0805FT6K20CT-ND                                         |
 |  6 | R 10K 1% 0.125W (0805)                             | R47-R52  | RMCF0805FT10K0CT-ND                                         |
-|  4 | R 15K 1% 0.125W (0805)                             | R53-R56  | RMCF0805FT15K0CT-ND                                         |
+|  4 | R 18K 1% 0.125W (0805)                             | R53-R56  | RMCF0805FT18K0CT-ND                                         |
 |  1 | R 18K 1% 0.125W (0805)                             | R57      | RMCF0805FT18K0CT-ND                                         |
 |  5 | R 180K 1% 0.125W (0805)                            | R58-R62  | 738-RMCF0805FT180KCT-ND                                     |
 |  5 | U CurrentMonitor [ZXCT1009] (SOT23-3)              | U1-U5    | ZXCT1109QSA-7DICT-ND                                        |

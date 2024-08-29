@@ -13082,7 +13082,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "15K"
+		(property "Value" "18K"
 			(at 2.8 0 0)
 			(layer "B.SilkS")
 			(uuid "2b4c063a-1a03-4127-aa4e-1e78da746acd")
@@ -14994,7 +14994,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "15K"
+		(property "Value" "18K"
 			(at 2.8 0 0)
 			(layer "B.SilkS")
 			(uuid "fc459258-bf0f-495c-98c2-d40f62943437")
@@ -15987,7 +15987,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "15K"
+		(property "Value" "18K"
 			(at 2.8 0 0)
 			(layer "B.SilkS")
 			(uuid "aa3bae64-7dcf-4198-93e3-3c2331c7af6b")
@@ -18220,7 +18220,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "15K"
+		(property "Value" "18K"
 			(at 2.8 0 0)
 			(layer "B.SilkS")
 			(uuid "548ae7d7-509c-4fdc-925c-db50cc05b342")

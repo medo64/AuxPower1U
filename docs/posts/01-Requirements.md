@@ -122,6 +122,6 @@ and a maximum of seven.
 
 Lastly, this blog post leaves us with the following action items I will probably
 get around to solving:
-* Chck can Netgear GS305EPP work on 48V
+* Check can Netgear GS305EPP work on 48V
 * Make trigger board for Dell
 * Check does Dell Optiplex 3050 Micro work on 15V

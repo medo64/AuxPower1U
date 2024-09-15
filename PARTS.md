@@ -35,6 +35,8 @@
 |    | Heat sink compound       | https://www.super-lube.com/silicone-heat-sink-compound-98003                                     |
 | 12 | Machine screw M3x6       |                                                                                                  |
 | 12 | Nut M3                   |                                                                                                  |
+| 24 | Washer M3x6x0.5          |                                                                                                  |
+| 10 | Ring Terminal RV1.25-4s  | https://www.aliexpress.us/item/3256805890650511.html                                             |
 |  3 | Wago 221-413             |                                                                                                  |
 |  1 | 3DP PS Rail L            | 3D Printer                                                                                       |
 |  1 | 3DP PS Rail R            | 3D Printer                                                                                       |

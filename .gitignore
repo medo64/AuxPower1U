@@ -7,3 +7,5 @@ hardware/**/src/*.kicad_prl
 hardware/**/src/fp-info-cache
 
 research/
+
+*.FCBak

@@ -11,3 +11,15 @@ research/
 *.kicad_pcb.lck
 *.kicad_prl
 fp-info-cache
+
+# MPLAB X
+src/**/firmware/*.err
+src/**/firmware/*.obj
+src/**/firmware/build/**
+src/**/firmware/disassembly/**
+src/**/firmware/dist/**
+src/**/firmware/funclist
+src/**/firmware/nbproject/private/**
+src/**/firmware/nbproject/Makefile-genesis.properties
+src/**/firmware/nbproject/Makefile-*.mk
+src/**/firmware/nbproject/Package-*.bash

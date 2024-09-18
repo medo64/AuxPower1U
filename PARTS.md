@@ -4,6 +4,7 @@
 |---:|--------------------------|--------------------------------------------------------------------------------------------------|
 |  1 | 1U Case                  | https://www.digikey.com/en/products/detail/bud-industries/PRM-14460/655427                       |
 | 10 | DC 5.5x2.1 Panel         | https://www.digikey.com/en/products/detail/tensility-international-corp/10-03609/12090912        |
+| 20 | Ferrule E7508 0.75mm²    |                                                                                                  |
 |  5 | Button 16mm              | https://www.aliexpress.us/item/3256804791551109.html                                             |
 |  1 | Audio 3.5mm Stereo Panel |                                                                                                  |
 |  2 | 3DP Main Controller Box  | 3D Printer                                                                                       |

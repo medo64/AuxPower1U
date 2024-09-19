@@ -14,7 +14,7 @@ void pwm_set_all(uint8_t value) {
 
 void pwm_init(void) {
     // Pin Setup
-    TRISA  &= 0b001010;      // PWM4 PWM3 ---- PWM1 ---- PWM2
+    TRISA  &= 0b001010;      // PWM4 PWM3 MCLR PWM1 Temp PWM2
     ANSELA &= 0b001010;
 
     // Clear the PWMxCON register

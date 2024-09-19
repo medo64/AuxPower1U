@@ -6,6 +6,7 @@
                    projectFiles="true">
       <itemPath>app.h</itemPath>
       <itemPath>pwm.h</itemPath>
+      <itemPath>adc.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -21,6 +22,7 @@
                    projectFiles="true">
       <itemPath>app.c</itemPath>
       <itemPath>pwm.c</itemPath>
+      <itemPath>adc.c</itemPath>
     </logicalFolder>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>

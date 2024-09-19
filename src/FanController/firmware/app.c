@@ -27,21 +27,27 @@ void main(void) {
     pwm_set_all(SPEED_USE_MIN);
     __delay_ms(250);
 
+    uint16_t temperatureSum = (uint16_t)(adc_get_temperature()) << 3;  // 8x running average
     while(true) {
         CLRWDT();
 
-        uint8_t temperature = adc_get_temperature();
-        if (temperature < 40) {  // minimum fan speed up to 40C
+        uint8_t temperatureNew = adc_get_temperature();  // measure new temperature
+        uint8_t temperatureAvg = (uint8_t)(temperatureSum >> 3);  // take average from previous run
+        temperatureSum = (temperatureSum - temperatureAvg) + temperatureNew;  // add new measure in
+
+        if (temperatureAvg < 40) {  // minimum fan speed up to 40 °C
             pwm_set_all(SPEED_USE_MIN);
-        } else if (temperature < 60) {  // linear increase 40-60
+        } else if (temperatureAvg < 60) {  // linear increase 40-60 °C
             uint8_t scaleSpeedPerC = (SPEED_USE_MAX - SPEED_USE_MIN) / 20;
-            uint8_t scaleT = temperature - 60;
+            uint8_t scaleT = temperatureAvg - 40;
             pwm_set_all(SPEED_USE_MIN + scaleSpeedPerC * scaleT);
-        } else if (temperature < 70) {  // higher speed 
+        } else if (temperatureAvg < 70) {  // higher speed up to 70 °C
             pwm_set_all(SPEED_USE_MAX);
-        } else {  // max speed if 70+
+        } else {  // max speed if higher than 70 °C
             pwm_set_all(SPEED_SPEC_MAX);
         }
+
+        __delay_ms(100);  // delay speed changes a bit
     }
 }
 

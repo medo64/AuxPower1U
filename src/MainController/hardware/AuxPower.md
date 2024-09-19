@@ -41,3 +41,67 @@
 |    |                                                    |          |                                                             |
 |  5 | P Phoenix MC 1,5/ 2-ST-3,81 (2w)                   | P1-P5    | ED2875-ND                                                   |
 |  5 | P Phoenix MC 1,5/ 4-ST-3,81 (4w)                   | P6-P10   | ED2877-ND                                                   |
+
+
+### Pin Usage (PIC18F26K83)
+
+|  # | Pin | ICSP | Function | Description                         |
+|---:|:---:|------|----------|-------------------------------------|
+|  1 | RE3 | MCLR |          |                                     |
+|  2 | RA0 |      | ANA0     | Out 1: Current (ADC 2.048V)         |
+|  3 | RA1 |      | ANA1     | Out 1: Voltage (ADC 2.048V 1:30.03) |
+|  4 | RA2 |      | ANA2     | Out 2: Current (ADC 2.048V)         |
+|  5 | RA3 |      | ANA3     | Out 2: Voltage (ADC 2.048V 1:30.03) |
+|  6 | RA4 |      | ANA4     | Out 3: Current (ADC 2.048V)         |
+|  7 | RA5 |      | ANA5     | Out 3: Voltage (ADC 2.048V 1:30.03) |
+|  8 | Vss | GND  | -        | -                                   |
+|  9 | RA7 |      | ANA7     | Out 4: Current (ADC 2.048V)         |
+| 10 | RA6 |      | ANA6     | Out 4: Voltage (ADC 2.048V 1:30.03) |
+| 11 | RC0 |      | ANC0     | Out 5: Current (ADC 2.048V)         |
+| 12 | RC1 |      | ANC1     | Out 5: Voltage (ADC 2.048V 1:30.03) |
+| 13 | RC2 |      | ANC2     | Temperature sensor (ADC 2.048V)     |
+| 14 | RC3 |      |          | In 1: Voltage  (ADC 2.048V 1:7)     |
+| 15 | RC4 |      |          |                                     |
+| 16 | RC5 |      |          |                                     |
+| 17 | RC6 |      |          |                                     |
+| 18 | RC7 |      |          |                                     |
+| 19 | Vss | GND  | -        | -                                   |
+| 20 | Vdd | 5V   | -        | -                                   |
+| 21 | RB0 |      |          |                                     |
+| 22 | RB1 |      | I2C SCL  | I2C                                 |
+| 23 | RB2 |      | I2C SDA  | I2C                                 |
+| 24 | RB3 |      | RB3      | LED: Activity                       |
+| 25 | RB4 |      |          |                                     |
+| 26 | RB5 |      |          |                                     |
+| 27 | RB6 | CLK  | UART TX  | UART                                |
+| 28 | RB7 | DAT  | UART RX  | UART                                |
+
+
+### Pin Usage (PI4IOE5V6416)
+
+|  # | Pin   | ICSP | Description        |
+|---:|:-----:|------|--------------------|
+|  1 | INT   |      | -                  |
+|  2 | Vdd/I | 5V   | -                  |
+|  3 | RESET |      | -                  |
+|  4 | P0_0  |      | Out 1: Control     |
+|  5 | P0_1  |      | Out 2: Control     |
+|  6 | P0_2  |      | Out 3: Control     |
+|  7 | P0_3  |      | Out 4: Control     |
+|  8 | P0_4  |      | Out 5: Control     |
+|  9 | P0_5  |      |                    |
+| 10 | P0_6  |      | Button 5: ~Switch  |
+| 11 | P0_7  |      | Button 5: LED      |
+| 12 | Vss   | GND  | -                  |
+| 13 | P1_0  |      | Button 4: LED      |
+| 14 | P1_1  |      | Button 4: ~Switch  |
+| 15 | P1_2  |      | Button 3: LED      |
+| 16 | P1_3  |      | Button 3: ~Switch  |
+| 17 | P1_4  |      | Button 2: LED      |
+| 18 | P1_5  |      | Button 2: ~Switch  |
+| 19 | P1_6  |      | Button 1: LED      |
+| 20 | P1_7  |      | Button 1: ~Switch  |
+| 21 | Vss   | GND  | -                  |
+| 22 | SCL   |      | I2C SCL            |
+| 23 | SDA   |      | I2C SDA            |
+| 24 | Vdd/P | 5V   | -                  |

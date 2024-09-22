@@ -22,7 +22,7 @@
 |  1 | J JST XH (3w)                                      | J16      | 455-2248-ND                                                 |
 |  1 | J JST XH (4w)                                      | J17      | 455-B4B-XH-A-ND                                             |
 |  5 | Q Transistor NPN 100 mA 65V [BC846B,235] (SOT23-3) | Q1-Q5    | 1727-1876-1-ND                                              |
-|  5 | Q MOSFET P 6.2A 60V ±20Vgs [DMP3085LSD] (SO-8)     | Q6-Q10   | 785-1025-1-ND                                               |
+|  5 | Q MOSFET P 6.2A 60V ±20Vgs [AO4421] (SO-8)         | Q6-Q10   | 785-1025-1-ND                                               |
 |  5 | R 0.050 1% 3W (2512)                               | R1-R5    | CRA2512-FZ-R050ELFCT-ND                                     |
 |  5 | R 470 1% 0.125W (0805)                             | R6-R10   | RMCF0805FT470RCT-ND                                         |
 | 23 | R 1.0K 1% 0.125W (0805)                            | R11-R33  | RMCF0805FT1K00CT-ND                                         |
@@ -30,8 +30,7 @@
 |  7 | R 3.3K 1% 0.125W (0805)                            | R35-R41  | RMCF0805FT3K30CT-ND                                         |
 |  5 | R 6.2K 0.125W 1% (0805)                            | R42-R46  | RMCF0805FT6K20CT-ND                                         |
 |  6 | R 10K 1% 0.125W (0805)                             | R47-R52  | RMCF0805FT10K0CT-ND                                         |
-|  4 | R 18K 1% 0.125W (0805)                             | R53-R56  | RMCF0805FT18K0CT-ND                                         |
-|  1 | R 18K 1% 0.125W (0805)                             | R57      | RMCF0805FT18K0CT-ND                                         |
+|  5 | R 18K 1% 0.125W (0805)                             | R53-R57  | RMCF0805FT158K0CT-ND                                         |
 |  5 | R 180K 1% 0.125W (0805)                            | R58-R62  | 738-RMCF0805FT180KCT-ND                                     |
 |  5 | U CurrentMonitor [ZXCT1009] (SOT23-3)              | U1-U5    | ZXCT1109QSA-7DICT-ND                                        |
 |  1 | U Micro [PIC18F26K83] (SOIC-28)                    | U6       | PIC18F26K83-I/SO-ND                                         |

@@ -1,5 +1,10 @@
 #pragma once
 
+// TICKER
+#define _TICKER_NO_WAIT_TICKS
+
+
+
 // CONFIG1L
 #pragma config FEXTOSC = OFF    // External Oscillator Selection (Oscillator not enabled)
 #pragma config RSTOSC = HFINTOSC_64MHZ// Reset Oscillator Selection (HFINTOSC with HFFRQ = 64 MHz and CDIV = 1:1)

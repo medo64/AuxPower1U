@@ -6,6 +6,7 @@
                    projectFiles="true">
       <itemPath>app.h</itemPath>
       <itemPath>led.h</itemPath>
+      <itemPath>ticker.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -21,6 +22,7 @@
                    projectFiles="true">
       <itemPath>app.c</itemPath>
       <itemPath>led.c</itemPath>
+      <itemPath>ticker.c</itemPath>
     </logicalFolder>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
@@ -31,7 +33,7 @@
         <targetDevice>PIC18F26K83</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>PK5Tool</platformTool>
+        <platformTool>pk4hybrid</platformTool>
         <languageToolchain>XC8</languageToolchain>
         <languageToolchainVersion>2.50</languageToolchainVersion>
         <platform>2</platform>

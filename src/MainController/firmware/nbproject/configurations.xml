@@ -6,6 +6,9 @@
                    projectFiles="true">
       <itemPath>app.h</itemPath>
       <itemPath>led.h</itemPath>
+      <itemPath>ssd1306.h</itemPath>
+      <itemPath>ssd1306_font.h</itemPath>
+      <itemPath>i2c_master.h</itemPath>
       <itemPath>ticker.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
@@ -22,6 +25,8 @@
                    projectFiles="true">
       <itemPath>app.c</itemPath>
       <itemPath>led.c</itemPath>
+      <itemPath>ssd1306.c</itemPath>
+      <itemPath>i2c_master.c</itemPath>
       <itemPath>ticker.c</itemPath>
     </logicalFolder>
   </logicalFolder>

@@ -5,6 +5,7 @@
 #include "ssd1306.h"
 #include "i2c_master.h"
 #include "ticker.h"
+#include "ioex.h"
 
 void main(void) {
     init();
@@ -22,6 +23,10 @@ void main(void) {
     ssd1306_writeText16("   AuxPower1U   ");
     ssd1306_moveToNextRow16();
     ssd1306_writeText("   medo64.com   ");
+
+    ioex_init();
+    ioex_button1_led_on();
+    ioex_output1_on();
 
     while(true) {
         CLRWDT();

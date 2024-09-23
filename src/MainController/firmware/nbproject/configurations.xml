@@ -10,6 +10,7 @@
       <itemPath>ssd1306_font.h</itemPath>
       <itemPath>i2c_master.h</itemPath>
       <itemPath>ticker.h</itemPath>
+      <itemPath>ioex.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -28,6 +29,7 @@
       <itemPath>ssd1306.c</itemPath>
       <itemPath>i2c_master.c</itemPath>
       <itemPath>ticker.c</itemPath>
+      <itemPath>ioex.c</itemPath>
     </logicalFolder>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>

@@ -15,7 +15,10 @@ fp-info-cache
 # MPLAB X
 src/**/firmware/*.err
 src/**/firmware/*.obj
+src/**/firmware/defmplabxtrace.log
+src/**/firmware/defmplabxtrace.log.inx
 src/**/firmware/build/**
+src/**/firmware/debug/**
 src/**/firmware/disassembly/**
 src/**/firmware/dist/**
 src/**/firmware/funclist

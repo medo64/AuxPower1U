@@ -105,40 +105,7 @@ void i2c_master_init(void) {
 
 
 bool i2c_master_writeBytes(const uint8_t address, const uint8_t* data, const uint8_t count) {
-    #if defined(_16F1454) || defined(_16F1455)
-
-
-    #elif defined(_18F25K83) || defined(_18F26K83)
-
-        I2C2STAT1bits.TXWE = 0;  // clear buffer error
-        I2C2STAT1bits.CLRBF = 1;  // clear buffer
-        while (I2C2STAT1bits.CLRBF);  // wait for buffer clear
-
-        I2C2ADB1 = (uint8_t)(address << 1);  // load address
-        I2C2TXB = *data;
-        I2C2CNT = count;
-
-        I2C2CON0bits.S = 1; //Start
-        while (I2C2CON0bits.S);
-
-        uint8_t i = count - 1;
-        while (I2C2STAT0bits.MMA) {
-            if (I2C2CON0bits.MDR) {
-                if (I2C2STAT1bits.TXBE) {
-                    if (i > 0) {
-                        i--;
-                        data++;
-                        I2C2TXB = *data;
-                    } else {  // not sure how we got here
-                        I2C2TXB = 0x00;
-                    }
-                }
-            }
-        }
-
-        return (I2C2CNT == 0);
-
-    #endif
+    return i2c_master_writeBytesWithPrefix(address, *data, data + 1, count - 1);
 }
 
 bool i2c_master_writeBytesWithPrefix(const uint8_t address, const uint8_t firstByteOfData, const uint8_t* restOfData, const uint8_t count) {
@@ -180,35 +147,7 @@ bool i2c_master_writeBytesWithPrefix(const uint8_t address, const uint8_t firstB
 
 
 bool i2c_master_writeZeroBytes(const uint8_t address, const uint8_t zeroCount) {
-    #if defined(_16F1454) || defined(_16F1455)
-
-
-    #elif defined(_18F25K83) || defined(_18F26K83)
-
-        I2C2STAT1bits.TXWE = 0;  // clear buffer error
-        I2C2STAT1bits.CLRBF = 1;  // clear buffer
-        while (I2C2STAT1bits.CLRBF);  // wait for buffer clear
-
-        I2C2ADB1 = (uint8_t)(address << 1);  // load address
-        I2C2TXB = 0x00;
-        I2C2CNT = zeroCount;
-
-        I2C2CON0bits.S = 1; //Start
-        while (I2C2CON0bits.S);
-
-        uint8_t i = zeroCount - 1;
-        while (I2C2STAT0bits.MMA) {
-            if (I2C2CON0bits.MDR) {
-                if (I2C2STAT1bits.TXBE) {
-                    if (i > 0) { i--; }
-                    I2C2TXB = 0x00;
-                }
-            }
-        }
-
-        return (I2C2CNT == 0);
-
-    #endif
+    return i2c_master_writeZeroBytesWithPrefix(address, 0, zeroCount - 1);
 }
 
 bool i2c_master_writeZeroBytesWithPrefix(const uint8_t address, const uint8_t firstByteOfData, const uint8_t zeroCount) {

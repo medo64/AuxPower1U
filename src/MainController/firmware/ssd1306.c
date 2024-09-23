@@ -349,19 +349,18 @@ bool ssd1306_writeCharacter16(const char value) {
 
 
 void writeRawCommand1(const uint8_t datum1) {
-    uint8_t data[2] = { 0x00, datum1 };
-    i2c_master_writeBytes(displayAddress, data, 2);
+    i2c_master_writeRegisterBytes(displayAddress, 0x00, &datum1, 1);
 }
 
 void writeRawCommand2(const uint8_t datum1, const uint8_t datum2) {
-    uint8_t data[3] = { 0x00, datum1, datum2 };
-    i2c_master_writeBytes(displayAddress, data, 3);
+    uint8_t data[2] = { datum1, datum2 };
+    i2c_master_writeRegisterBytes(displayAddress, 0x00, data, 2);
 }
 
 void writeRawData(const uint8_t *data, const uint8_t count) {
-    i2c_master_writeBytesWithPrefix(displayAddress, 0x40, data, count);
+    i2c_master_writeRegisterBytes(displayAddress, 0x40, data, count);
 }
 
 void writeRawDataZeros(const uint8_t count) {
-    i2c_master_writeZeroBytesWithPrefix(displayAddress, 0x40, count);
+    i2c_master_writeRegisterZeroBytes(displayAddress, 0x40, count);
 }

@@ -28,13 +28,13 @@ void i2c_master_init(void);
 bool i2c_master_readRegisterBytes(const uint8_t deviceAddress, const uint8_t registerAddress, uint8_t* readData, const uint8_t readCount);
 
 /** Writes multiple bytes. */
+bool i2c_master_writeRegisterBytes(const uint8_t deviceAddress, const uint8_t registerAddress, const uint8_t* data, const uint8_t count);
+
+/** Writes multiple bytes. */
+bool i2c_master_writeRegisterZeroBytes(const uint8_t deviceAddress, const uint8_t registerAddress, const uint8_t zeroCount);
+
+/** Writes multiple bytes. */
 bool i2c_master_writeBytes(const uint8_t deviceAddress, const uint8_t* data, const uint8_t count);
 
 /** Writes multiple bytes. */
-bool i2c_master_writeBytesWithPrefix(const uint8_t deviceAddress, const uint8_t firstByteOfData, const uint8_t* restOfData, const uint8_t count);
-
-/** Writes multiple bytes. */
 bool i2c_master_writeZeroBytes(const uint8_t deviceAddress, const uint8_t zeroCount);
-
-/** Writes multiple bytes. */
-bool i2c_master_writeZeroBytesWithPrefix(const uint8_t deviceAddress, const uint8_t firstByteOfData, const uint8_t zeroCount);

@@ -8,6 +8,8 @@
 #define IOEX_DEVICE_REGISTER_OUTPUT1  0b00000011
 #define IOEX_DEVICE_REGISTER_CONFIG0  0b00000110
 #define IOEX_DEVICE_REGISTER_CONFIG1  0b00000111
+#define IOEX_DEVICE_REGISTER_PULL0    0b01000110
+#define IOEX_DEVICE_REGISTER_PULL1    0b01000111
 
 uint8_t outState0 = 0;
 uint8_t outState1 = 0;
@@ -130,16 +132,32 @@ void ioex_output5_off(void) {
 }
 
 
+void ioex_button_getSwitches(bool* switch1, bool* switch2, bool* switch3, bool* switch4, bool* switch5) {
+    uint8_t data0 = 0, data1 = 0;
+    i2c_master_readRegisterBytes(IOEX_DEVICE_ADDRESS, IOEX_DEVICE_REGISTER_INPUT0, &data0, 1);
+    i2c_master_readRegisterBytes(IOEX_DEVICE_ADDRESS, IOEX_DEVICE_REGISTER_INPUT1, &data1, 1);
+
+    *switch1 = (data1 & 0b10000000) == 0;
+    *switch2 = (data1 & 0b00100000) == 0;
+    *switch3 = (data1 & 0b00001000) == 0;
+    *switch4 = (data1 & 0b00000010) == 0;
+    *switch5 = (data0 & 0b01000000) == 0;
+}
+
+
 void ioex_init(void) {
     uint8_t configData0[2] = { IOEX_DEVICE_REGISTER_CONFIG0, 0b01100000 };
-    i2c_master_writeBytes(IOEX_DEVICE_ADDRESS, configData0, 2);
-
     uint8_t configData1[2] = { IOEX_DEVICE_REGISTER_CONFIG1, 0b10101010 };
+    i2c_master_writeBytes(IOEX_DEVICE_ADDRESS, configData0, 2);
     i2c_master_writeBytes(IOEX_DEVICE_ADDRESS, configData1, 2);
 
-    uint8_t data0[2] = { IOEX_DEVICE_REGISTER_OUTPUT0, 0 };
-    i2c_master_writeBytes(IOEX_DEVICE_ADDRESS, data0, 2);
-    uint8_t data1[2] = { IOEX_DEVICE_REGISTER_OUTPUT1, 0 };
-    i2c_master_writeBytes(IOEX_DEVICE_ADDRESS, data1, 2);
+    uint8_t pullData0[2] = { IOEX_DEVICE_REGISTER_PULL0, 0b01100000 };
+    uint8_t pullData1[2] = { IOEX_DEVICE_REGISTER_PULL1, 0b10101010 };
+    i2c_master_writeBytes(IOEX_DEVICE_ADDRESS, pullData0, 2);
+    i2c_master_writeBytes(IOEX_DEVICE_ADDRESS, pullData1, 2);
 
+    uint8_t data0[2] = { IOEX_DEVICE_REGISTER_OUTPUT0, 0 };
+    uint8_t data1[2] = { IOEX_DEVICE_REGISTER_OUTPUT1, 0 };
+    i2c_master_writeBytes(IOEX_DEVICE_ADDRESS, data0, 2);
+    i2c_master_writeBytes(IOEX_DEVICE_ADDRESS, data1, 2);
 }

@@ -1,4 +1,5 @@
 #pragma once
+#include <stdbool.h>
 
 void ioex_init(void);
 
@@ -32,3 +33,6 @@ void ioex_output4_off(void);
 
 void ioex_output5_on(void);
 void ioex_output5_off(void);
+
+
+void ioex_button_getSwitches(bool* switch1, bool* switch2, bool* switch3, bool* switch4, bool* switch5);

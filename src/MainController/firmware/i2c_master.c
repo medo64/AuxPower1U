@@ -104,11 +104,7 @@ void i2c_master_init(void) {
 }
 
 
-bool i2c_master_writeBytes(const uint8_t address, const uint8_t* data, const uint8_t count) {
-    return i2c_master_writeBytesWithPrefix(address, *data, data + 1, count - 1);
-}
-
-bool i2c_master_writeBytesWithPrefix(const uint8_t address, const uint8_t firstByteOfData, const uint8_t* restOfData, const uint8_t count) {
+bool i2c_master_readRegisterBytes(const uint8_t deviceAddress, const uint8_t registerAddress, uint8_t* readData, const uint8_t readCount) {
     #if defined(_16F1454) || defined(_16F1455)
 
 
@@ -118,7 +114,54 @@ bool i2c_master_writeBytesWithPrefix(const uint8_t address, const uint8_t firstB
         I2C2STAT1bits.CLRBF = 1;  // clear buffer
         while (I2C2STAT1bits.CLRBF);  // wait for buffer clear
 
-        I2C2ADB1 = (uint8_t)(address << 1);  // load address
+        I2C2ADB1 = (uint8_t)(deviceAddress << 1);  // load address
+        I2C2TXB = registerAddress;
+        I2C2CNT = 1;  // let's ignore possible overflow
+
+        I2C2CON0bits.RSEN = 1;  // restart enabled
+        I2C2CON0bits.S = 1;  // start
+        while (I2C2CON0bits.S);
+
+        while (I2C2STAT0bits.MMA) {
+            if (I2C2CON0bits.MDR) {
+                if (I2C2STAT1bits.RXBF) {  // have data to read
+                    *readData = I2C2RXB;
+                    readData++;
+                } else {
+                    I2C2ADB1 |= 0b1;  // read address
+                    I2C2CNT = readCount;
+                    I2C2CON0bits.S = 1;  // restart
+                    while (I2C2CON0bits.S);
+                    I2C2CON0bits.RSEN = 0;  // clear restart flag
+                }
+            }
+        }
+
+        if (I2C2STAT1bits.RXBF) { //Read last byte
+            *readData = I2C2RXB;
+            readData++;
+        }
+
+        return (I2C2CNT == 0);
+
+    #endif
+}
+
+bool i2c_master_writeBytes(const uint8_t deviceAddress, const uint8_t* data, const uint8_t count) {
+    return i2c_master_writeBytesWithPrefix(deviceAddress, *data, data + 1, count - 1);
+}
+
+bool i2c_master_writeBytesWithPrefix(const uint8_t deviceAddress, const uint8_t firstByteOfData, const uint8_t* restOfData, const uint8_t count) {
+    #if defined(_16F1454) || defined(_16F1455)
+
+
+    #elif defined(_18F25K83) || defined(_18F26K83)
+
+        I2C2STAT1bits.TXWE = 0;  // clear buffer error
+        I2C2STAT1bits.CLRBF = 1;  // clear buffer
+        while (I2C2STAT1bits.CLRBF);  // wait for buffer clear
+
+        I2C2ADB1 = (uint8_t)(deviceAddress << 1);  // load address
         I2C2TXB = firstByteOfData;
         I2C2CNT = count + 1;  // let's ignore possible overflow
 
@@ -146,11 +189,11 @@ bool i2c_master_writeBytesWithPrefix(const uint8_t address, const uint8_t firstB
 }
 
 
-bool i2c_master_writeZeroBytes(const uint8_t address, const uint8_t zeroCount) {
-    return i2c_master_writeZeroBytesWithPrefix(address, 0, zeroCount - 1);
+bool i2c_master_writeZeroBytes(const uint8_t deviceAddress, const uint8_t zeroCount) {
+    return i2c_master_writeZeroBytesWithPrefix(deviceAddress, 0, zeroCount - 1);
 }
 
-bool i2c_master_writeZeroBytesWithPrefix(const uint8_t address, const uint8_t firstByteOfData, const uint8_t zeroCount) {
+bool i2c_master_writeZeroBytesWithPrefix(const uint8_t deviceAddress, const uint8_t firstByteOfData, const uint8_t zeroCount) {
     #if defined(_16F1454) || defined(_16F1455)
 
 
@@ -160,7 +203,7 @@ bool i2c_master_writeZeroBytesWithPrefix(const uint8_t address, const uint8_t fi
         I2C2STAT1bits.CLRBF = 1;  // clear buffer
         while (I2C2STAT1bits.CLRBF);  // wait for buffer clear
 
-        I2C2ADB1 = (uint8_t)(address << 1);  // load address
+        I2C2ADB1 = (uint8_t)(deviceAddress << 1);  // load address
         I2C2TXB = firstByteOfData;
         I2C2CNT = zeroCount + 1;  // let's ignore possible overflow
 

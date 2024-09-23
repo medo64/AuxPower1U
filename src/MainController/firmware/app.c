@@ -28,10 +28,21 @@ void main(void) {
     ioex_button1_led_on();
     ioex_output1_on();
 
+    uint8_t x[2] = { 0, 0 };
+    bool y = i2c_master_readRegisterBytes(0x20, 1, x, 1);
+
+    bool switch1State, switch2State, switch3State, switch4State, switch5State;
     while(true) {
         CLRWDT();
         ticker_waitTick(); io_led_activity_on();
         ticker_waitTick(); io_led_activity_off();
+
+        ioex_button_getSwitches(&switch1State, &switch2State, &switch3State, &switch4State, &switch5State);
+        if (switch1State) { ioex_button1_led_on(); } else { ioex_button1_led_off(); }
+        if (switch2State) { ioex_button2_led_on(); } else { ioex_button2_led_off(); }
+        if (switch3State) { ioex_button3_led_on(); } else { ioex_button3_led_off(); }
+        if (switch4State) { ioex_button4_led_on(); } else { ioex_button4_led_off(); }
+        if (switch5State) { ioex_button5_led_on(); } else { ioex_button5_led_off(); }
     }
 }
 

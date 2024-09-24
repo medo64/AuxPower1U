@@ -1,6 +1,5 @@
 /* Josip Medved <jmedved@jmedved.com> * www.medo64.com * MIT License */
-// TODO .....: Added support for PIC18F25K83 and PIC18F26K83
-//             Always uses external master
+// 2024-09-23: Always uses external master
 // 2024-09-02: Refactored to work with OLED firmware
 // 2023-10-10: Expanded functionality
 // 2023-10-14: Internal I2C support
@@ -9,7 +8,6 @@
  * Handling SSD1306 display output
  *
  * Defines used:
- *   _XTAL_FREQ <N>:               Frequency in Hz (only if not using external I2C master)
  *   _SSD1306_DISPLAY_ADDRESS <N>: I2C address; default is 0x3C
  *   _SSD1306_DISPLAY_HEIGHT <N>:  Display height; can be 32 or 64
  *   _SSD1306_DISPLAY_WIDTH <N>:   Display width; can be 64 or 128
@@ -33,10 +31,6 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include "app.h"
-
-#if !defined(_16F1454) && !defined(_16F1455) && !defined(_18F25K83) && !defined(_18F26K83)
-    #error "Unsupported device"
-#endif
 
 #if !defined(_SSD1306_FONT_8x8) & !defined(_SSD1306_FONT_8x16)  // at least one font has to be supported
     #define _SSD1306_FONT_8x8

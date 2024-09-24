@@ -1,5 +1,5 @@
 /* Josip Medved <jmedved@jmedved.com> * www.medo64.com * MIT License */
-// TODO .....: Initial version
+// 2024-09-23: Initial version
 
 /**
  * Handling I2C master communication
@@ -21,10 +21,15 @@
 #endif
 
 
-/** Initializes I2C as a master. */
-void i2c_master_init(void);
+#if defined(_16F1454) || defined(_16F1455)  // RC0 RC1
+    /** Initializes I2C as a master. */
+    void i2c_master_init(uint8_t baudRateCounter);
+#elif defined(_18F25K83) || defined(_18F26K83)
+    /** Initializes I2C as a master. */
+    void i2c_master_init(void);
+#endif
 
-/** Reads multiple bytes from a register. */
+    /** Reads multiple bytes from a register. */
 bool i2c_master_readRegisterBytes(const uint8_t deviceAddress, const uint8_t registerAddress, uint8_t* readData, const uint8_t readCount);
 
 /** Writes multiple bytes. */

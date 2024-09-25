@@ -44,7 +44,7 @@ void oled_fillNumber3(char* text, uint16_t value) {
     }
 }
 
-void oled_writeSummary(uint16_t voltage1, uint16_t voltage2, uint16_t voltage3, uint16_t voltage4,uint16_t voltage5, uint16_t current1, uint16_t current2, uint16_t current3, uint16_t current4,uint16_t current5, uint16_t temperature) {
+void oled_writeSummary(uint16_t voltage1, uint16_t current1, uint16_t voltage2, uint16_t current2, uint16_t voltage3, uint16_t current3, uint16_t voltage4, uint16_t current4, uint16_t voltage5, uint16_t current5, uint16_t temperature) {
     uint32_t power = 0;
     power += (uint32_t)voltage1 * (uint32_t)current1;
     power += (uint32_t)voltage2 * (uint32_t)current2;
@@ -71,11 +71,11 @@ void oled_writeSummary(uint16_t voltage1, uint16_t voltage2, uint16_t voltage3, 
     line2[2] = 0xF8;
     line2[3] = 'C';
     line2[4] = ' ';
-    line2[5] = power >= 100 ? 0xB0 : ' ';
-    line2[6] = power >= 200 ? 0xB1 : ' ';
-    line2[7] = power >= 300 ? 0xB2 : ' ';
-    line2[8] = power >= 400 ? 0xDB : ' ';
-    line2[9] = power >= 500 ? 0xDB : ' ';
+    line2[5] = powerWhole >= 100 ? 0xB0 : ' ';
+    line2[6] = powerWhole >= 200 ? 0xB1 : ' ';
+    line2[7] = powerWhole >= 300 ? 0xB2 : ' ';
+    line2[8] = powerWhole >= 400 ? 0xDB : ' ';
+    line2[9] = powerWhole >= 500 ? 0xDB : ' ';
     line2[10] = ' ';
     oled_fillNumber3(&line2[11], powerWhole);
     line2[14] = ' ';

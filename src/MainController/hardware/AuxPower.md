@@ -59,7 +59,7 @@
 | 11 | RC0 |      | ANC0     | Out 5: Current (ADC 2.048V)         |
 | 12 | RC1 |      | ANC1     | Out 5: Voltage (ADC 2.048V 1:30.03) |
 | 13 | RC2 |      | ANC2     | Temperature sensor (ADC 2.048V)     |
-| 14 | RC3 |      |          | In 1: Voltage  (ADC 2.048V 1:7)     |
+| 14 | RC3 |      | ANC3     | In 1: Voltage  (ADC 2.048V 1:7)     |
 | 15 | RC4 |      |          |                                     |
 | 16 | RC5 |      |          |                                     |
 | 17 | RC6 |      |          |                                     |

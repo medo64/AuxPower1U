@@ -32,7 +32,7 @@ void main(void) {
 
     bool switch1State, switch2State, switch3State, switch4State, switch5State;
     ioex_button_getSwitches(&switch1State, &switch2State, &switch3State, &switch4State, &switch5State);
-    if (switch1State || switch5State) {
+    if (switch1State && !switch2State && !switch3State && !switch4State && switch5State) {
         test();
         return;
     }

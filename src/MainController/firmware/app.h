@@ -74,3 +74,4 @@
 
 
 void init(void);
+void test(void);

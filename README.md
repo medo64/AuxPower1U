@@ -12,6 +12,6 @@ Features:
 
 ## Components
 
-* [DellTrigger](hardware/DellTrigger/README.md): Emulating Dell charger for 5.5x2.1mm input
-* FanController: Optional board to run PWM fans dependant on temperature
-* MainController: Allowing for monitoring and resetting of lines
+* [DellTrigger](src/DellTrigger/README.md): Emulating Dell charger for 5.5x2.1mm input
+* [FanController](src/FanController/README.md): Optional board to run PWM fans dependant on temperature
+* [MainController](src/MainController/README.md): Allowing for monitoring and resetting of lines

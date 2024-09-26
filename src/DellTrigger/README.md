@@ -1,4 +1,4 @@
-# DellTrigger
+# AuxPower1U: DellTrigger
 
 Small board that allows standard 5.5x2.1 power supply to be used for Dell
 Optiplex 3050 Micro.

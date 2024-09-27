@@ -15,3 +15,14 @@
 | Machine                    | Connector     | Specification | Tested |
 |----------------------------|---------------|---------------|--------|
 | Mikrotik hAP ax3           | 2.1x5.5mm     | 18-28V    38W | -      |
+
+
+## Wire Colors
+
+* DC GND      (Black  18 AWG)
+* DC 12V      (Yellow 18 AWG)
+* DC 15V      (Orange 18 AWG)
+* DC 55V      (Red    18 AWG)
+* AC Hot      (Blue   18 AWG)
+* AC Neutral  (White  18 AWG)
+* AC Ground   (Green  16 AWG)

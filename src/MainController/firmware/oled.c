@@ -60,41 +60,42 @@ void oled_writeSummary(uint16_t voltage1, uint16_t current1, uint16_t voltage2, 
     power += (uint32_t)voltage4 * (uint32_t)current4;
     power += (uint32_t)voltage5 * (uint32_t)current5;
     uint16_t powerWhole = (uint16_t)(power / (uint32_t)1000000);
+    uint8_t powerPercent = (uint8_t)(powerWhole * 100 / 300);  // 300W seems as a realistic maximum
 
-    char line1[17];
-    oled_fillNumber2(&line1[0], voltage1 / 1000, false);
-    line1[2] = ' ';
-    oled_fillNumber2(&line1[3], voltage2 / 1000, false);
-    line1[5] = ' ';
-    oled_fillNumber2(&line1[6], voltage3 / 1000, false);
-    line1[8] = ' ';
-    oled_fillNumber2(&line1[9], voltage4 / 1000, false);
-    line1[11] = ' ';
-    oled_fillNumber2(&line1[12], voltage5 / 1000, false);
-    line1[14] = ' ';
-    line1[15] = 'V';
-    line1[16] = 0;
+    char lineT[17];
+    oled_fillNumber2(&lineT[0], voltage1 / 1000, false);
+    lineT[2] = ' ';
+    oled_fillNumber2(&lineT[3], voltage2 / 1000, false);
+    lineT[5] = ' ';
+    oled_fillNumber2(&lineT[6], voltage3 / 1000, false);
+    lineT[8] = ' ';
+    oled_fillNumber2(&lineT[9], voltage4 / 1000, false);
+    lineT[11] = ' ';
+    oled_fillNumber2(&lineT[12], voltage5 / 1000, false);
+    lineT[14] = ' ';
+    lineT[15] = 'V';
+    lineT[16] = 0;
 
-    char line2[17];
-    oled_fillNumber2(&line2[0], temperature / 10, false);
-    line2[2] = 0xF8;
-    line2[3] = 'C';
-    line2[4] = ' ';
-    line2[5] = powerWhole >= 100 ? 0xB0 : ' ';
-    line2[6] = powerWhole >= 200 ? 0xB1 : ' ';
-    line2[7] = powerWhole >= 300 ? 0xB2 : ' ';
-    line2[8] = powerWhole >= 400 ? 0xDB : ' ';
-    line2[9] = powerWhole >= 500 ? 0xDB : ' ';
-    line2[10] = ' ';
-    oled_fillNumber3(&line2[11], powerWhole, false);
-    line2[14] = ' ';
-    line2[15] = 'W';
-    line2[16] = 0;
+    char lineBL[6];
+    oled_fillNumber2(&lineBL[0], temperature / 10, false);
+    lineBL[2] = 0xF8;
+    lineBL[3] = 'C';
+    lineBL[4] = ' ';
+    lineBL[5] = 0;
+
+    char lineBR[7];
+    lineBR[0] = ' ';
+    oled_fillNumber3(&lineBR[1], powerWhole, false);
+    lineBR[4] = ' ';
+    lineBR[5] = 'W';
+    lineBR[6] = 0;
 
     ssd1306_moveTo(1, 1);
-    ssd1306_writeLine16(line1);
+    ssd1306_writeLine16(lineT);
     ssd1306_writeLine("                ");
-    ssd1306_writeLine(line2);
+    ssd1306_writeText(lineBL);
+    ssd1306_writeProgress(5, powerPercent);
+    ssd1306_writeText(lineBR);
 }
 
 void oled_writeTest0(uint16_t voltage, uint16_t temperature) {

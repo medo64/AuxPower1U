@@ -1,5 +1,6 @@
 /* Josip Medved <jmedved@jmedved.com> * www.medo64.com * MIT License */
 // 2024-09-26: Added inverse writing
+//             Added progress bar
 // 2024-09-23: Always uses external master
 // 2024-09-02: Refactored to work with OLED firmware
 // 2023-10-10: Expanded functionality
@@ -20,6 +21,7 @@
  *   _SSD1306_FONT_8x16_LOW:       Include lower 32 ASCII control characters
  *   _SSD1306_FONT_8x16_HIGH:      Include upper 128 CP437 ASCII characters
  *   _SSD1306_WRITE_INVERSE:       Allows inverse writes
+ *   _SSD1306_WRITE_PROGRESS:      Allows writing progress bar
  *   _SSD1306_CONTROL_DISPLAY:     Allows display control (displayOff, displayOn)
  *   _SSD1306_CONTROL_INVERT:      Allows display control (displayInvert, displayNormal)
  *   _SSD1306_CONTROL_FLIP:        Allows display control (displayFlip)
@@ -196,4 +198,10 @@ bool ssd1306_drawCustom(const uint8_t* data);
         /** Writes inverse 8x16 text at the current position and moves to the next line */
         bool ssd1306_writeInverseLine16(const char* text);
     #endif
+#endif
+
+
+#if defined(_SSD1306_WRITE_PROGRESS)
+    /** Writes progress bar with a given value */
+    bool ssd1306_writeProgress(const uint8_t characterCount, const uint8_t percentValue);
 #endif

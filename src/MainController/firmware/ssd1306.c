@@ -462,6 +462,64 @@ bool ssd1306_drawCustom16(const uint8_t* data) {
 #endif
 
 
+#if defined(_SSD1306_WRITE_PROGRESS)
+    bool ssd1306_writeProgress(const uint8_t characterCount, const uint8_t percentValue) {
+        if ((characterCount == 0) || (characterCount > 16)) { return false; }
+
+        uint8_t fullPixels = (uint8_t)(characterCount << 3) - 5;
+        uint8_t usedPixels;
+        if (percentValue >= 100) {
+            usedPixels = fullPixels;
+        } else {
+            usedPixels = (uint8_t)((uint16_t)fullPixels * percentValue / 100);
+            if ((usedPixels == 0) && (percentValue > 0)) { usedPixels = 1; }
+        }
+        for (uint8_t i = 0; i < characterCount; i++) {
+            bool isFirst = (i == 0);
+            bool isLast = (i == characterCount - 1);
+            uint8_t data[8] = { 0b01000010, 0b01000010, 0b01000010, 0b01000010, 0b01000010, 0b01000010, 0b01000010, 0b01000010 };
+            if (isFirst) {  // first character - extra 1 pixel of width to fit nicely with text
+                data[0] = 0b00000000;
+                data[1] = 0b01111110;
+                for (uint8_t j = 2; j <= 7; j++) {
+                    if (usedPixels > 0) {
+                        data[j] = 0b01111110;
+                        usedPixels--;
+                    } else {
+                        break;
+                    }
+                }
+            }
+            if (isLast) {  // last character - extra 2 pixels of width to fit nicely with text
+                for (uint8_t j = 0; j <= 4; j++) {
+                    if (usedPixels > 0) {
+                        data[j] = 0b01111110;
+                        usedPixels--;
+                    } else {
+                        break;
+                    }
+                }
+                data[5] = 0b01111110;
+                data[6] = 0b00000000;
+                data[7] = 0b00000000;
+            }
+            if (!isFirst && !isLast) {
+                for (uint8_t j = 0; j <= 7; j++) {
+                    if (usedPixels > 0) {
+                        data[j] = 0b01111110;
+                        usedPixels--;
+                    } else {
+                        break;
+                    }
+                }
+            }
+            if (!ssd1306_drawCustom(data)) { return false; }
+        }
+        return true;
+    }
+#endif
+
+
 void ssd1306_writeRawCommand1(const uint8_t datum1) {
     i2c_master_writeRegisterBytes(displayAddress, 0x00, &datum1, 1);
 }

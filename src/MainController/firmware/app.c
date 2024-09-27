@@ -9,6 +9,8 @@
 #include "ticker.h"
 #include "ssd1306.h"
 
+#define AVG_SHIFT  3
+
 void main(void) {
     init();
     ticker_init();
@@ -37,14 +39,35 @@ void main(void) {
         return;
     }
 
-    uint16_t voltage1, current1, voltage2, current2, voltage3, current3, voltage4, current4, voltage5, current5, temperature, voltage1in;
+    uint16_t voltage1, current1, voltage2, current2, voltage3, current3, voltage4, current4, voltage5, current5, temperature, voltage1In;
+    adc_measureAll(&voltage1, &current1, &voltage2, &current2, &voltage3, &current3, &voltage4, &current4, &voltage5, &current5, &temperature, &voltage1In);
+
+    uint32_t voltage1Sum = (uint32_t)voltage1 << AVG_SHIFT, current1Sum = (uint32_t)current1 << AVG_SHIFT;
+    uint32_t voltage2Sum = (uint32_t)voltage2 << AVG_SHIFT, current2Sum = (uint32_t)current2 << AVG_SHIFT;
+    uint32_t voltage3Sum = (uint32_t)voltage3 << AVG_SHIFT, current3Sum = (uint32_t)current3 << AVG_SHIFT;
+    uint32_t voltage4Sum = (uint32_t)voltage4 << AVG_SHIFT, current4Sum = (uint32_t)current4 << AVG_SHIFT;
+    uint32_t voltage5Sum = (uint32_t)voltage5 << AVG_SHIFT, current5Sum = (uint32_t)current5 << AVG_SHIFT;
+    uint32_t temperatureSum = (uint32_t)temperature << AVG_SHIFT;
+
     uint8_t tickCounter = 0;
     while(true) {
         CLRWDT();
 
         if (ticker_hasTicked()) {  // 24th of a second
             tickCounter++;
-            adc_measureAll(&voltage1, &current1, &voltage2, &current2, &voltage3, &current3, &voltage4, &current4, &voltage5, &current5, &temperature, &voltage1in);
+
+            adc_measureAll(&voltage1, &current1, &voltage2, &current2, &voltage3, &current3, &voltage4, &current4, &voltage5, &current5, &temperature, &voltage1In);
+            voltage1Sum -= (voltage1Sum >> AVG_SHIFT); voltage1Sum += voltage1;
+            voltage2Sum -= (voltage2Sum >> AVG_SHIFT); voltage2Sum += voltage2;
+            voltage3Sum -= (voltage3Sum >> AVG_SHIFT); voltage3Sum += voltage3;
+            voltage4Sum -= (voltage4Sum >> AVG_SHIFT); voltage4Sum += voltage4;
+            voltage5Sum -= (voltage5Sum >> AVG_SHIFT); voltage5Sum += voltage5;
+            current1Sum -= (current1Sum >> AVG_SHIFT); current1Sum += current1;
+            current2Sum -= (current2Sum >> AVG_SHIFT); current2Sum += current2;
+            current3Sum -= (current3Sum >> AVG_SHIFT); current3Sum += current3;
+            current4Sum -= (current4Sum >> AVG_SHIFT); current4Sum += current4;
+            current5Sum -= (current5Sum >> AVG_SHIFT); current5Sum += current5;
+            temperatureSum -= (temperatureSum >> AVG_SHIFT); temperatureSum += temperature;
 
             ioex_button_getSwitches(&switch1State, &switch2State, &switch3State, &switch4State, &switch5State);
             ioex_button_setLeds(switch1State, switch2State, switch3State, switch4State, switch5State);
@@ -56,13 +79,23 @@ void main(void) {
         if (tickCounter == 24) {
             tickCounter = 0;
             io_led_activity_on();
-            oled_writeSummary(voltage1, current1, voltage2, current2, voltage3, current3, voltage4, current4, voltage5, current5, temperature);
+            
+            uint16_t voltage1Avg = (uint16_t)(voltage1Sum >> AVG_SHIFT);
+            uint16_t voltage2Avg = (uint16_t)(voltage2Sum >> AVG_SHIFT);
+            uint16_t voltage3Avg = (uint16_t)(voltage3Sum >> AVG_SHIFT);
+            uint16_t voltage4Avg = (uint16_t)(voltage4Sum >> AVG_SHIFT);
+            uint16_t voltage5Avg = (uint16_t)(voltage5Sum >> AVG_SHIFT);
+            uint16_t current1Avg = (uint16_t)(current1Sum >> AVG_SHIFT);
+            uint16_t current2Avg = (uint16_t)(current2Sum >> AVG_SHIFT);
+            uint16_t current3Avg = (uint16_t)(current3Sum >> AVG_SHIFT);
+            uint16_t current4Avg = (uint16_t)(current4Sum >> AVG_SHIFT);
+            uint16_t current5Avg = (uint16_t)(current5Sum >> AVG_SHIFT);
+            uint16_t temperatureAvg = (uint16_t)(temperatureSum >> AVG_SHIFT);
+            oled_writeSummary(voltage1Avg, current1Avg, voltage2Avg, current2Avg, voltage3Avg, current3Avg, voltage4Avg, current4Avg, voltage5Avg, current5Avg, temperatureAvg);
         }
     }
 }
 
-
-#define AVG_SHIFT  3
 
 void test(void) {
     ssd1306_displayInvert();

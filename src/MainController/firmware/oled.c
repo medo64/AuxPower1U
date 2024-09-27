@@ -92,16 +92,14 @@ void oled_writeSummary(uint16_t voltage1, uint16_t current1, uint16_t voltage2, 
     line2[16] = 0;
 
     ssd1306_moveTo(1, 1);
-    ssd1306_writeText16(line1);
-    ssd1306_moveToNextRow16();
-    ssd1306_clearRemaining();
-    ssd1306_moveToNextRow();
-    ssd1306_writeText(line2);
+    ssd1306_writeLine16(line1);
+    ssd1306_writeLine("                ");
+    ssd1306_writeLine(line2);
 }
 
 void oled_writeTest0(uint16_t voltage, uint16_t temperature) {
     ssd1306_moveTo(1, 1);
-    ssd1306_writeText16("      TEST      ");
+    ssd1306_writeInverseLine16("      TEST      ");
 
     char line[17];
     line[0] = ' ';
@@ -117,15 +115,14 @@ void oled_writeTest0(uint16_t voltage, uint16_t temperature) {
     line[14] = 'C';
     line[15] = ' ';
     line[16] = 0;
-    ssd1306_moveToNextRow16();
-    ssd1306_writeText16(line);
+    ssd1306_writeLine16(line);
 }
 
 void oled_writeTestX(uint8_t index, uint16_t voltage, uint16_t current) {
     char header[17] = "     TEST X     ";
     header[10] = 0x30 + index;
     ssd1306_moveTo(1, 1);
-    ssd1306_writeText16(header);
+    ssd1306_writeInverseLine16(header);
 
     char line[17];
     line[0] = ' ';
@@ -140,6 +137,5 @@ void oled_writeTestX(uint8_t index, uint16_t voltage, uint16_t current) {
     line[14] = 'A';
     line[15] = ' ';
     line[16] = 0;
-    ssd1306_moveToNextRow16();
-    ssd1306_writeText16(line);
+    ssd1306_writeLine16(line);
 }

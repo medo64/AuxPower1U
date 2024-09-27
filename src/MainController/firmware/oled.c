@@ -59,25 +59,25 @@ void oled_writeSummary(uint16_t voltage1, uint16_t current1, uint16_t voltage2, 
     power += (uint32_t)voltage3 * (uint32_t)current3;
     power += (uint32_t)voltage4 * (uint32_t)current4;
     power += (uint32_t)voltage5 * (uint32_t)current5;
-    uint16_t powerWhole = (uint16_t)(power / (uint32_t)1000000);
+    uint16_t powerWhole = (uint16_t)((power + 500000) / (uint32_t)1000000);
     uint8_t powerPercent = (uint8_t)(powerWhole * 100 / 300);  // 300W seems as a realistic maximum
 
     char lineT[17];
-    oled_fillNumber2(&lineT[0], voltage1 / 1000, false);
+    oled_fillNumber2(&lineT[0], (voltage1 + 500) / 1000, false);
     lineT[2] = ' ';
-    oled_fillNumber2(&lineT[3], voltage2 / 1000, false);
+    oled_fillNumber2(&lineT[3], (voltage2 + 500) / 1000, false);
     lineT[5] = ' ';
-    oled_fillNumber2(&lineT[6], voltage3 / 1000, false);
+    oled_fillNumber2(&lineT[6], (voltage3 + 500) / 1000, false);
     lineT[8] = ' ';
-    oled_fillNumber2(&lineT[9], voltage4 / 1000, false);
+    oled_fillNumber2(&lineT[9], (voltage4 + 500) / 1000, false);
     lineT[11] = ' ';
-    oled_fillNumber2(&lineT[12], voltage5 / 1000, false);
+    oled_fillNumber2(&lineT[12], (voltage5 + 500) / 1000, false);
     lineT[14] = ' ';
     lineT[15] = 'V';
     lineT[16] = 0;
 
     char lineBL[6];
-    oled_fillNumber2(&lineBL[0], temperature / 10, false);
+    oled_fillNumber2(&lineBL[0], (temperature + 5) / 10, false);
     lineBL[2] = 0xF8;
     lineBL[3] = 'C';
     lineBL[4] = ' ';

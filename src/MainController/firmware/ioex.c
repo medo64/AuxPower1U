@@ -1,4 +1,5 @@
 #include <xc.h>
+#include "app.h"
 #include "i2c_master.h"
 
 #define IOEX_DEVICE_ADDRESS           0x20
@@ -6,8 +7,8 @@
 #define IOEX_DEVICE_REGISTER_INPUT1   0b00000001
 #define IOEX_DEVICE_REGISTER_OUTPUT0  0b00000010
 #define IOEX_DEVICE_REGISTER_OUTPUT1  0b00000011
-#define IOEX_DEVICE_REGISTER_CONFIG0  0b00000110
-#define IOEX_DEVICE_REGISTER_CONFIG1  0b00000111
+#define IOEX_DEVICE_REGISTER_TRIS0    0b00000110
+#define IOEX_DEVICE_REGISTER_TRIS1    0b00000111
 #define IOEX_DEVICE_REGISTER_PULL0    0b01000110
 #define IOEX_DEVICE_REGISTER_PULL1    0b01000111
 
@@ -40,6 +41,7 @@ void ioex_button_setLeds(bool led1, bool led2, bool led3, bool led4, bool led5) 
 
 
 void ioex_button_setOutputs(bool output1, bool output2, bool output3, bool output4, bool output5) {
+#if defined (_REV_A)
     if (output1) { outState0 |= 0b00000001; } else { outState0 &= 0b11111110; }
     if (output2) { outState0 |= 0b00000010; } else { outState0 &= 0b11111101; }
     if (output3) { outState0 |= 0b00000100; } else { outState0 &= 0b11111011; }
@@ -47,14 +49,29 @@ void ioex_button_setOutputs(bool output1, bool output2, bool output3, bool outpu
     if (output5) { outState0 |= 0b00010000; } else { outState0 &= 0b11101111; }
 
     i2c_master_writeRegisterBytes(IOEX_DEVICE_ADDRESS, IOEX_DEVICE_REGISTER_OUTPUT0, &outState0, 1);
+#else
+    // outputs are controlled via open-drain
+    uint8_t tris0 = 0b01111111;  // Led5 Switch5 - Out5 Out4 Out3 Out2 Out1
+    if (output1) { tris0 &= 0b11100001; }
+    if (output2) { tris0 &= 0b11100010; }
+    if (output3) { tris0 &= 0b11100100; }
+    if (output4) { tris0 &= 0b11101000; }
+    if (output5) { tris0 &= 0b11110000; }
+
+    i2c_master_writeRegisterBytes(IOEX_DEVICE_ADDRESS, IOEX_DEVICE_REGISTER_TRIS0, &tris0, 1);
+#endif
 }
 
 
 void ioex_init(void) {
-    uint8_t configData0[2] = { IOEX_DEVICE_REGISTER_CONFIG0, 0b01100000 };
-    uint8_t configData1[2] = { IOEX_DEVICE_REGISTER_CONFIG1, 0b10101010 };
-    i2c_master_writeBytes(IOEX_DEVICE_ADDRESS, configData0, 2);
-    i2c_master_writeBytes(IOEX_DEVICE_ADDRESS, configData1, 2);
+#if defined (_REV_A)
+    uint8_t trisData0[2] = { IOEX_DEVICE_REGISTER_TRIS0, 0b01100000 };
+#else
+    uint8_t trisData0[2] = { IOEX_DEVICE_REGISTER_TRIS0, 0b01111111 };
+#endif
+    uint8_t trisData1[2] = { IOEX_DEVICE_REGISTER_TRIS1, 0b10101010 };
+    i2c_master_writeBytes(IOEX_DEVICE_ADDRESS, trisData0, 2);
+    i2c_master_writeBytes(IOEX_DEVICE_ADDRESS, trisData1, 2);
 
     uint8_t pullData0[2] = { IOEX_DEVICE_REGISTER_PULL0, 0b01100000 };
     uint8_t pullData1[2] = { IOEX_DEVICE_REGISTER_PULL1, 0b10101010 };

@@ -114,8 +114,8 @@ void test(void) {
     uint16_t voltage1, current1, voltage2, current2, voltage3, current3, voltage4, current4, voltage5, current5, temperature;
     adc_measureBasic(&voltage1, &current1, &voltage2, &current2, &voltage3, &current3, &voltage4, &current4, &voltage5, &current5, &temperature);
 
-    uint16_t voltage12V, voltage5V, temperatureInner;
-    adc_measureExtra(&voltage12V, &voltage5V, &temperatureInner);
+    uint16_t voltage12V, voltage5V, temperatureDie;
+    adc_measureExtra(&voltage12V, &voltage5V, &temperatureDie);
 
     uint32_t voltage1Sum = (uint32_t)voltage1 << AVG_SHIFT, current1Sum = (uint32_t)current1 << AVG_SHIFT;
     uint32_t voltage2Sum = (uint32_t)voltage2 << AVG_SHIFT, current2Sum = (uint32_t)current2 << AVG_SHIFT;
@@ -125,7 +125,7 @@ void test(void) {
     uint32_t temperatureSum = (uint32_t)temperature << AVG_SHIFT;
     uint32_t voltage12VSum = (uint32_t)voltage12V << AVG_SHIFT;
     uint32_t voltage5VSum = (uint32_t)voltage5V << AVG_SHIFT;
-    uint32_t temperatureInnerSum = (uint32_t)temperatureInner << AVG_SHIFT;
+    uint32_t temperatureDieSum = (uint32_t)temperatureDie << AVG_SHIFT;
 
     while(true) {
         CLRWDT();
@@ -145,10 +145,10 @@ void test(void) {
             current5Sum -= (current5Sum >> AVG_SHIFT); current5Sum += current5;
             temperatureSum -= (temperatureSum >> AVG_SHIFT); temperatureSum += temperature;
 
-            adc_measureExtra(&voltage12V, &voltage5V, &temperatureInner);
+            adc_measureExtra(&voltage12V, &voltage5V, &temperatureDie);
             voltage12VSum -= (voltage12VSum >> AVG_SHIFT); voltage12VSum += voltage12V;
             voltage5VSum -= (voltage5VSum >> AVG_SHIFT); voltage5VSum += voltage5V;
-            temperatureInnerSum -= (temperatureInnerSum >> AVG_SHIFT); temperatureInnerSum += temperatureInner;
+            temperatureDieSum -= (temperatureDieSum >> AVG_SHIFT); temperatureDieSum += temperatureDie;
 
             if (updateCounter == 4) {
                 updateCounter = 0;
@@ -160,7 +160,7 @@ void test(void) {
                     case 3: oled_writeTestVC(3, (uint16_t)(voltage3Sum >> AVG_SHIFT), (uint16_t)(current3Sum >> AVG_SHIFT)); break;
                     case 4: oled_writeTestVC(4, (uint16_t)(voltage4Sum >> AVG_SHIFT), (uint16_t)(current4Sum >> AVG_SHIFT)); break;
                     case 5: oled_writeTestVC(5, (uint16_t)(voltage5Sum >> AVG_SHIFT), (uint16_t)(current5Sum >> AVG_SHIFT)); break;
-                    case 6: oled_writeTestVT(index, (uint16_t)(voltage5VSum >> AVG_SHIFT), (uint16_t)(temperatureInnerSum >> AVG_SHIFT)); break;
+                    case 6: oled_writeTestVT(index, (uint16_t)(voltage5VSum >> AVG_SHIFT), (uint16_t)(temperatureDieSum >> AVG_SHIFT)); break;
                 }
 
                 ioex_button_getSwitches(&switch1State, &switch2State, &switch3State, &switch4State, &switch5State);

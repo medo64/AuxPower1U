@@ -50,6 +50,7 @@ void adc_init(void) {
 
 uint16_t adc_getChannel(uint8_t channel) {
     ADPCHbits.PCH = channel;
+    __delay_us(25);
 
     ADCON0bits.GO = 1;
     while (ADCON0bits.GO_nDONE);
@@ -65,6 +66,7 @@ uint16_t adc_getChannel(uint8_t channel) {
 uint16_t adc_getChannelViaVdd(uint8_t channel) {
     ADREFbits.PREF = 0b00;     // Vref+ is connected to Vdd
     ADPCHbits.PCH = channel;
+    __delay_us(25);
 
     ADCON0bits.GO = 1;
     while (ADCON0bits.GO_nDONE);
@@ -99,12 +101,12 @@ void adc_measureBasic(uint16_t* voltage1, uint16_t* current1, uint16_t* voltage2
     *temperature = (adc_getChannel(0b010010) - ADC_TEMPERATURE_0C) / ADC_TEMPERATURE_BITS_PER_10THC;  // ANC2
 }
 
-void adc_measureExtra(uint16_t* voltage12V, uint16_t* voltage5V, uint16_t* temperatureInner) {
+void adc_measureExtra(uint16_t* voltage12V, uint16_t* voltage5V, uint16_t* temperatureDie) {
     *voltage12V = adc_getChannel(0b010011) * ADC_VOLTAGE_12V_MULTIPLIER;  // ANC3
 
     uint16_t fvrAdc = adc_getChannelViaVdd(0b111111);  // Fixed Voltage Reference
     *voltage5V = (uint16_t)(((uint32_t)4096 * 4096) / fvrAdc);
 
-    uint16_t tempAdc = adc_getChannelViaVdd(0b111101);  // Temperature Indicator
-    *temperatureInner = 0;  // TODO
+    uint16_t tempAdc = adc_getChannel(0b111101);  // Temperature Indicator
+    *temperatureDie = (uint16_t)(900 + ((int32_t)tempAdc - (int32_t)DiaTSHR2) * DiaFVRA2X / (4095 * -(int32_t)3684 / 10000));
 }

@@ -6112,7 +6112,7 @@
 		(uuid "04a4fa59-83a9-446f-bd9a-5f190112418d")
 		(at 57.5 41.8)
 		(tags "RESC2013X70N")
-		(property "Reference" "R35"
+		(property "Reference" "R30"
 			(at 0 1.6 0)
 			(layer "B.SilkS")
 			(hide yes)
@@ -6265,7 +6265,7 @@
 		(uuid "05b16361-bfb8-4c6d-9ce5-2041fe48d4e9")
 		(at 48.1 65 -90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R25"
+		(property "Reference" "R20"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -6765,7 +6765,7 @@
 		(uuid "0d1f080b-efb7-45a3-96fe-84658403e239")
 		(at 34.8 51 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R49"
+		(property "Reference" "R44"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -7781,7 +7781,7 @@
 		(uuid "24a95568-ed39-4b94-bbcf-851f93dce768")
 		(at 67.5 41.7)
 		(tags "RESC2013X70N")
-		(property "Reference" "R34"
+		(property "Reference" "R29"
 			(at 0 1.6 0)
 			(layer "B.SilkS")
 			(hide yes)
@@ -8087,7 +8087,7 @@
 		(uuid "27608cde-ccb3-4518-bf4f-838de864c627")
 		(at 32.4 51 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R18"
+		(property "Reference" "R13"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -8393,7 +8393,7 @@
 		(uuid "29e2da4d-9ea2-46bf-ba3c-dafddcae8223")
 		(at 18 45 -90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R11"
+		(property "Reference" "R47"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -8406,7 +8406,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "1K"
+		(property "Value" "10K"
 			(at -2.3 0 0)
 			(layer "B.SilkS")
 			(uuid "7a6c6bb3-bae2-4fc8-8468-7b34df91d954")
@@ -8699,7 +8699,7 @@
 		(uuid "2cb1aaaa-f9e1-4f30-8305-35e81d39acae")
 		(at 20.4 51 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R12"
+		(property "Reference" "R48"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -8712,7 +8712,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "1K"
+		(property "Value" "10K"
 			(at 2.3 0 0)
 			(layer "B.SilkS")
 			(uuid "b6c0647b-fe3b-4874-bc52-0098e0131424")
@@ -9313,7 +9313,7 @@
 		(uuid "3477f343-6df8-4c71-95ed-1d989b9780b1")
 		(at 23 92 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R26"
+		(property "Reference" "R21"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -9772,11 +9772,11 @@
 		(uuid "375fca5d-3f3c-4806-ad0b-6d2e3489ee67")
 		(at 42.6 59.7 -90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R21"
+		(property "Reference" "R16"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
-			(uuid "1418c139-a855-4ebf-a90f-06fb9a4da6cf")
+			(uuid "eb4c7d77-3b4a-4fae-9fd7-dbe819f53820")
 			(effects
 				(font
 					(size 0.8 0.6)
@@ -9788,7 +9788,7 @@
 		(property "Value" "1K"
 			(at -2.3 0.3 0)
 			(layer "B.SilkS")
-			(uuid "98102c91-d602-4ade-9766-4a0e9cfcd41f")
+			(uuid "71454dbe-95f3-481a-acad-dcd4bb6c191c")
 			(effects
 				(font
 					(size 0.8 0.6)
@@ -9845,7 +9845,7 @@
 				(type default)
 			)
 			(layer "B.SilkS")
-			(uuid "d4231873-ec0a-4fba-9796-9145ac2490a4")
+			(uuid "a88b3319-1307-41c8-8752-9949b6556cff")
 		)
 		(fp_line
 			(start 0.25 -0.55)
@@ -9855,7 +9855,7 @@
 				(type default)
 			)
 			(layer "B.SilkS")
-			(uuid "f78d85e9-1cb8-48b1-bc0b-485cefb75eaf")
+			(uuid "d5650c78-d785-4b7d-9d24-77b02d7e8cf8")
 		)
 		(fp_rect
 			(start 1.65 -0.85)
@@ -9866,7 +9866,7 @@
 			)
 			(fill none)
 			(layer "B.SilkS")
-			(uuid "8c227d8a-c3c5-4bb2-80b4-468d64b741b4")
+			(uuid "f7bf2600-a167-4dbb-b44e-b61d03afffb2")
 		)
 		(fp_rect
 			(start 1.75 -0.95)
@@ -9877,7 +9877,7 @@
 			)
 			(fill none)
 			(layer "B.CrtYd")
-			(uuid "32a392f0-3f09-4aa0-a464-e0ce84b6b115")
+			(uuid "e7bc646c-64ed-4e06-877a-4efaf9d5f697")
 		)
 		(fp_rect
 			(start 1 -0.625)
@@ -9888,7 +9888,7 @@
 			)
 			(fill none)
 			(layer "B.Fab")
-			(uuid "30896ff8-774e-4fa0-b886-22b29e3dbd96")
+			(uuid "5b3bce2f-6d5e-4029-b2e1-677296d17e3d")
 		)
 		(pad "1" smd roundrect
 			(at -0.95 0 270)
@@ -9897,7 +9897,7 @@
 			(roundrect_rratio 0.25)
 			(net 70 "5V")
 			(thermal_bridge_angle 45)
-			(uuid "b388ae81-2a88-445f-87a7-a368031efcfc")
+			(uuid "8744bf82-5b0b-47e7-882a-9b61ab0ecc72")
 		)
 		(pad "2" smd roundrect
 			(at 0.95 0 270)
@@ -9906,7 +9906,7 @@
 			(roundrect_rratio 0.25)
 			(net 31 "OUT_OUTPUT1")
 			(thermal_bridge_angle 45)
-			(uuid "f30544bd-eadc-4f88-9807-a8b093105b8a")
+			(uuid "20eda394-4bac-4f7d-a486-b22d0f63c850")
 		)
 		(model "${KICAD8_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0805_2012Metric.wrl"
 			(offset
@@ -9925,7 +9925,7 @@
 		(uuid "3f4f7ad7-63d0-4cb8-8435-68c968b7d060")
 		(at 20.4 45 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R16"
+		(property "Reference" "R11"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -10588,11 +10588,11 @@
 		(uuid "485c8f4b-5a23-4b7e-8fd6-0b8288bd4243")
 		(at 49.2 59.7 -90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R24"
+		(property "Reference" "R19"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
-			(uuid "1418c139-a855-4ebf-a90f-06fb9a4da6cf")
+			(uuid "0a1c03b6-0bdf-48cb-8acb-acec8081d209")
 			(effects
 				(font
 					(size 0.8 0.6)
@@ -10604,7 +10604,7 @@
 		(property "Value" "1K"
 			(at -2.3 -0.25 0)
 			(layer "B.SilkS")
-			(uuid "98102c91-d602-4ade-9766-4a0e9cfcd41f")
+			(uuid "b3c3257c-c5c5-464f-9247-ed76d8fe9183")
 			(effects
 				(font
 					(size 0.8 0.6)
@@ -10661,7 +10661,7 @@
 				(type default)
 			)
 			(layer "B.SilkS")
-			(uuid "d4231873-ec0a-4fba-9796-9145ac2490a4")
+			(uuid "b43f0402-9cae-4d97-b8f9-fc6cfebb8954")
 		)
 		(fp_line
 			(start 0.25 -0.55)
@@ -10671,7 +10671,7 @@
 				(type default)
 			)
 			(layer "B.SilkS")
-			(uuid "f78d85e9-1cb8-48b1-bc0b-485cefb75eaf")
+			(uuid "5a6a468e-c383-40af-9cf7-af019b48eba0")
 		)
 		(fp_rect
 			(start 1.65 -0.85)
@@ -10682,7 +10682,7 @@
 			)
 			(fill none)
 			(layer "B.SilkS")
-			(uuid "8c227d8a-c3c5-4bb2-80b4-468d64b741b4")
+			(uuid "5c9d4864-bb5c-472b-90eb-30187f196615")
 		)
 		(fp_rect
 			(start 1.75 -0.95)
@@ -10693,7 +10693,7 @@
 			)
 			(fill none)
 			(layer "B.CrtYd")
-			(uuid "32a392f0-3f09-4aa0-a464-e0ce84b6b115")
+			(uuid "9c6c8bb4-09d7-4fd8-a79e-b0119bdb319a")
 		)
 		(fp_rect
 			(start 1 -0.625)
@@ -10704,7 +10704,7 @@
 			)
 			(fill none)
 			(layer "B.Fab")
-			(uuid "30896ff8-774e-4fa0-b886-22b29e3dbd96")
+			(uuid "b7003eab-0770-4e4c-af34-e975be5c9917")
 		)
 		(pad "1" smd roundrect
 			(at -0.95 0 270)
@@ -10713,7 +10713,7 @@
 			(roundrect_rratio 0.25)
 			(net 70 "5V")
 			(thermal_bridge_angle 45)
-			(uuid "b388ae81-2a88-445f-87a7-a368031efcfc")
+			(uuid "9b1d0d21-86c7-488c-9120-3ce8fe240306")
 		)
 		(pad "2" smd roundrect
 			(at 0.95 0 270)
@@ -10722,7 +10722,7 @@
 			(roundrect_rratio 0.25)
 			(net 22 "OUT_OUTPUT4")
 			(thermal_bridge_angle 45)
-			(uuid "f30544bd-eadc-4f88-9807-a8b093105b8a")
+			(uuid "52458f38-ac7e-4a43-90d8-d60734e5e207")
 		)
 		(model "${KICAD8_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0805_2012Metric.wrl"
 			(offset
@@ -10741,7 +10741,7 @@
 		(uuid "4d317d12-da0f-4514-a2b2-6a0a90b57c0b")
 		(at 51.6 51 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R20"
+		(property "Reference" "R15"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -11402,7 +11402,7 @@
 		(uuid "58ae3620-f275-490d-933c-b3efbce94322")
 		(at 47.5 41.8)
 		(tags "RESC2013X70N")
-		(property "Reference" "R36"
+		(property "Reference" "R31"
 			(at 0 1.6 0)
 			(layer "B.SilkS")
 			(hide yes)
@@ -11863,11 +11863,11 @@
 		(uuid "592dcbfb-5a97-4c77-8a11-fd2543eb9366")
 		(at 44.4 51 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R50"
+		(property "Reference" "R45"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
-			(uuid "1418c139-a855-4ebf-a90f-06fb9a4da6cf")
+			(uuid "07bdb9d8-9a23-44f7-882a-d92db0544023")
 			(effects
 				(font
 					(size 0.8 0.6)
@@ -11879,7 +11879,7 @@
 		(property "Value" "6K2"
 			(at 2.3 0 0)
 			(layer "B.SilkS")
-			(uuid "98102c91-d602-4ade-9766-4a0e9cfcd41f")
+			(uuid "bca6f0a0-7426-42cd-b2f0-69ac209a3220")
 			(effects
 				(font
 					(size 0.8 0.6)
@@ -11936,7 +11936,7 @@
 				(type default)
 			)
 			(layer "B.SilkS")
-			(uuid "f78d85e9-1cb8-48b1-bc0b-485cefb75eaf")
+			(uuid "5f5a68e0-28b1-455c-ba42-eb1b96f74429")
 		)
 		(fp_line
 			(start 0.25 0.55)
@@ -11946,7 +11946,7 @@
 				(type default)
 			)
 			(layer "B.SilkS")
-			(uuid "d4231873-ec0a-4fba-9796-9145ac2490a4")
+			(uuid "eea9db67-d462-4b0a-8d24-7b676491b3d0")
 		)
 		(fp_rect
 			(start 1.65 -0.85)
@@ -11957,7 +11957,7 @@
 			)
 			(fill none)
 			(layer "B.SilkS")
-			(uuid "8c227d8a-c3c5-4bb2-80b4-468d64b741b4")
+			(uuid "84b3189d-6bc6-4ed5-afc2-a048fe4eea84")
 		)
 		(fp_rect
 			(start 1.75 -0.95)
@@ -11968,7 +11968,7 @@
 			)
 			(fill none)
 			(layer "B.CrtYd")
-			(uuid "32a392f0-3f09-4aa0-a464-e0ce84b6b115")
+			(uuid "7003a2b7-1207-4e38-94e5-027063dbc0ec")
 		)
 		(fp_rect
 			(start 1 -0.625)
@@ -11979,7 +11979,7 @@
 			)
 			(fill none)
 			(layer "B.Fab")
-			(uuid "30896ff8-774e-4fa0-b886-22b29e3dbd96")
+			(uuid "be6918f4-78dc-4d0a-9de3-75a8b1dc4d3d")
 		)
 		(pad "1" smd roundrect
 			(at -0.95 0 90)
@@ -11988,7 +11988,7 @@
 			(roundrect_rratio 0.25)
 			(net 63 "ADC_VOLTAGE4")
 			(thermal_bridge_angle 45)
-			(uuid "b388ae81-2a88-445f-87a7-a368031efcfc")
+			(uuid "3a7fb802-8248-416d-9f5e-bce3bfb61f02")
 		)
 		(pad "2" smd roundrect
 			(at 0.95 0 90)
@@ -11997,7 +11997,7 @@
 			(roundrect_rratio 0.25)
 			(net 1 "GND")
 			(thermal_bridge_angle 45)
-			(uuid "f30544bd-eadc-4f88-9807-a8b093105b8a")
+			(uuid "504c0e0b-03f4-4496-a6aa-dd26f90b6a04")
 		)
 		(model "${KICAD8_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0805_2012Metric.wrl"
 			(offset
@@ -12218,7 +12218,7 @@
 		(uuid "5b869791-3929-41e2-b8e2-28f15b1f4683")
 		(at 42 51 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R19"
+		(property "Reference" "R14"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -12832,7 +12832,7 @@
 		(uuid "5c627bde-fd60-403f-b7d2-c5f941c35051")
 		(at 40.5 66.5 180)
 		(tags "RESC2013X70N")
-		(property "Reference" "R33"
+		(property "Reference" "R28"
 			(at 0 1.6 0)
 			(layer "B.SilkS")
 			(hide yes)
@@ -12985,11 +12985,11 @@
 		(uuid "5f6645bf-a7dc-49f8-9e7a-f9fa0446167c")
 		(at 44.8 59.7 -90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R22"
+		(property "Reference" "R17"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
-			(uuid "1418c139-a855-4ebf-a90f-06fb9a4da6cf")
+			(uuid "f125a503-30cb-46d4-b03a-996d58658071")
 			(effects
 				(font
 					(size 0.8 0.6)
@@ -13001,7 +13001,7 @@
 		(property "Value" "1K"
 			(at -2.3 0.1 0)
 			(layer "B.SilkS")
-			(uuid "98102c91-d602-4ade-9766-4a0e9cfcd41f")
+			(uuid "44c0b2c5-3561-467c-95ba-6b5b10e44460")
 			(effects
 				(font
 					(size 0.8 0.6)
@@ -13058,7 +13058,7 @@
 				(type default)
 			)
 			(layer "B.SilkS")
-			(uuid "d4231873-ec0a-4fba-9796-9145ac2490a4")
+			(uuid "d68d5c70-deeb-40cf-832c-33002ddfc75c")
 		)
 		(fp_line
 			(start 0.25 -0.55)
@@ -13068,7 +13068,7 @@
 				(type default)
 			)
 			(layer "B.SilkS")
-			(uuid "f78d85e9-1cb8-48b1-bc0b-485cefb75eaf")
+			(uuid "dd6532cf-ce93-41bf-a019-9aee60c53332")
 		)
 		(fp_rect
 			(start 1.65 -0.85)
@@ -13079,7 +13079,7 @@
 			)
 			(fill none)
 			(layer "B.SilkS")
-			(uuid "8c227d8a-c3c5-4bb2-80b4-468d64b741b4")
+			(uuid "f7b3d69a-f53a-4b15-8be4-c4a94416e933")
 		)
 		(fp_rect
 			(start 1.75 -0.95)
@@ -13090,7 +13090,7 @@
 			)
 			(fill none)
 			(layer "B.CrtYd")
-			(uuid "32a392f0-3f09-4aa0-a464-e0ce84b6b115")
+			(uuid "a49f4374-1762-46d9-95ac-ce6d848fc8ad")
 		)
 		(fp_rect
 			(start 1 -0.625)
@@ -13101,7 +13101,7 @@
 			)
 			(fill none)
 			(layer "B.Fab")
-			(uuid "30896ff8-774e-4fa0-b886-22b29e3dbd96")
+			(uuid "e84f7662-c88f-4701-a166-ce47ac0dfc11")
 		)
 		(pad "1" smd roundrect
 			(at -0.95 0 270)
@@ -13110,7 +13110,7 @@
 			(roundrect_rratio 0.25)
 			(net 70 "5V")
 			(thermal_bridge_angle 45)
-			(uuid "b388ae81-2a88-445f-87a7-a368031efcfc")
+			(uuid "f0a3ded7-7d2e-45b7-85dc-1dc50fcad3f3")
 		)
 		(pad "2" smd roundrect
 			(at 0.95 0 270)
@@ -13119,7 +13119,7 @@
 			(roundrect_rratio 0.25)
 			(net 30 "OUT_OUTPUT2")
 			(thermal_bridge_angle 45)
-			(uuid "f30544bd-eadc-4f88-9807-a8b093105b8a")
+			(uuid "52733da9-c857-4a81-8f51-27d9917cf3fa")
 		)
 		(model "${KICAD8_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0805_2012Metric.wrl"
 			(offset
@@ -13138,7 +13138,7 @@
 		(uuid "61c2969c-6998-41a9-b618-81c661ccb8b3")
 		(at 44 92 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R28"
+		(property "Reference" "R23"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -13291,7 +13291,7 @@
 		(uuid "621b270c-31f5-4a4d-b0a9-0e96e0b96d5d")
 		(at 33.5 92 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R27"
+		(property "Reference" "R22"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -13829,7 +13829,7 @@
 		(uuid "64766411-ebbd-4e78-a58e-a207ec8e3475")
 		(at 20.5 92 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R40"
+		(property "Reference" "R35"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -14135,7 +14135,7 @@
 		(uuid "6b7a18e2-2206-4dc2-add7-854177bb71f6")
 		(at 38.7 84.15)
 		(tags "RESC2013X70N")
-		(property "Reference" "R46"
+		(property "Reference" "R41"
 			(at 0 1.6 0)
 			(layer "B.SilkS")
 			(hide yes)
@@ -14288,7 +14288,7 @@
 		(uuid "6c5bbb22-241f-49aa-b62a-3a51809bc894")
 		(at 34.3 84.25 180)
 		(tags "RESC2013X70N")
-		(property "Reference" "R45"
+		(property "Reference" "R40"
 			(at 0 1.6 0)
 			(layer "B.SilkS")
 			(hide yes)
@@ -16879,7 +16879,7 @@
 		(uuid "8fe59b56-6ae4-4d13-8182-150b45fae0da")
 		(at 65 92 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R30"
+		(property "Reference" "R25"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -17541,7 +17541,7 @@
 		(uuid "a98dfe5a-bbe1-4c24-96de-cfde372162f9")
 		(at 37.5 41.8)
 		(tags "RESC2013X70N")
-		(property "Reference" "R37"
+		(property "Reference" "R32"
 			(at 0 1.6 0)
 			(layer "B.SilkS")
 			(hide yes)
@@ -17694,11 +17694,11 @@
 		(uuid "a9f88f3a-9df0-4a01-a56b-931ff864cc61")
 		(at 47 59.7 -90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R23"
+		(property "Reference" "R18"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
-			(uuid "1418c139-a855-4ebf-a90f-06fb9a4da6cf")
+			(uuid "5fa3b397-7cc7-477a-bbda-0d219302215e")
 			(effects
 				(font
 					(size 0.8 0.6)
@@ -17710,7 +17710,7 @@
 		(property "Value" "1K"
 			(at -2.3 -0.1 0)
 			(layer "B.SilkS")
-			(uuid "98102c91-d602-4ade-9766-4a0e9cfcd41f")
+			(uuid "41ce3915-1160-4c56-a51b-2d2c8d8ecef0")
 			(effects
 				(font
 					(size 0.8 0.6)
@@ -17767,7 +17767,7 @@
 				(type default)
 			)
 			(layer "B.SilkS")
-			(uuid "d4231873-ec0a-4fba-9796-9145ac2490a4")
+			(uuid "e4fad72b-76f9-4cc7-a85a-eafa20e4f34d")
 		)
 		(fp_line
 			(start 0.25 -0.55)
@@ -17777,7 +17777,7 @@
 				(type default)
 			)
 			(layer "B.SilkS")
-			(uuid "f78d85e9-1cb8-48b1-bc0b-485cefb75eaf")
+			(uuid "f4217aba-f294-43ae-bfd0-5adddf32373c")
 		)
 		(fp_rect
 			(start 1.65 -0.85)
@@ -17788,7 +17788,7 @@
 			)
 			(fill none)
 			(layer "B.SilkS")
-			(uuid "8c227d8a-c3c5-4bb2-80b4-468d64b741b4")
+			(uuid "81d0df48-d90b-440f-b27e-37469c319e3a")
 		)
 		(fp_rect
 			(start 1.75 -0.95)
@@ -17799,7 +17799,7 @@
 			)
 			(fill none)
 			(layer "B.CrtYd")
-			(uuid "32a392f0-3f09-4aa0-a464-e0ce84b6b115")
+			(uuid "2720d422-9f69-4994-8538-bd698c132021")
 		)
 		(fp_rect
 			(start 1 -0.625)
@@ -17810,7 +17810,7 @@
 			)
 			(fill none)
 			(layer "B.Fab")
-			(uuid "30896ff8-774e-4fa0-b886-22b29e3dbd96")
+			(uuid "fb6865c2-dcfe-4098-8846-a28dda305137")
 		)
 		(pad "1" smd roundrect
 			(at -0.95 0 270)
@@ -17819,7 +17819,7 @@
 			(roundrect_rratio 0.25)
 			(net 70 "5V")
 			(thermal_bridge_angle 45)
-			(uuid "b388ae81-2a88-445f-87a7-a368031efcfc")
+			(uuid "b39b373f-f4d8-4e3b-a866-662904a09b36")
 		)
 		(pad "2" smd roundrect
 			(at 0.95 0 270)
@@ -17828,7 +17828,7 @@
 			(roundrect_rratio 0.25)
 			(net 29 "OUT_OUTPUT3")
 			(thermal_bridge_angle 45)
-			(uuid "f30544bd-eadc-4f88-9807-a8b093105b8a")
+			(uuid "dcc494df-dd9c-4340-bcde-ae26412083a0")
 		)
 		(model "${KICAD8_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0805_2012Metric.wrl"
 			(offset
@@ -17847,7 +17847,7 @@
 		(uuid "ac8d2974-84b3-4233-a21d-ce6830b1eacb")
 		(at 27 80.2)
 		(tags "RESC2013X70N")
-		(property "Reference" "R32"
+		(property "Reference" "R27"
 			(at 0 1.6 0)
 			(layer "B.SilkS")
 			(hide yes)
@@ -18000,7 +18000,7 @@
 		(uuid "b0a7b730-f119-40f0-9c70-5af405f3173f")
 		(at 54 51 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R51"
+		(property "Reference" "R46"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -18153,7 +18153,7 @@
 		(uuid "b6200211-a1cd-4dd8-83bc-4b419d22dd39")
 		(at 52 92 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R43"
+		(property "Reference" "R38"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -18508,7 +18508,7 @@
 		(uuid "bdea1260-be55-44e5-bb4d-d180f6b3f719")
 		(at 30 51.1 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R13"
+		(property "Reference" "R49"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -18521,7 +18521,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "1K"
+		(property "Value" "10K"
 			(at 2.3 0 180)
 			(layer "B.SilkS")
 			(uuid "17f6f91d-fe18-4868-941d-e80904ceff2e")
@@ -18661,7 +18661,7 @@
 		(uuid "c22988df-6f5b-4dc4-a0ba-75a9703acb60")
 		(at 31 92 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R41"
+		(property "Reference" "R36"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -18814,7 +18814,7 @@
 		(uuid "c5f3d19a-09e5-4460-b7a7-47dd75c43a80")
 		(at 22.8 45 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R47"
+		(property "Reference" "R42"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -19120,7 +19120,7 @@
 		(uuid "c70f7c56-ef47-462e-af7f-85ea184bcc4c")
 		(at 39.6 51 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R14"
+		(property "Reference" "R50"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -19133,7 +19133,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "1K"
+		(property "Value" "10K"
 			(at 2.3 0 180)
 			(layer "B.SilkS")
 			(uuid "dab4464c-a88c-418c-b1d3-56154a65c542")
@@ -19273,7 +19273,7 @@
 		(uuid "ccd9c0cf-5e47-4cbf-9b0d-1e7568e0977a")
 		(at 49.2 51 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R15"
+		(property "Reference" "R51"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -19286,7 +19286,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "1K"
+		(property "Value" "10K"
 			(at 2.3 0 180)
 			(layer "B.SilkS")
 			(uuid "6e75bb45-c8d5-4b39-ad49-e944ccb784cc")
@@ -20185,7 +20185,7 @@
 		(uuid "d6637548-8cea-46c7-9308-3692e770b63c")
 		(at 22.8 51 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R17"
+		(property "Reference" "R12"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -20338,7 +20338,7 @@
 		(uuid "d7b86089-7f3e-4931-a2a0-7d8e82b54fd3")
 		(at 24.3 38.9 -90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R38"
+		(property "Reference" "R33"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -21652,7 +21652,7 @@
 		(uuid "e39878ee-1dad-4f36-b235-cefadd137886")
 		(at 41.5 92 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R42"
+		(property "Reference" "R37"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -21805,7 +21805,7 @@
 		(uuid "e79fff32-3c5e-47ac-973b-31f9720e858d")
 		(at 55 59.5)
 		(tags "RESC2013X70N")
-		(property "Reference" "R31"
+		(property "Reference" "R26"
 			(at 0 1.6 0)
 			(layer "B.SilkS")
 			(hide yes)
@@ -21958,7 +21958,7 @@
 		(uuid "ecbf5bd3-d917-4b69-9cea-f46557ab13ed")
 		(at 62 84.5 180)
 		(tags "RESC2013X70N")
-		(property "Reference" "R39"
+		(property "Reference" "R34"
 			(at 0 1.6 0)
 			(layer "B.SilkS")
 			(hide yes)
@@ -22111,7 +22111,7 @@
 		(uuid "ee63c97e-d15c-4675-b629-e09169889ef7")
 		(at 62.5 92 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R44"
+		(property "Reference" "R39"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -22264,7 +22264,7 @@
 		(uuid "ee9a430b-54f3-4ea3-9836-1c04e5b5a9fb")
 		(at 54.5 92 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R29"
+		(property "Reference" "R24"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -23080,7 +23080,7 @@
 		(uuid "f775b211-535b-4fcb-9b95-6c3796296a15")
 		(at 25.2 51 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R48"
+		(property "Reference" "R43"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -26777,14 +26777,6 @@
 		(layer "B.Cu")
 		(net 22)
 		(uuid "18908121-ec0a-48c7-9f86-498ba5a3f913")
-	)
-	(segment
-		(start 48.95 60.65)
-		(end 49.2 60.65)
-		(width 0.2)
-		(layer "B.Cu")
-		(net 22)
-		(uuid "39f8466f-d40a-40c7-8c65-171f212d239e")
 	)
 	(segment
 		(start 44.325 70.05)

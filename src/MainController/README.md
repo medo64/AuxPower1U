@@ -3,7 +3,7 @@
 Features:
 * 5 DC inputs (input 1 has to be 9-15V)
 * 5 DC outputs
-* voltage and current monitoring
+* voltage and current monitoring (9-60V, 0-8A, per channel)
 * temperature monitoring
 * OLED output
 

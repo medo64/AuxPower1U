@@ -23,7 +23,7 @@
 |  1 | J JST XH (4w)                                      | J17      | 455-B4B-XH-A-ND                                             |
 |  5 | Q Transistor NPN 100 mA 65V [BC846B,235] (SOT23-3) | Q1-Q5    | 1727-1876-1-ND                                              |
 |  5 | Q MOSFET P 6.2A 60V ±20Vgs [AO4421] (SO-8)         | Q6-Q10   | 785-1025-1-ND                                               |
-|  5 | R 0.050 1% 3W (2512)                               | R1-R5    | CRA2512-FZ-R050ELFCT-ND                                     |
+|  5 | R 0.050 1% 3W (2512)                               | R1-R5    | CSRT2512FT50L0-UP                                           |
 |  5 | R 470 1% 0.125W (0805)                             | R6-R10   | RMCF0805FT470RCT-ND                                         |
 | 18 | R 1.0K 1% 0.125W (0805)                            | R11-R28  | RMCF0805FT1K00CT-ND                                         |
 |  1 | R 3.0K 1% 0.125W (0805)                            | R29      | RMCF0805FT3K00CT-ND                                         |

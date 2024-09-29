@@ -18,7 +18,7 @@
 | 12 | DS LED Red (3mm)                                   | DS1-DS12 | 754-1218-ND                                                 |
 |  5 | J Phoenix MC 1,5/ 2-G-3,81 R/A (2w)                | J1-J5    | ED2808-ND                                                   |
 |  5 | J Phoenix MC 1,5/ 4-G-3,81 R/A (4w)                | J6-J10   | ED2810-ND                                                   |
-|  5 | J JST XH r/a (3w)                                  | J11-J15  |                                                             |
+|  5 | J JST XH r/a (3w)                                  | J11-J15  | 455-S3B-XH-A-ND                                             |
 |  1 | J JST XH (3w)                                      | J16      | 455-2248-ND                                                 |
 |  1 | J JST XH (4w)                                      | J17      | 455-B4B-XH-A-ND                                             |
 |  5 | Q Transistor NPN 100 mA 65V [BC846B,235] (SOT23-3) | Q1-Q5    | 1727-1876-1-ND                                              |
@@ -70,10 +70,10 @@
 | 22 | RB1 |      | I2C SCL  | I2C                                 |
 | 23 | RB2 |      | I2C SDA  | I2C                                 |
 | 24 | RB3 |      | RB3      | LED: Activity                       |
-| 25 | RB4 |      |          |                                     |
-| 26 | RB5 |      |          |                                     |
-| 27 | RB6 | CLK  | UART TX  | UART                                |
-| 28 | RB7 | DAT  | UART RX  | UART                                |
+| 25 | RB4 |      | UART TX  | UART                                |
+| 26 | RB5 |      | UART RX  | UART                                |
+| 27 | RB6 | CLK  |          |                                     |
+| 28 | RB7 | DAT  |          |                                     |
 
 
 ### Pin Usage (PI4IOE5V6416)

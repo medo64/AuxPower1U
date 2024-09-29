@@ -12,23 +12,30 @@ void adc_init(void) {
     ANSELC |= 0b00001111;
 
     ADPCHbits.PCH = 0b111100;  // GND channel selected
+    ADCON1bits.DSEN = 1;       // double sample
     ADCON0bits.FM = 1;         // right justify
     ADCON0bits.CS = 1;         // Frc Clock
     ADCON0bits.ADON = 1;       // enable ADC module
-}
 
-uint16_t adc_getChannel(uint8_t channel) {
+    // FVR @ 2.048
     FVRCONbits.ADFVR = 0b10;  // FVR Buffer 1 Gain is 2x, (2.048V)
     FVRCONbits.EN = 1;        // enable FVR
     while (!FVRCONbits.RDY);  // wait for ready
-
     ADREFbits.PREF = 0b11;  // Vref+ is connected to internal Fixed Voltage Reference (FVR) module
+}
+
+uint16_t adc_getChannel(uint8_t channel) {
     ADPCHbits.PCH = channel;
+
     ADCON0bits.GO = 1;
     while (ADCON0bits.GO_nDONE);
+
+    ADCON0bits.GO = 1;
+    while (ADCON0bits.GO_nDONE);
+
     ADPCHbits.PCH = 0b111100;  // GND channel
 
-    return ADRES;
+    return (uint16_t)((ADRES + ADPREV) >> 1);  // return average of 2 measurements
 }
 
 void adc_measureAll(uint16_t* voltage1, uint16_t* current1, uint16_t* voltage2, uint16_t* current2, uint16_t* voltage3, uint16_t* current3, uint16_t* voltage4, uint16_t* current4, uint16_t* voltage5, uint16_t* current5, uint16_t* temperature, uint16_t* voltage1in) {

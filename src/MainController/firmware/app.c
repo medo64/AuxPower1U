@@ -109,7 +109,7 @@ void test(void) {
     ticker_waitTick();
 
     uint8_t updateCounter = 0;
-    uint8_t state = 0;
+    uint8_t index = 0;
 
     uint16_t voltage1, current1, voltage2, current2, voltage3, current3, voltage4, current4, voltage5, current5, temperature;
     adc_measureBasic(&voltage1, &current1, &voltage2, &current2, &voltage3, &current3, &voltage4, &current4, &voltage5, &current5, &temperature);

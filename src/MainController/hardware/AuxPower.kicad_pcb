@@ -23748,7 +23748,7 @@
 			)
 		)
 	)
-	(gr_text "VDD"
+	(gr_text "5V"
 		(at 38.75 52.9 90)
 		(layer "F.SilkS")
 		(uuid "d1197c1b-34af-4f9e-9a22-820d426a1702")

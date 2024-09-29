@@ -10,22 +10,14 @@
 #define SPEED_USE_MIN    26  //  10%
 #define SPEED_USE_MAX   128  //  50%
 
+void startup(void);
+
 void main(void) {
     init();
     pwm_init();
     adc_init();
 
-    CLRWDT();
-    pwm_set_all(SPEED_SPEC_MIN);
-    __delay_ms(500);
-
-    CLRWDT();
-    pwm_set_all(SPEED_SPEC_MAX);  // (in case something is stuck)
-    __delay_ms(250);
-
-    CLRWDT();
-    pwm_set_all(SPEED_USE_MIN);
-    __delay_ms(250);
+    startup();
 
     uint16_t temperatureSum = (uint16_t)(adc_get_temperature()) << 3;  // 8x running average
     while(true) {
@@ -51,6 +43,40 @@ void main(void) {
     }
 }
 
+void startup(void) {
+    // each fan:
+    // * starts at 30% for 0.5 seconds
+    // * goes to full speed for 0.25s
+    // * and then goes down to 10%.
+
+    CLRWDT();
+    pwm_set_individual(SPEED_SPEC_MIN, 0, 0, 0);
+    __delay_ms(250);
+
+    CLRWDT();
+    pwm_set_individual(SPEED_SPEC_MIN, SPEED_SPEC_MIN, 0, 0);
+    __delay_ms(250);
+
+    CLRWDT();
+    pwm_set_individual(SPEED_SPEC_MAX, SPEED_SPEC_MIN, SPEED_SPEC_MIN, 0);
+    __delay_ms(250);
+
+    CLRWDT();
+    pwm_set_individual(SPEED_USE_MIN, SPEED_SPEC_MAX, SPEED_SPEC_MIN, SPEED_SPEC_MIN);
+    __delay_ms(250);
+
+    CLRWDT();
+    pwm_set_individual(SPEED_USE_MIN, SPEED_USE_MIN, SPEED_SPEC_MAX, SPEED_SPEC_MIN);
+    __delay_ms(250);
+
+    CLRWDT();
+    pwm_set_individual(SPEED_USE_MIN, SPEED_USE_MIN, SPEED_USE_MIN, SPEED_SPEC_MAX);
+    __delay_ms(250);
+
+    CLRWDT();
+    pwm_set_individual(SPEED_USE_MIN, SPEED_USE_MIN, SPEED_USE_MIN, SPEED_USE_MIN);
+    __delay_ms(250);
+}
 
 void init(void) {
     // Interrupt Control

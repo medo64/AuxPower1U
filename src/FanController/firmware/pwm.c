@@ -1,14 +1,18 @@
 #include <xc.h>
 #include <stdint.h>
 
-void pwm_set_all(uint8_t value) {
+void pwm_set_individual(uint8_t pwm1, uint8_t pwm2, uint8_t pwm3, uint8_t pwm4) {
     TMR2IF = 0;
     while (!TMR2IF); // wait for the next period
 
-    PWM1DCH = value;
-    PWM2DCH = value;
-    PWM3DCH = value;
-    PWM4DCH = value;
+    PWM1DCH = pwm1;
+    PWM2DCH = pwm2;
+    PWM3DCH = pwm3;
+    PWM4DCH = pwm4;
+}
+
+void pwm_set_all(uint8_t pwm) {
+    pwm_set_individual(pwm, pwm, pwm, pwm);
 }
 
 

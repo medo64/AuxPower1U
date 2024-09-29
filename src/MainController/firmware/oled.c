@@ -98,9 +98,20 @@ void oled_writeSummary(uint16_t voltage1, uint16_t current1, uint16_t voltage2, 
     ssd1306_writeText(lineBR);
 }
 
+bool oled_testPolarity = false;
+
 void oled_writeTest0(uint16_t voltage, uint16_t temperature) {
+    oled_testPolarity = !oled_testPolarity;
+
     ssd1306_moveTo(1, 1);
-    ssd1306_writeInverseLine16("      TEST      ");
+    if (oled_testPolarity) {
+        ssd1306_writeInverseLine16("      TEST      ");
+    } else {
+        ssd1306_writeInverseCharacter16(0xB0);
+        ssd1306_writeInverseText16("     TEST     ");
+        ssd1306_writeInverseCharacter16(0xB0);
+        ssd1306_moveToNextRow16();
+    }
 
     char line[17];
     line[0] = ' ';
@@ -120,7 +131,13 @@ void oled_writeTest0(uint16_t voltage, uint16_t temperature) {
 }
 
 void oled_writeTestX(uint8_t index, uint16_t voltage, uint16_t current) {
+    oled_testPolarity = !oled_testPolarity;
+
     char header[17] = "     TEST X     ";
+    if (oled_testPolarity) {
+        header[0] = 0xB0;
+        header[15] = 0xB0;
+    }
     header[10] = 0x30 + index;
     ssd1306_moveTo(1, 1);
     ssd1306_writeInverseLine16(header);

@@ -150,8 +150,12 @@ void main(void) {
 
                 case DEPTH_DETAILS: {
                     if (currButtonMask == 0) {  // button has been released
-                        if ((prevButtonMask == currChannelButtonMask) && (currDepthTicks > 12) && (currDepthButtonTicks < 12)) {  // short press brings back to summary
-                            nextDepth = DEPTH_SUMMARY;
+                        if ((prevButtonMask == currChannelButtonMask) && (currDepthButtonTicks < 12)) {  // short double-click brings back to summary
+                            if (currDepthTicks > 6) {
+                                currDepthTicks = 0;
+                            } else {
+                                nextDepth = DEPTH_SUMMARY;
+                            }
                         } else if (currDepthTicks > TICKS_CLOSE_DETAILS) {  // exit after 1 minute automatically
                             nextDepth = DEPTH_SUMMARY;
                         }

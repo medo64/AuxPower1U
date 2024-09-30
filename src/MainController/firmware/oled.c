@@ -8,6 +8,7 @@ void oled_init(void) {
 void oled_splash(void) {
     ssd1306_writeText16("   AuxPower1U   ");
     ssd1306_moveToNextRow16();
+    ssd1306_moveToNextRow();
     ssd1306_writeText("   medo64.com   ");
 }
 
@@ -97,6 +98,102 @@ void oled_writeSummary(uint16_t voltage1, uint16_t current1, uint16_t voltage2, 
     ssd1306_writeProgress(5, powerPercent);
     ssd1306_writeText(lineBR);
 }
+
+void oled_writeChannel(uint8_t channel, uint16_t voltage, uint16_t current, uint8_t state, uint16_t ticks) {
+    char textTL[9];
+    oled_fillNumber2(&textTL[0], (uint16_t)(voltage / 1000), false);
+    textTL[2] = '.';
+    oled_fillNumber2(&textTL[3], (uint16_t)((voltage % 1000) / 10), true);
+    textTL[5] = ' ';
+    textTL[6] = 'V';
+    textTL[7] = ' ';
+    textTL[8] = 0;
+
+    char textBL[9];
+    oled_fillNumber2(&textBL[0], (uint16_t)(current / 1000), false);
+    textBL[2] = '.';
+    oled_fillNumber2(&textBL[3], (uint16_t)((current % 1000 ) / 10), true);
+    textBL[5] = ' ';
+    textBL[6] = 'A';
+    textBL[7] = ' ';
+    textBL[8] = 0;
+
+    uint32_t power = (uint32_t)voltage * (uint32_t)current / (uint32_t)1000;  // mW
+    char textBR[9];
+    textBR[0] = ' ';
+    oled_fillNumber3(&textBR[1], (uint16_t)(power / 1000), false);
+    textBR[4] = '.';
+    oled_fillNumber1(&textBR[5], (uint16_t)((power % 1000) / 100));
+    textBR[6] = ' ';
+    textBR[7] = 'W';
+    textBR[8] = 0;
+
+    char textTR[7];
+    textTR[0] = ' ';
+    if (state == 1) {  // DEPTH_DETAILS
+        textTR[1] = (ticks > 12)  ? '.' : ' ';
+        textTR[2] = (ticks > 36)  ? '.' : ' ';
+        textTR[3] = (ticks > 60)  ? '.' : ' ';
+        textTR[4] = (ticks > 84)  ? '.' : ' ';
+        textTR[5] = (ticks > 108) ? '.' : ' ';
+    } else if (state == 2) {  // DEPTH_PENDING_RESET
+        textTR[1] = (ticks > 12)  ? 'R' : 'r';
+        textTR[2] = (ticks > 36)  ? 'E' : 'e';
+        textTR[3] = (ticks > 60)  ? 'S' : 's';
+        textTR[4] = (ticks > 84)  ? 'E' : 'e';
+        textTR[5] = (ticks > 108) ? 'T' : 't';
+    } else if (state == 3) {  // DEPTH_PENDING_OFF
+        textTR[1] = ' ';
+        textTR[2] = (ticks > 12) ? 'O' : 'o';
+        textTR[3] = (ticks > 36) ? 'F' : 'f';
+        textTR[4] = (ticks > 60) ? 'F' : 'f';
+        textTR[5] = ' ';
+    } else {
+        textTR[1] = ' ';
+        textTR[2] = ' ';
+        textTR[3] = ' ';
+        textTR[4] = ' ';
+        textTR[5] = ' ';
+    }
+    textTR[6] = 0;
+
+    ssd1306_moveTo(1, 1);
+    ssd1306_writeText16(textTL);
+    ssd1306_writeText16(textTR);
+    ssd1306_writeInverseCharacter16(0xDD);
+    ssd1306_writeInverseCharacter16(0x30 + channel);
+    ssd1306_moveToNextRow16();
+    ssd1306_writeText16(textBL);
+    ssd1306_writeText16(textBR);
+}
+
+void oled_writeReset(uint8_t channel, uint16_t ticks) {
+    char text[14];
+    text[0] = ' ';
+    text[1] = 'R';
+    text[2] = 'E';
+    text[3] = 'S';
+    text[4] = 'E';
+    text[5] = 'T';
+    text[6] = 'T';
+    text[7] = 'I';
+    text[8] = 'N';
+    text[9] = 'G';
+    text[10] = (ticks > 12) ? '.' : ' ';
+    text[11] = (ticks > 36) ? '.' : ' ';
+    text[12] = (ticks > 60) ? '.' : ' ';
+    text[13] = 0;
+
+    ssd1306_moveTo(1, 1);
+    ssd1306_writeLine("                ");
+    ssd1306_writeText16(text);
+    ssd1306_writeCharacter16(' ');
+    ssd1306_writeInverseCharacter16(0xDD);
+    ssd1306_writeInverseCharacter16(0x30 + channel);
+    ssd1306_moveToNextRow16();
+    ssd1306_writeLine("                ");
+}
+
 
 bool oled_testPolarity = false;
 

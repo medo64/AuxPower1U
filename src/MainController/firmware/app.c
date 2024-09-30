@@ -227,7 +227,7 @@ void main(void) {
 
                 case DEPTH_PENDING_NOTHING: {
                     if (currButtonMask == 0) {  // button has been released
-                        nextDepth = DEPTH_DETAILS;
+                        nextDepth = DEPTH_SUMMARY;
                     }
                 } break;
             }
@@ -249,7 +249,7 @@ void main(void) {
                         uint16_t current4Avg = (uint16_t)(current4Sum >> AVG_SHIFT);
                         uint16_t current5Avg = (uint16_t)(current5Sum >> AVG_SHIFT);
                         uint16_t temperatureAvg = (uint16_t)(temperatureSum >> AVG_SHIFT);
-                        oled_writeSummary(voltage1Avg, current1Avg, voltage2Avg, current2Avg, voltage3Avg, current3Avg, voltage4Avg, current4Avg, voltage5Avg, current5Avg, temperatureAvg);
+                        oled_writeSummary(voltage1Avg, current1Avg, voltage2Avg, current2Avg, voltage3Avg, current3Avg, voltage4Avg, current4Avg, voltage5Avg, current5Avg, temperatureAvg, currOutputs);
                     } break;
 
                     case DEPTH_DETAILS:

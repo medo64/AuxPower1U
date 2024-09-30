@@ -53,7 +53,7 @@ void oled_fillNumber3(char* text, uint16_t value, bool prefixWithZero) {
     }
 }
 
-void oled_writeSummary(uint16_t voltage1, uint16_t current1, uint16_t voltage2, uint16_t current2, uint16_t voltage3, uint16_t current3, uint16_t voltage4, uint16_t current4, uint16_t voltage5, uint16_t current5, uint16_t temperature) {
+void oled_writeSummary(uint16_t voltage1, uint16_t current1, uint16_t voltage2, uint16_t current2, uint16_t voltage3, uint16_t current3, uint16_t voltage4, uint16_t current4, uint16_t voltage5, uint16_t current5, uint16_t temperature, uint8_t outputOnMask) {
     uint32_t power = 0;
     power += (uint32_t)voltage1 * (uint32_t)current1;
     power += (uint32_t)voltage2 * (uint32_t)current2;
@@ -63,19 +63,12 @@ void oled_writeSummary(uint16_t voltage1, uint16_t current1, uint16_t voltage2, 
     uint16_t powerWhole = (uint16_t)((power + 500000) / (uint32_t)1000000);
     uint8_t powerPercent = (uint8_t)(powerWhole * 100 / 300);  // 300W seems as a realistic maximum
 
-    char lineT[17];
-    oled_fillNumber2(&lineT[0], (voltage1 + 500) / 1000, false);
-    lineT[2] = ' ';
-    oled_fillNumber2(&lineT[3], (voltage2 + 500) / 1000, false);
-    lineT[5] = ' ';
-    oled_fillNumber2(&lineT[6], (voltage3 + 500) / 1000, false);
-    lineT[8] = ' ';
-    oled_fillNumber2(&lineT[9], (voltage4 + 500) / 1000, false);
-    lineT[11] = ' ';
-    oled_fillNumber2(&lineT[12], (voltage5 + 500) / 1000, false);
-    lineT[14] = ' ';
-    lineT[15] = 'V';
-    lineT[16] = 0;
+    char lineT1[3] = { 0, 0, 0 }, lineT2[3] = { 0, 0, 0 }, lineT3[3] = { 0, 0, 0 }, lineT4[3] = { 0, 0, 0 }, lineT5[3] = { 0, 0, 0 };
+    oled_fillNumber2(&lineT1[0], (voltage1 + 500) / 1000, false);
+    oled_fillNumber2(&lineT2[0], (voltage2 + 500) / 1000, false);
+    oled_fillNumber2(&lineT3[0], (voltage3 + 500) / 1000, false);
+    oled_fillNumber2(&lineT4[0], (voltage4 + 500) / 1000, false);
+    oled_fillNumber2(&lineT5[0], (voltage5 + 500) / 1000, false);
 
     char lineBL[6];
     oled_fillNumber2(&lineBL[0], (temperature + 5) / 10, false);
@@ -92,8 +85,56 @@ void oled_writeSummary(uint16_t voltage1, uint16_t current1, uint16_t voltage2, 
     lineBR[6] = 0;
 
     ssd1306_moveTo(1, 1);
-    ssd1306_writeLine16(lineT);
-    ssd1306_writeLine("                ");
+    ssd1306_writeText16(lineT1);
+    ssd1306_writeCharacter16(' ');
+    ssd1306_writeText16(lineT2);
+    ssd1306_writeCharacter16(' ');
+    ssd1306_writeText16(lineT3);
+    ssd1306_writeCharacter16(' ');
+    ssd1306_writeText16(lineT4);
+    ssd1306_writeCharacter16(' ');
+    ssd1306_writeText16(lineT5);
+    ssd1306_writeCharacter16(' ');
+    ssd1306_writeCharacter16('V');
+    ssd1306_moveToNextRow16();
+
+    if ((outputOnMask & 0b00001) != 0) {
+        ssd1306_writeCharacter(0xDF);
+        ssd1306_writeCharacter(0xDF);
+    } else {
+        ssd1306_writeText("  ");
+    }
+    ssd1306_writeCharacter16(' ');
+    if ((outputOnMask & 0b00010) != 0) {
+        ssd1306_writeCharacter(0xDF);
+        ssd1306_writeCharacter(0xDF);
+    } else {
+        ssd1306_writeText("  ");
+    }
+    ssd1306_writeCharacter16(' ');
+    if ((outputOnMask & 0b00100) != 0) {
+        ssd1306_writeCharacter(0xDF);
+        ssd1306_writeCharacter(0xDF);
+    } else {
+        ssd1306_writeText("  ");
+    }
+    ssd1306_writeCharacter16(' ');
+    if ((outputOnMask & 0b01000) != 0) {
+        ssd1306_writeCharacter(0xDF);
+        ssd1306_writeCharacter(0xDF);
+    } else {
+        ssd1306_writeText("  ");
+    }
+    ssd1306_writeCharacter16(' ');
+    if ((outputOnMask & 0b10000) != 0) {
+        ssd1306_writeCharacter(0xDF);
+        ssd1306_writeCharacter(0xDF);
+    } else {
+        ssd1306_writeText("  ");
+    }
+    ssd1306_writeText("  ");
+    ssd1306_moveToNextRow();
+
     ssd1306_writeText(lineBL);
     ssd1306_writeProgress(5, powerPercent);
     ssd1306_writeText(lineBR);

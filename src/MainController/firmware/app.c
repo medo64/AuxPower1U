@@ -45,11 +45,14 @@ void main(void) {
     io_led_activity_off();
 
     bool switch1State, switch2State, switch3State, switch4State, switch5State;
-    ioex_button_getSwitches(&switch1State, &switch2State, &switch3State, &switch4State, &switch5State);
+    ioex_button_switch_getAll(&switch1State, &switch2State, &switch3State, &switch4State, &switch5State);
     if (switch1State && !switch2State && !switch3State && !switch4State && switch5State) {
         test();
         return;
     }
+
+    uint8_t nextOutputs = 0b11111;                   // TODO: load on startup
+    uint8_t currOutputs = nextOutputs | 0b10000000;  // just to force change when first ran
 
     uint16_t voltage1, current1, voltage2, current2, voltage3, current3, voltage4, current4, voltage5, current5, temperature;
     adc_measureBasic(&voltage1, &current1, &voltage2, &current2, &voltage3, &current3, &voltage4, &current4, &voltage5, &current5, &temperature);
@@ -93,8 +96,21 @@ void main(void) {
             current5Sum -= (current5Sum >> AVG_SHIFT); current5Sum += current5;
             temperatureSum -= (temperatureSum >> AVG_SHIFT); temperatureSum += temperature;
 
+            // check if button state needs change
+            if (currOutputs != nextOutputs) {
+                currOutputs = nextOutputs;
+                ioex_button_led_setAll(
+                    (currOutputs & 0b00001) != 0,
+                    (currOutputs & 0b00010) != 0,
+                    (currOutputs & 0b00100) != 0,
+                    (currOutputs & 0b01000) != 0,
+                    (currOutputs & 0b10000) != 0
+                );
+            }
+            //ioex_button_setOutputs(switch1State, switch2State, switch3State, switch4State, switch5State);
+
             // check buttons each tick
-            ioex_button_getSwitches(&switch1State, &switch2State, &switch3State, &switch4State, &switch5State);
+            ioex_button_switch_getAll(&switch1State, &switch2State, &switch3State, &switch4State, &switch5State);
             prevButtonMask = currButtonMask;
             currButtonMask = 0;
             uint8_t currButtonMaskCount = 0;
@@ -158,7 +174,13 @@ void main(void) {
 
                 case DEPTH_PENDING_RESET: {
                     if (currButtonMask == 0) {  // button has been released
-                        // TODO: Channel OFF
+                        switch (currChannel) {  // channel OFF
+                            case 1: ioex_output_set1(false); ioex_button_led_set1(false); break;
+                            case 2: ioex_output_set2(false); ioex_button_led_set2(false); break;
+                            case 3: ioex_output_set3(false); ioex_button_led_set3(false); break;
+                            case 4: ioex_output_set4(false); ioex_button_led_set4(false); break;
+                            case 5: ioex_output_set5(false); ioex_button_led_set5(false); break;
+                        }
 
                         uint8_t resetTicks = 0;
                         while (true) {
@@ -170,7 +192,13 @@ void main(void) {
                             }
                         }
 
-                        // TODO: Channel ON
+                        switch (currChannel) {  // channel ON
+                            case 1: ioex_output_set1(true); ioex_button_led_set1(true); break;
+                            case 2: ioex_output_set2(true); ioex_button_led_set2(true); break;
+                            case 3: ioex_output_set3(true); ioex_button_led_set3(true); break;
+                            case 4: ioex_output_set4(true); ioex_button_led_set4(true); break;
+                            case 5: ioex_output_set5(true); ioex_button_led_set5(true); break;
+                        }
 
                         nextDepth = DEPTH_PENDING_NOTHING;
                     } else if (currChannelButtonMask == currButtonMask) {
@@ -182,7 +210,13 @@ void main(void) {
 
                 case DEPTH_PENDING_OFF: {
                     if (currButtonMask == 0) {  // button has been released
-                        // TODO power off
+                        switch (currChannel) {  // channel OFF
+                            case 1: ioex_output_set1(false); ioex_button_led_set1(false); nextOutputs &= 0b11110; break;  // TODO: save output state
+                            case 2: ioex_output_set2(false); ioex_button_led_set2(false); nextOutputs &= 0b11101; break;  // TODO: save output state
+                            case 3: ioex_output_set3(false); ioex_button_led_set3(false); nextOutputs &= 0b11011; break;  // TODO: save output state
+                            case 4: ioex_output_set4(false); ioex_button_led_set4(false); nextOutputs &= 0b10111; break;  // TODO: save output state
+                            case 5: ioex_output_set5(false); ioex_button_led_set5(false); nextOutputs &= 0b01111; break;  // TODO: save output state
+                        }
                         nextDepth = DEPTH_PENDING_NOTHING;
                     } else if (currChannelButtonMask == currButtonMask) {
                         if (currDepthButtonTicks > TICKS_WAIT_OFF)  {  // held longer than 3 seconds
@@ -197,9 +231,6 @@ void main(void) {
                     }
                 } break;
             }
-
-            //ioex_button_setLeds(switch1State, switch2State, switch3State, switch4State, switch5State);
-            //ioex_button_setOutputs(switch1State, switch2State, switch3State, switch4State, switch5State);
 
             // update display twice a second
             if ((tickCounter == 0) || (tickCounter == 12)) {
@@ -266,7 +297,7 @@ void test(void) {
     bool switch1State, switch2State, switch3State, switch4State, switch5State;
     while(true) {
         CLRWDT();
-        ioex_button_getSwitches(&switch1State, &switch2State, &switch3State, &switch4State, &switch5State);
+        ioex_button_switch_getAll(&switch1State, &switch2State, &switch3State, &switch4State, &switch5State);
         if (!(switch1State | switch2State | switch3State | switch4State | switch5State)) { break; }
     }
     ssd1306_displayNormal();
@@ -327,25 +358,25 @@ void test(void) {
                     case 6: oled_writeTestVT(index, (uint16_t)(voltage5VSum >> AVG_SHIFT), (uint16_t)(temperatureDieSum >> AVG_SHIFT)); break;
                 }
 
-                ioex_button_getSwitches(&switch1State, &switch2State, &switch3State, &switch4State, &switch5State);
+                ioex_button_switch_getAll(&switch1State, &switch2State, &switch3State, &switch4State, &switch5State);
                 if (switch1State | switch2State | switch3State | switch4State | switch5State) {
                     ssd1306_displayInvert();
                     index = (index + 1) % 7;
                     while(true) {
                         CLRWDT();
-                        ioex_button_getSwitches(&switch1State, &switch2State, &switch3State, &switch4State, &switch5State);
+                        ioex_button_switch_getAll(&switch1State, &switch2State, &switch3State, &switch4State, &switch5State);
                         if (!(switch1State | switch2State | switch3State | switch4State | switch5State)) { break; }
                     }
                     ssd1306_displayNormal();
                     ticker_waitTick();
                     switch(index) {
-                        case 0: ioex_button_setLeds(false, false, false, false, false); ioex_button_setOutputs(false, false, false, false, false); break;
-                        case 1: ioex_button_setLeds(true, false, false, false, false); ioex_button_setOutputs(true, false, false, false, false); break;
-                        case 2: ioex_button_setLeds(false, true, false, false, false); ioex_button_setOutputs(false, true, false, false, false); break;
-                        case 3: ioex_button_setLeds(false, false, true, false, false); ioex_button_setOutputs(false, false, true, false, false); break;
-                        case 4: ioex_button_setLeds(false, false, false, true, false); ioex_button_setOutputs(false, false, false, true, false); break;
-                        case 5: ioex_button_setLeds(false, false, false, false, true); ioex_button_setOutputs(false, false, false, false, true); break;
-                        case 6: ioex_button_setLeds(false, false, false, false, false); ioex_button_setOutputs(false, false, false, false, false); break;
+                        case 0: ioex_button_led_setAll(false, false, false, false, false); ioex_output_setAll(false, false, false, false, false); break;
+                        case 1: ioex_button_led_setAll(true, false, false, false, false); ioex_output_setAll(true, false, false, false, false); break;
+                        case 2: ioex_button_led_setAll(false, true, false, false, false); ioex_output_setAll(false, true, false, false, false); break;
+                        case 3: ioex_button_led_setAll(false, false, true, false, false); ioex_output_setAll(false, false, true, false, false); break;
+                        case 4: ioex_button_led_setAll(false, false, false, true, false); ioex_output_setAll(false, false, false, true, false); break;
+                        case 5: ioex_button_led_setAll(false, false, false, false, true); ioex_output_setAll(false, false, false, false, true); break;
+                        case 6: ioex_button_led_setAll(false, false, false, false, false); ioex_output_setAll(false, false, false, false, false); break;
                     }
                 }
             }

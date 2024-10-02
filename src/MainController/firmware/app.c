@@ -214,11 +214,11 @@ void main(void) {
                 case DEPTH_PENDING_OFF: {
                     if (currButtonMask == 0) {  // button has been released
                         switch (currChannel) {  // channel OFF
-                            case 1: ioex_output_set1(false); ioex_button_led_set1(false); nextOutputs &= 0b11110; break;  // TODO: save output state
-                            case 2: ioex_output_set2(false); ioex_button_led_set2(false); nextOutputs &= 0b11101; break;  // TODO: save output state
-                            case 3: ioex_output_set3(false); ioex_button_led_set3(false); nextOutputs &= 0b11011; break;  // TODO: save output state
-                            case 4: ioex_output_set4(false); ioex_button_led_set4(false); nextOutputs &= 0b10111; break;  // TODO: save output state
-                            case 5: ioex_output_set5(false); ioex_button_led_set5(false); nextOutputs &= 0b01111; break;  // TODO: save output state
+                            case 1: nextOutputs &= 0b11110; break;  // TODO: save output state
+                            case 2: nextOutputs &= 0b11101; break;  // TODO: save output state
+                            case 3: nextOutputs &= 0b11011; break;  // TODO: save output state
+                            case 4: nextOutputs &= 0b10111; break;  // TODO: save output state
+                            case 5: nextOutputs &= 0b01111; break;  // TODO: save output state
                         }
                         nextDepth = DEPTH_PENDING_NOTHING;
                     } else if (currChannelButtonMask == currButtonMask) {

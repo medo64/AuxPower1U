@@ -104,40 +104,39 @@ void oled_writeSummary(uint16_t voltage1, uint16_t current1, uint16_t voltage2, 
     } else {
         ssd1306_writeText("  ");
     }
-    ssd1306_writeCharacter16(' ');
+    ssd1306_writeCharacter(' ');
     if ((outputOnMask & 0b00010) != 0) {
         ssd1306_writeCharacter(0xDF);
         ssd1306_writeCharacter(0xDF);
     } else {
         ssd1306_writeText("  ");
     }
-    ssd1306_writeCharacter16(' ');
+    ssd1306_writeCharacter(' ');
     if ((outputOnMask & 0b00100) != 0) {
         ssd1306_writeCharacter(0xDF);
         ssd1306_writeCharacter(0xDF);
     } else {
         ssd1306_writeText("  ");
     }
-    ssd1306_writeCharacter16(' ');
+    ssd1306_writeCharacter(' ');
     if ((outputOnMask & 0b01000) != 0) {
         ssd1306_writeCharacter(0xDF);
         ssd1306_writeCharacter(0xDF);
     } else {
         ssd1306_writeText("  ");
     }
-    ssd1306_writeCharacter16(' ');
+    ssd1306_writeCharacter(' ');
     if ((outputOnMask & 0b10000) != 0) {
         ssd1306_writeCharacter(0xDF);
         ssd1306_writeCharacter(0xDF);
     } else {
         ssd1306_writeText("  ");
     }
-    ssd1306_writeText("  ");
-    ssd1306_moveToNextRow();
+    ssd1306_writeLine("  ");
 
     ssd1306_writeText(lineBL);
     ssd1306_writeProgress(5, powerPercent);
-    ssd1306_writeText(lineBR);
+    ssd1306_writeLine(lineBR);
 }
 
 void oled_writeChannel(uint8_t channel, uint16_t voltage, uint16_t current, uint8_t state, uint16_t ticks) {

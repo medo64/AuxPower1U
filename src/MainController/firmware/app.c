@@ -196,11 +196,11 @@ void main(void) {
                         }
 
                         switch (currChannel) {  // channel ON
-                            case 1: ioex_output_set1(true); ioex_button_led_set1(true); break;
-                            case 2: ioex_output_set2(true); ioex_button_led_set2(true); break;
-                            case 3: ioex_output_set3(true); ioex_button_led_set3(true); break;
-                            case 4: ioex_output_set4(true); ioex_button_led_set4(true); break;
-                            case 5: ioex_output_set5(true); ioex_button_led_set5(true); break;
+                            case 1: ioex_output_set1(true); ioex_button_led_set1(true); nextOutputs |= 0b00001; break;
+                            case 2: ioex_output_set2(true); ioex_button_led_set2(true); nextOutputs |= 0b00010; break;
+                            case 3: ioex_output_set3(true); ioex_button_led_set3(true); nextOutputs |= 0b00100; break;
+                            case 4: ioex_output_set4(true); ioex_button_led_set4(true); nextOutputs |= 0b01000; break;
+                            case 5: ioex_output_set5(true); ioex_button_led_set5(true); nextOutputs |= 0b10000; break;
                         }
 
                         nextDepth = DEPTH_PENDING_NOTHING;

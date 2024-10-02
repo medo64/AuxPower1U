@@ -13,6 +13,7 @@
       <itemPath>ioex.h</itemPath>
       <itemPath>oled.h</itemPath>
       <itemPath>adc.h</itemPath>
+      <itemPath>settings.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -34,6 +35,7 @@
       <itemPath>ioex.c</itemPath>
       <itemPath>oled.c</itemPath>
       <itemPath>adc.c</itemPath>
+      <itemPath>settings.c</itemPath>
     </logicalFolder>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>

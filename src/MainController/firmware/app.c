@@ -7,6 +7,7 @@
 #include "ioex.h"
 #include "oled.h"
 #include "ticker.h"
+#include "settings.h"
 #include "ssd1306.h"
 
 #define AVG_SHIFT  3
@@ -51,7 +52,7 @@ void main(void) {
         return;
     }
 
-    uint8_t nextOutputs = 0b11111;                   // TODO: load on startup
+    uint8_t nextOutputs = settings_outputs_get();
     uint8_t currOutputs = nextOutputs | 0b10000000;  // just to force change when first ran
 
     uint16_t voltage1, current1, voltage2, current2, voltage3, current3, voltage4, current4, voltage5, current5, temperature;
@@ -214,12 +215,13 @@ void main(void) {
                 case DEPTH_PENDING_OFF: {
                     if (currButtonMask == 0) {  // button has been released
                         switch (currChannel) {  // channel OFF
-                            case 1: nextOutputs &= 0b11110; break;  // TODO: save output state
-                            case 2: nextOutputs &= 0b11101; break;  // TODO: save output state
-                            case 3: nextOutputs &= 0b11011; break;  // TODO: save output state
-                            case 4: nextOutputs &= 0b10111; break;  // TODO: save output state
-                            case 5: nextOutputs &= 0b01111; break;  // TODO: save output state
+                            case 1: nextOutputs &= 0b11110; break;
+                            case 2: nextOutputs &= 0b11101; break;
+                            case 3: nextOutputs &= 0b11011; break;
+                            case 4: nextOutputs &= 0b10111; break;
+                            case 5: nextOutputs &= 0b01111; break;
                         }
+                        settings_outputs_set(nextOutputs);  // save for the next startup
                         nextDepth = DEPTH_PENDING_NOTHING;
                     } else if (currChannelButtonMask == currButtonMask) {
                         if (currDepthButtonTicks > TICKS_WAIT_OFF)  {  // held longer than 3 seconds

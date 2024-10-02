@@ -99,15 +99,14 @@ void main(void) {
             // check if button state needs change
             if (currOutputs != nextOutputs) {
                 currOutputs = nextOutputs;
-                ioex_button_led_setAll(
-                    (currOutputs & 0b00001) != 0,
-                    (currOutputs & 0b00010) != 0,
-                    (currOutputs & 0b00100) != 0,
-                    (currOutputs & 0b01000) != 0,
-                    (currOutputs & 0b10000) != 0
-                );
+                bool nextState1 = (currOutputs & 0b00001) != 0;
+                bool nextState2 = (currOutputs & 0b00010) != 0;
+                bool nextState3 = (currOutputs & 0b00100) != 0;
+                bool nextState4 = (currOutputs & 0b01000) != 0;
+                bool nextState5 = (currOutputs & 0b10000) != 0;
+                ioex_button_led_setAll(nextState1, nextState2, nextState3, nextState4, nextState5);
+                ioex_output_setAll(nextState1, nextState2, nextState3, nextState4, nextState5);
             }
-            //ioex_button_setOutputs(switch1State, switch2State, switch3State, switch4State, switch5State);
 
             // check buttons each tick
             ioex_button_switch_getAll(&switch1State, &switch2State, &switch3State, &switch4State, &switch5State);

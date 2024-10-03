@@ -6657,7 +6657,7 @@
 		(uuid "0d1f080b-efb7-45a3-96fe-84658403e239")
 		(at 34.8 51 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R39"
+		(property "Reference" "R38"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -6670,7 +6670,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "6K2"
+		(property "Value" "4K42"
 			(at 2.3 0 0)
 			(layer "B.SilkS")
 			(uuid "efedf05e-4cd2-4629-a2c7-f51ca06662a2")
@@ -7992,7 +7992,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "180K"
+		(property "Value" "137K"
 			(at 2.3 0 0)
 			(layer "B.SilkS")
 			(uuid "7ed6094b-7e75-44f8-9d62-af35174364b7")
@@ -8912,7 +8912,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "180K"
+		(property "Value" "137K"
 			(at 2.3 0 0)
 			(layer "B.SilkS")
 			(uuid "e15adde5-d27c-4803-ad49-4c643b6dc89e")
@@ -10848,7 +10848,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "180K"
+		(property "Value" "137K"
 			(at 2.3 0 0)
 			(layer "B.SilkS")
 			(uuid "425e256b-134e-4d2b-b857-8f6ceadbdaf3")
@@ -11449,7 +11449,7 @@
 		(uuid "592dcbfb-5a97-4c77-8a11-fd2543eb9366")
 		(at 44.4 51 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R40"
+		(property "Reference" "R39"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -11462,7 +11462,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "6K2"
+		(property "Value" "4K42"
 			(at 2.3 0 0)
 			(layer "B.SilkS")
 			(uuid "bca6f0a0-7426-42cd-b2f0-69ac209a3220")
@@ -13415,7 +13415,7 @@
 		(uuid "64766411-ebbd-4e78-a58e-a207ec8e3475")
 		(at 20.5 92 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R30"
+		(property "Reference" "R29"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -13721,7 +13721,7 @@
 		(uuid "6b7a18e2-2206-4dc2-add7-854177bb71f6")
 		(at 38.7 84.15)
 		(tags "RESC2013X70N")
-		(property "Reference" "R36"
+		(property "Reference" "R35"
 			(at 0 1.6 0)
 			(layer "B.SilkS")
 			(hide yes)
@@ -13874,7 +13874,7 @@
 		(uuid "6c5bbb22-241f-49aa-b62a-3a51809bc894")
 		(at 34.3 84.25 180)
 		(tags "RESC2013X70N")
-		(property "Reference" "R35"
+		(property "Reference" "R34"
 			(at 0 1.6 0)
 			(layer "B.SilkS")
 			(hide yes)
@@ -17435,7 +17435,7 @@
 		(uuid "b0a7b730-f119-40f0-9c70-5af405f3173f")
 		(at 54 51 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R41"
+		(property "Reference" "R40"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -17448,7 +17448,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "6K2"
+		(property "Value" "4K42"
 			(at 2.3 0 0)
 			(layer "B.SilkS")
 			(uuid "ab88f790-df9f-484e-a98e-beef92d45217")
@@ -17588,7 +17588,7 @@
 		(uuid "b6200211-a1cd-4dd8-83bc-4b419d22dd39")
 		(at 52 92 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R33"
+		(property "Reference" "R32"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -18096,7 +18096,7 @@
 		(uuid "c22988df-6f5b-4dc4-a0ba-75a9703acb60")
 		(at 31 92 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R31"
+		(property "Reference" "R30"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -18249,7 +18249,7 @@
 		(uuid "c5f3d19a-09e5-4460-b7a7-47dd75c43a80")
 		(at 22.8 45 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R37"
+		(property "Reference" "R36"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -18262,7 +18262,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "6K2"
+		(property "Value" "4K42"
 			(at 2.3 0 0)
 			(layer "B.SilkS")
 			(uuid "241333aa-3001-452a-929f-2b0cbf51088c")
@@ -19076,7 +19076,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "180K"
+		(property "Value" "137K"
 			(at 2.3 0 0)
 			(layer "B.SilkS")
 			(uuid "647f13e3-8db3-4631-a28d-29c1ff7a1744")
@@ -20337,7 +20337,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "18K"
+		(property "Value" "39K2"
 			(at 2.3 0 90)
 			(layer "B.SilkS")
 			(uuid "f3f63daa-1e8b-4bb2-be30-7fbee16b07ee")
@@ -20490,7 +20490,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "180K"
+		(property "Value" "137K"
 			(at 2.3 0 0)
 			(layer "B.SilkS")
 			(uuid "fef5ff46-13db-4339-8692-113f6c3583a0")
@@ -21020,7 +21020,7 @@
 		(uuid "e39878ee-1dad-4f36-b235-cefadd137886")
 		(at 41.5 92 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R32"
+		(property "Reference" "R31"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -21326,7 +21326,7 @@
 		(uuid "ecbf5bd3-d917-4b69-9cea-f46557ab13ed")
 		(at 62 84.5 180)
 		(tags "RESC2013X70N")
-		(property "Reference" "R29"
+		(property "Reference" "R41"
 			(at 0 1.6 0)
 			(layer "B.SilkS")
 			(hide yes)
@@ -21339,7 +21339,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "3K"
+		(property "Value" "5K6"
 			(at 2.3 0 90)
 			(layer "B.SilkS")
 			(uuid "19ca5ab0-4120-4c5c-ab76-a15e33b29638")
@@ -21479,7 +21479,7 @@
 		(uuid "ee63c97e-d15c-4675-b629-e09169889ef7")
 		(at 62.5 92 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R34"
+		(property "Reference" "R33"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -22491,7 +22491,7 @@
 		(uuid "f775b211-535b-4fcb-9b95-6c3796296a15")
 		(at 25.2 51 90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R38"
+		(property "Reference" "R37"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -22504,7 +22504,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "6K2"
+		(property "Value" "4K42"
 			(at 2.3 0 0)
 			(layer "B.SilkS")
 			(uuid "9f9abd65-541b-4a3a-9748-4428052f84d7")

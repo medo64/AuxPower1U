@@ -52,6 +52,7 @@ void main(void) {
         return;
     }
 
+    settings_init();
     uint8_t nextOutputs = settings_outputs_get();
     uint8_t currOutputs = nextOutputs | 0b10000000;  // just to force change when first ran
 

@@ -15,6 +15,8 @@
       <itemPath>adc.h</itemPath>
       <itemPath>settings.h</itemPath>
       <itemPath>nvm_eeprom.h</itemPath>
+      <itemPath>uart.h</itemPath>
+      <itemPath>pps.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -38,6 +40,8 @@
       <itemPath>adc.c</itemPath>
       <itemPath>settings.c</itemPath>
       <itemPath>nvm_eeprom.c</itemPath>
+      <itemPath>uart.c</itemPath>
+      <itemPath>pps.c</itemPath>
     </logicalFolder>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>

@@ -6,9 +6,11 @@
 #include "io.h"
 #include "ioex.h"
 #include "oled.h"
+#include "pps.h"
 #include "ticker.h"
 #include "settings.h"
 #include "ssd1306.h"
+#include "uart.h"
 
 #define AVG_SHIFT  3
 
@@ -26,22 +28,26 @@
 
 void main(void) {
     init();
+    pps_init();
     ticker_init();
-    adc_init();
 
+    CLRWDT();
     io_init();
     io_led_activity_on(); ticker_waitTick(); io_led_activity_off(); ticker_waitTick();
     io_led_activity_on(); ticker_waitTick(); io_led_activity_off(); ticker_waitTick();
     io_led_activity_on(); ticker_waitTick(); io_led_activity_off(); ticker_waitTick();
 
-    i2c_master_init();
-
+    CLRWDT();
     io_led_activity_on();
-    oled_init();
-    oled_splash();
+    uart_init();
+    uart_writeString("AuxPower1U\n");
     io_led_activity_off();
 
+    CLRWDT();
     io_led_activity_on();
+    i2c_master_init();
+    oled_init();
+    oled_splash();
     ioex_init();
     io_led_activity_off();
 
@@ -52,10 +58,13 @@ void main(void) {
         return;
     }
 
+    CLRWDT();
     settings_init();
     uint8_t nextOutputs = settings_outputs_get();
     uint8_t currOutputs = nextOutputs | 0b10000000;  // just to force change when first ran
 
+    CLRWDT();
+    adc_init();
     uint16_t voltage1, current1, voltage2, current2, voltage3, current3, voltage4, current4, voltage5, current5, temperature;
     adc_measureBasic(&voltage1, &current1, &voltage2, &current2, &voltage3, &current3, &voltage4, &current4, &voltage5, &current5, &temperature);
 

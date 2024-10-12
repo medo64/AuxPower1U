@@ -31,6 +31,10 @@
 void fillUartFromChannel(uint8_t index, uint16_t voltage, uint16_t current, bool isOn);
 void fillUartFromTemperature(uint16_t temperature);
 
+uint8_t enableOutputMask(const uint8_t channel, const uint8_t currOutputs);
+uint8_t disableOutputMask(const uint8_t channel, const uint8_t currOutputs);
+uint8_t resetOutput(const uint8_t channel, const uint8_t currOutputs);
+
 void main(void) {
     init();
     pps_init();
@@ -95,6 +99,43 @@ void main(void) {
         if ((UartTxBufferStart < UartTxBufferCount) && (uart_canWrite())) {  // send data if in buffer
             uart_writeByte(UartTxBuffer[UartTxBufferStart]);
             UartTxBufferStart++;
+        } else if (uart_canRead()) {
+            uint8_t data = uart_readByte();
+            if ((data == '\n') || (data == '\r')) {
+                bool isNok = true;
+                if (UartRxBufferCount == 2) {
+                    uint8_t channelIndex = UartRxBuffer[1] - 0x30;
+                    if ((channelIndex >= 1) && (channelIndex <= 5)) {
+                        switch (UartRxBuffer[0]) {
+                            case 'D':
+                            case 'd':
+                                nextOutputs = disableOutputMask(channelIndex, nextOutputs);
+                                break;
+
+                            case 'E':
+                            case 'e':
+                                nextOutputs = enableOutputMask(channelIndex, nextOutputs);
+                                break;
+                               break;
+
+                            case 'R':
+                            case 'r':
+                                nextOutputs = resetOutput(channelIndex, nextOutputs);
+                                break;
+                        }
+                    }
+                } else if  (UartRxBufferCount == 0) {
+                    isNok = false;  // ignore empty
+                }
+                if (isNok) {
+                    UartRxBufferCount = 0;
+                    uartbuffers_txAppend('!');
+                    uartbuffers_txAppend('\r');
+                    uartbuffers_txAppend('\n');
+                }
+            } else {
+                uartbuffers_rxAppend(data);
+            }
         }
 
         if (ticker_hasTicked()) {  // 24th of a second
@@ -127,6 +168,7 @@ void main(void) {
                 bool nextState5 = (currOutputs & 0b10000) != 0;
                 ioex_button_led_setAll(nextState1, nextState2, nextState3, nextState4, nextState5);
                 ioex_output_setAll(nextState1, nextState2, nextState3, nextState4, nextState5);
+                settings_outputs_set(nextOutputs);  // save for the next startup
             }
 
             // check buttons each tick
@@ -198,32 +240,7 @@ void main(void) {
 
                 case DEPTH_PENDING_RESET: {
                     if (currButtonMask == 0) {  // button has been released
-                        switch (currChannel) {  // channel OFF
-                            case 1: ioex_output_set1(false); ioex_button_led_set1(false); break;
-                            case 2: ioex_output_set2(false); ioex_button_led_set2(false); break;
-                            case 3: ioex_output_set3(false); ioex_button_led_set3(false); break;
-                            case 4: ioex_output_set4(false); ioex_button_led_set4(false); break;
-                            case 5: ioex_output_set5(false); ioex_button_led_set5(false); break;
-                        }
-
-                        uint8_t resetTicks = 0;
-                        while (true) {
-                            CLRWDT();
-                            if (ticker_hasTicked()) {
-                                resetTicks++;
-                                if (resetTicks % 12 == 0) { oled_writeReset(2, resetTicks); }
-                                if (resetTicks >= TICKS_DURATION_RESET) { break; }
-                            }
-                        }
-
-                        switch (currChannel) {  // channel ON
-                            case 1: ioex_output_set1(true); ioex_button_led_set1(true); nextOutputs |= 0b00001; break;
-                            case 2: ioex_output_set2(true); ioex_button_led_set2(true); nextOutputs |= 0b00010; break;
-                            case 3: ioex_output_set3(true); ioex_button_led_set3(true); nextOutputs |= 0b00100; break;
-                            case 4: ioex_output_set4(true); ioex_button_led_set4(true); nextOutputs |= 0b01000; break;
-                            case 5: ioex_output_set5(true); ioex_button_led_set5(true); nextOutputs |= 0b10000; break;
-                        }
-
+                        nextOutputs = resetOutput(currChannel, nextOutputs);
                         nextDepth = DEPTH_PENDING_NOTHING;
                     } else if (currChannelButtonMask == currButtonMask) {
                         if (currDepthButtonTicks > TICKS_WAIT_RESET)  {  // held longer than 5 seconds
@@ -234,14 +251,7 @@ void main(void) {
 
                 case DEPTH_PENDING_OFF: {
                     if (currButtonMask == 0) {  // button has been released
-                        switch (currChannel) {  // channel OFF
-                            case 1: nextOutputs &= 0b11110; break;
-                            case 2: nextOutputs &= 0b11101; break;
-                            case 3: nextOutputs &= 0b11011; break;
-                            case 4: nextOutputs &= 0b10111; break;
-                            case 5: nextOutputs &= 0b01111; break;
-                        }
-                        settings_outputs_set(nextOutputs);  // save for the next startup
+                        nextOutputs = disableOutputMask(currChannel, nextOutputs);
                         nextDepth = DEPTH_PENDING_NOTHING;
                     } else if (currChannelButtonMask == currButtonMask) {
                         if (currDepthButtonTicks > TICKS_WAIT_OFF)  {  // held longer than 3 seconds
@@ -433,6 +443,64 @@ void fillUartFromTemperature(uint16_t temperature) {
 
     uartbuffers_txAppend('\r');
     uartbuffers_txAppend('\n');
+}
+
+uint8_t disableOutputMask(const uint8_t channel, const uint8_t currOutputs) {
+    uint8_t nextOutputs = currOutputs;
+
+    switch (channel) {  // channel OFF
+        case 1: nextOutputs &= 0b11110; break;
+        case 2: nextOutputs &= 0b11101; break;
+        case 3: nextOutputs &= 0b11011; break;
+        case 4: nextOutputs &= 0b10111; break;
+        case 5: nextOutputs &= 0b01111; break;
+    }
+    return nextOutputs;
+}
+
+uint8_t enableOutputMask(const uint8_t channel, const uint8_t currOutputs) {
+    uint8_t nextOutputs = currOutputs;
+
+    switch (channel) {  // channel ON
+        case 1: nextOutputs |= 0b00001; break;
+        case 2: nextOutputs |= 0b00010; break;
+        case 3: nextOutputs |= 0b00100; break;
+        case 4: nextOutputs |= 0b01000; break;
+        case 5: nextOutputs |= 0b10000; break;
+    }
+    return nextOutputs;
+}
+
+uint8_t resetOutput(const uint8_t channel, const uint8_t currOutputs) {
+    uint8_t nextOutputs = currOutputs;
+
+    switch (channel) {  // channel OFF
+        case 1: ioex_output_set1(false); ioex_button_led_set1(false); break;
+        case 2: ioex_output_set2(false); ioex_button_led_set2(false); break;
+        case 3: ioex_output_set3(false); ioex_button_led_set3(false); break;
+        case 4: ioex_output_set4(false); ioex_button_led_set4(false); break;
+        case 5: ioex_output_set5(false); ioex_button_led_set5(false); break;
+    }
+
+    uint8_t resetTicks = 0;
+    while (true) {
+        CLRWDT();
+        if (ticker_hasTicked()) {
+            resetTicks++;
+            if (resetTicks % 12 == 0) { oled_writeReset(2, resetTicks); }
+            if (resetTicks >= TICKS_DURATION_RESET) { break; }
+        }
+    }
+
+    switch (channel) {  // channel ON
+        case 1: ioex_output_set1(true); ioex_button_led_set1(true); nextOutputs |= 0b00001; break;
+        case 2: ioex_output_set2(true); ioex_button_led_set2(true); nextOutputs |= 0b00010; break;
+        case 3: ioex_output_set3(true); ioex_button_led_set3(true); nextOutputs |= 0b00100; break;
+        case 4: ioex_output_set4(true); ioex_button_led_set4(true); nextOutputs |= 0b01000; break;
+        case 5: ioex_output_set5(true); ioex_button_led_set5(true); nextOutputs |= 0b10000; break;
+    }
+
+    return nextOutputs;
 }
 
 

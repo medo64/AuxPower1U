@@ -29,7 +29,7 @@
     void i2c_master_init(void);
 #endif
 
-    /** Reads multiple bytes from a register. */
+/** Reads multiple bytes from a register. */
 bool i2c_master_readRegisterBytes(const uint8_t deviceAddress, const uint8_t registerAddress, uint8_t* readData, const uint8_t readCount);
 
 /** Writes multiple bytes. */

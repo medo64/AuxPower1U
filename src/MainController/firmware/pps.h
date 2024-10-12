@@ -16,6 +16,5 @@
  */
 
 #pragma once
-#include <stdbool.h>
 
 void pps_init(void);

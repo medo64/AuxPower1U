@@ -17,6 +17,7 @@
       <itemPath>nvm_eeprom.h</itemPath>
       <itemPath>uart.h</itemPath>
       <itemPath>pps.h</itemPath>
+      <itemPath>uartbuffers.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

@@ -1,5 +1,6 @@
 #include <xc.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include "app.h"
 #include "adc.h"
 #include "i2c_master.h"
@@ -11,6 +12,7 @@
 #include "settings.h"
 #include "ssd1306.h"
 #include "uart.h"
+#include "uartbuffers.h"
 
 #define AVG_SHIFT  3
 
@@ -26,6 +28,9 @@
 #define TICKS_WAIT_OFF        3 * 24
 #define TICKS_DURATION_RESET  3 * 24
 
+void fillUartFromChannel(uint8_t index, uint16_t voltage, uint16_t current, bool isOn);
+void fillUartFromTemperature(uint16_t temperature);
+
 void main(void) {
     init();
     pps_init();
@@ -40,7 +45,7 @@ void main(void) {
     CLRWDT();
     io_led_activity_on();
     uart_init();
-    uart_writeString("AuxPower1U\n");
+    uart_writeString("AuxPower1U\r\n");
     io_led_activity_off();
 
     CLRWDT();
@@ -86,6 +91,11 @@ void main(void) {
     uint8_t tickCounter = 0;
     while(true) {
         CLRWDT();
+
+        if ((UartTxBufferStart < UartTxBufferCount) && (uart_canWrite())) {  // send data if in buffer
+            uart_writeByte(UartTxBuffer[UartTxBufferStart]);
+            UartTxBufferStart++;
+        }
 
         if (ticker_hasTicked()) {  // 24th of a second
             io_led_activity_off();
@@ -301,9 +311,128 @@ void main(void) {
 
                     } break;
                 }
+            } else if ((tickCounter == 6) || (tickCounter == 18)) {  // prepare UART twice a second
+                uartbuffers_txReset();
+                fillUartFromChannel(1, (uint16_t)(voltage1Sum >> AVG_SHIFT), (uint16_t)(current1Sum >> AVG_SHIFT), (currOutputs & 0b00001) > 0);
+                fillUartFromChannel(2, (uint16_t)(voltage2Sum >> AVG_SHIFT), (uint16_t)(current2Sum >> AVG_SHIFT), (currOutputs & 0b00010) > 0);
+                fillUartFromChannel(3, (uint16_t)(voltage3Sum >> AVG_SHIFT), (uint16_t)(current3Sum >> AVG_SHIFT), (currOutputs & 0b00100) > 0);
+                fillUartFromChannel(4, (uint16_t)(voltage4Sum >> AVG_SHIFT), (uint16_t)(current4Sum >> AVG_SHIFT), (currOutputs & 0b01000) > 0);
+                fillUartFromChannel(5, (uint16_t)(voltage5Sum >> AVG_SHIFT), (uint16_t)(current5Sum >> AVG_SHIFT), (currOutputs & 0b10000) > 0);
+                fillUartFromTemperature((uint16_t)(temperatureSum >> AVG_SHIFT));
             }
         }
     }
+}
+
+void fillUartFromChannel(uint8_t index, uint16_t voltage, uint16_t current, bool isOn) {
+    uint32_t power = (uint32_t)voltage * (uint32_t)current / 1000;
+
+    uartbuffers_txAppend(0x30 + index);
+    uartbuffers_txAppend(':');
+    uartbuffers_txAppend(' ');
+
+    uint8_t buffer[5];
+    uint8_t bufferIndex;
+
+    voltage /= 10;  // we don't need mV
+    bufferIndex = sizeof(buffer);
+    while (bufferIndex > 0) {
+        bufferIndex--;
+        buffer[bufferIndex] = 0x30 + (voltage % 10);
+        voltage /= 10;
+        if ((voltage == 0) && (bufferIndex < 3)) { break; }  // we're past decimal point and there are no more digits
+    }
+    for (uint8_t i = 1; i < sizeof(buffer); i++) {
+        if (i < bufferIndex) {
+            uartbuffers_txAppend(' ');
+        } else {
+            uartbuffers_txAppend(buffer[i]);
+            if (i == 2) { uartbuffers_txAppend('.'); }
+        }
+    }
+    uartbuffers_txAppend('V');
+    uartbuffers_txAppend(' ');
+    
+    current /= 10;  // we don't need mA
+    bufferIndex = sizeof(buffer);
+    while (bufferIndex > 0) {
+        bufferIndex--;
+        buffer[bufferIndex] = 0x30 + (current % 10);
+        current /= 10;
+        if ((current == 0) && (bufferIndex < 3)) { break; }  // we're past decimal point and there are no more digits
+    }
+    for (uint8_t i = 2; i < sizeof(buffer); i++) {
+        if (i < bufferIndex) {
+            uartbuffers_txAppend(' ');
+        } else {
+            uartbuffers_txAppend(buffer[i]);
+            if (i == 2) { uartbuffers_txAppend('.'); }
+        }
+    }
+    uartbuffers_txAppend('A');
+    uartbuffers_txAppend(' ');
+
+    power /= 10;  // we don't need mW
+    bufferIndex = sizeof(buffer);
+    while (bufferIndex > 0) {
+        bufferIndex--;
+        buffer[bufferIndex] = 0x30 + (power % 10);
+        power /= 10;
+        if ((power == 0) && (bufferIndex < 3)) { break; }  // we're past decimal point and there are no more digits
+    }
+    for (uint8_t i = 0; i < sizeof(buffer); i++) {
+        if (i < bufferIndex) {
+            uartbuffers_txAppend(' ');
+        } else {
+            uartbuffers_txAppend(buffer[i]);
+            if (i == 2) { uartbuffers_txAppend('.'); }
+        }
+    }
+    uartbuffers_txAppend('W');
+    uartbuffers_txAppend(' ');
+
+    uartbuffers_txAppend('[');
+    if (isOn) {
+        uartbuffers_txAppend('O');
+        uartbuffers_txAppend('N');
+    } else {
+        uartbuffers_txAppend('O');
+        uartbuffers_txAppend('F');
+        uartbuffers_txAppend('F');
+    }
+    uartbuffers_txAppend(']');
+
+    uartbuffers_txAppend('\r');
+    uartbuffers_txAppend('\n');
+}
+
+void fillUartFromTemperature(uint16_t temperature) {
+    uartbuffers_txAppend('T');
+    uartbuffers_txAppend(':');
+    uartbuffers_txAppend(' ');
+
+    uint8_t buffer[3];
+    uint8_t bufferIndex;
+
+    bufferIndex = sizeof(buffer);
+    while (bufferIndex > 0) {
+        bufferIndex--;
+        buffer[bufferIndex] = 0x30 + (temperature % 10);
+        temperature /= 10;
+        if ((temperature == 0) && (bufferIndex < 2)) { break; }  // we're past decimal point and there are no more digits
+    }
+    for (uint8_t i = 0; i < sizeof(buffer); i++) {
+        if (i < bufferIndex) {
+            uartbuffers_txAppend(' ');
+        } else {
+            uartbuffers_txAppend(buffer[i]);
+            if (i == 1) { uartbuffers_txAppend('.'); }
+        }
+    }
+    uartbuffers_txAppend('C');
+
+    uartbuffers_txAppend('\r');
+    uartbuffers_txAppend('\n');
 }
 
 

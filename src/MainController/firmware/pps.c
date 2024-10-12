@@ -1,6 +1,4 @@
 #include <xc.h>
-#include <stdbool.h>
-#include <stdint.h>
 #include "app.h"
 
 void pps_init(void) {

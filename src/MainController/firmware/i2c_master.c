@@ -88,31 +88,8 @@
 #elif defined(_18F25K83) || defined(_18F26K83)
 
     void i2c_master_init(void) {
-        // unlock PPS
-        PPSLOCK = 0x55;
-        PPSLOCK = 0xAA;
-        PPSLOCKbits.PPSLOCKED = 0;
-
         #if defined(_I2C_MASTER_MODULE2)  // I2C2 (SCL RB1) (SDA RB2)
 
-            #define I2C_MASTER_SCL_PPS_PORT_REGISTER    RB1PPS
-            #define I2C_MASTER_SCL_PPS_PORT_VALUE       0b00100011
-            #define I2C_MASTER_SCL_PPS_SIGNAL_REGISTER  I2C2SCLPPS
-            #define I2C_MASTER_SCL_PPS_SIGNAL_VALUE     0b00001001
-            #define I2C_MASTER_SDA_PPS_PORT_REGISTER    RB2PPS
-            #define I2C_MASTER_SDA_PPS_PORT_VALUE       0b00100100
-            #define I2C_MASTER_SDA_PPS_SIGNAL_REGISTER  I2C2SDAPPS
-            #define I2C_MASTER_SDA_PPS_SIGNAL_VALUE     0b00001010
-
-            #define I2C_MASTER_LAT_REGISTER             LATB
-            #define I2C_MASTER_TRIS_REGISTER            TRISB
-            #define I2C_MASTER_ANSEL_REGISTER           ANSELB
-            #define I2C_MASTER_SLRCON_REGISTER          SLRCONB
-            #define I2C_MASTER_ODCON_REGISTER           ODCONB
-            #define I2C_MASTER_LAT_MASK                 0x11111001
-
-            #define I2C_MASTER_SCL_I2CPORT_REGISTER     RB1I2Cbits
-            #define I2C_MASTER_SDA_I2CPORT_REGISTER     RB2I2Cbits
             #define I2C_MASTER_I2CCON0_REGISTER         I2C2CON0bits
             #define I2C_MASTER_I2CCON1_REGISTER         I2C2CON1bits
             #define I2C_MASTER_I2CCON2_REGISTER         I2C2CON2bits
@@ -127,24 +104,6 @@
 
         #else  // I2C1 (SCL RC3) (SDA RC4)
 
-            #define I2C_MASTER_SCL_PPS_PORT_REGISTER    RC3PPS
-            #define I2C_MASTER_SCL_PPS_PORT_VALUE       0b00100001
-            #define I2C_MASTER_SCL_PPS_SIGNAL_REGISTER  I2C1SCLPPS
-            #define I2C_MASTER_SCL_PPS_SIGNAL_VALUE     0b00010011
-            #define I2C_MASTER_SDA_PPS_PORT_REGISTER    RC4PPS
-            #define I2C_MASTER_SDA_PPS_PORT_VALUE       0b00100010
-            #define I2C_MASTER_SDA_PPS_SIGNAL_REGISTER  I2C1SDAPPS
-            #define I2C_MASTER_SDA_PPS_SIGNAL_VALUE     0b00010100
-
-            #define I2C_MASTER_LAT_REGISTER             LATC
-            #define I2C_MASTER_TRIS_REGISTER            TRISC
-            #define I2C_MASTER_ANSEL_REGISTER           ANSELC
-            #define I2C_MASTER_SLRCON_REGISTER          SLRCONC
-            #define I2C_MASTER_ODCON_REGISTER           ODCONC
-            #define I2C_MASTER_LAT_MASK                 0x11100111
-
-            #define I2C_MASTER_SCL_I2CPORT_REGISTER     RC3I2Cbits
-            #define I2C_MASTER_SDA_I2CPORT_REGISTER     RC4I2Cbits
             #define I2C_MASTER_I2CCON0_REGISTER         I2C1CON0bits
             #define I2C_MASTER_I2CCON1_REGISTER         I2C1CON1bits
             #define I2C_MASTER_I2CCON2_REGISTER         I2C1CON2bits
@@ -158,29 +117,6 @@
             #define I2C_MASTER_I2CTXB_REGISTER          I2C1TXB
 
         #endif
-
-        I2C_MASTER_SCL_PPS_PORT_REGISTER   = I2C_MASTER_SCL_PPS_PORT_VALUE;
-        I2C_MASTER_SCL_PPS_SIGNAL_REGISTER = I2C_MASTER_SCL_PPS_SIGNAL_VALUE;
-        I2C_MASTER_SDA_PPS_PORT_REGISTER   = I2C_MASTER_SDA_PPS_PORT_VALUE;
-        I2C_MASTER_SDA_PPS_SIGNAL_REGISTER = I2C_MASTER_SDA_PPS_SIGNAL_VALUE;
-
-        I2C_MASTER_LAT_REGISTER    &= I2C_MASTER_LAT_REGISTER;    // clear write latches
-        I2C_MASTER_TRIS_REGISTER   &= I2C_MASTER_LAT_REGISTER;    // make pins output
-        I2C_MASTER_ANSEL_REGISTER  &= I2C_MASTER_LAT_REGISTER;    // make pins digital
-        I2C_MASTER_SLRCON_REGISTER &= I2C_MASTER_LAT_REGISTER;    // no GPIO slew rate limiting
-        I2C_MASTER_ODCON_REGISTER  |= ~I2C_MASTER_LAT_REGISTER;   // make pins open-drain
-
-        I2C_MASTER_SCL_I2CPORT_REGISTER.SLEW = 1;   // I2C specific slew rate limiting is enabled
-        I2C_MASTER_SDA_I2CPORT_REGISTER.SLEW = 1;   // I2C specific slew rate limiting is enabled
-        I2C_MASTER_SCL_I2CPORT_REGISTER.PU = 0b00;  // external pull-ups used
-        I2C_MASTER_SDA_I2CPORT_REGISTER.PU = 0b00;  // external pull-ups used
-        I2C_MASTER_SCL_I2CPORT_REGISTER.TH = 0b01;  // SMBus 3.0 (1.35 V) input threshold
-        I2C_MASTER_SDA_I2CPORT_REGISTER.TH = 0b01;  // SMBus 3.0 (1.35 V) input threshold
-
-        // Lock PPS
-        PPSLOCK = 0x55;
-        PPSLOCK = 0xAA;
-        PPSLOCKbits.PPSLOCKED = 1;
 
         // Setup I2C
         I2C_MASTER_I2CCON1_REGISTER.ACKCNT = 1;    // Acknowledge value transmitted after received data, when I2CxCNT = 0 - NACK

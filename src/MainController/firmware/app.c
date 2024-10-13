@@ -505,7 +505,7 @@ uint8_t resetOutput(const uint8_t channel, const uint8_t currOutputs) {
         CLRWDT();
         if (ticker_hasTicked()) {
             resetTicks++;
-            if (resetTicks % 12 == 0) { oled_writeReset(2, resetTicks); }
+            if (resetTicks % 12 == 0) { oled_writeReset(channel, resetTicks); }
             if (resetTicks >= TICKS_DURATION_RESET) { break; }
         }
     }

@@ -139,7 +139,7 @@ void oled_writeSummary(uint16_t voltage1, uint16_t current1, uint16_t voltage2, 
     ssd1306_writeLine(lineBR);
 }
 
-void oled_writeChannel(uint8_t channel, uint16_t voltage, uint16_t current, uint8_t state, uint16_t ticks) {
+void oled_writeChannel(uint8_t channel, uint16_t voltage, uint16_t current, bool isOutputOn, uint8_t state, uint16_t ticks) {
     char textTL[9];
     oled_fillNumber2(&textTL[0], (uint16_t)(voltage / 1000), false);
     textTL[2] = '.';
@@ -200,8 +200,13 @@ void oled_writeChannel(uint8_t channel, uint16_t voltage, uint16_t current, uint
     ssd1306_moveTo(1, 1);
     ssd1306_writeText16(textTL);
     ssd1306_writeText16(textTR);
-    ssd1306_writeInverseCharacter16(0xDD);
-    ssd1306_writeInverseCharacter16(0x30 + channel);
+    if (isOutputOn) {
+        ssd1306_writeInverseCharacter16(0xDD);
+        ssd1306_writeInverseCharacter16(0x30 + channel);
+    } else {
+        ssd1306_writeCharacter16(0xB3);
+        ssd1306_writeCharacter16(0x30 + channel);
+    }
     ssd1306_moveToNextRow16();
     ssd1306_writeText16(textBL);
     ssd1306_writeText16(textBR);

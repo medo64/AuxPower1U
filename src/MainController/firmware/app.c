@@ -365,27 +365,27 @@ void main(void) {
                             case 1: {
                                 uint16_t voltage1Avg = (uint16_t)(voltage1Sum >> AVG_SHIFT);
                                 uint16_t current1Avg = (uint16_t)(current1Sum >> AVG_SHIFT);
-                                oled_writeChannel(1, voltage1Avg, current1Avg, currDepth, currDepthButtonTicks);
+                                oled_writeChannel(1, voltage1Avg, current1Avg, currOutputs & 0b00001, currDepth, currDepthButtonTicks);
                             } break;
                             case 2: {
                                 uint16_t voltage2Avg = (uint16_t)(voltage3Sum >> AVG_SHIFT);
                                 uint16_t current2Avg = (uint16_t)(current3Sum >> AVG_SHIFT);
-                                oled_writeChannel(2, voltage2Avg, current2Avg, currDepth, currDepthButtonTicks);
+                                oled_writeChannel(2, voltage2Avg, current2Avg, currOutputs & 0b00010, currDepth, currDepthButtonTicks);
                             } break;
                             case 3: {
                                 uint16_t voltage3Avg = (uint16_t)(voltage3Sum >> AVG_SHIFT);
                                 uint16_t current3Avg = (uint16_t)(current3Sum >> AVG_SHIFT);
-                                oled_writeChannel(3, voltage3Avg, current3Avg, currDepth, currDepthButtonTicks);
+                                oled_writeChannel(3, voltage3Avg, current3Avg, currOutputs & 0b00100, currDepth, currDepthButtonTicks);
                             } break;
                             case 4: {
                                 uint16_t voltage4Avg = (uint16_t)(voltage4Sum >> AVG_SHIFT);
                                 uint16_t current4Avg = (uint16_t)(current4Sum >> AVG_SHIFT);
-                                oled_writeChannel(4, voltage4Avg, current4Avg, currDepth, currDepthButtonTicks);
+                                oled_writeChannel(4, voltage4Avg, current4Avg, currOutputs & 0b01000, currDepth, currDepthButtonTicks);
                             } break;
                             case 5: {
                                 uint16_t voltage5Avg = (uint16_t)(voltage5Sum >> AVG_SHIFT);
                                 uint16_t current5Avg = (uint16_t)(current5Sum >> AVG_SHIFT);
-                                oled_writeChannel(5, voltage5Avg, current5Avg, currDepth, currDepthButtonTicks);
+                                oled_writeChannel(5, voltage5Avg, current5Avg, currOutputs & 0b10000, currDepth, currDepthButtonTicks);
                             } break;
                         }
 

@@ -7,7 +7,7 @@ uint8_t UartRxBufferCount = 0;
 #define uartbuffers_rxAppend(DATA)  if (UartRxBufferCount < UARTBUFFERS_RX_MAX) { UartRxBuffer[UartRxBufferCount] = DATA; UartRxBufferCount++; }
 #define uartbuffers_rxReset()       UartRxBufferCount = 0;
 
-#define UARTBUFFERS_TX_MAX  192
+#define UARTBUFFERS_TX_MAX  250
 uint8_t UartTxBuffer[UARTBUFFERS_TX_MAX];
 uint8_t UartTxBufferStart = 0;
 uint8_t UartTxBufferCount = 0;

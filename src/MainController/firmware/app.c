@@ -143,12 +143,14 @@ void main(void) {
                 } else if  (UartRxBufferCount == 0) {
                     isNok = false;  // ignore empty
                 }
+                CLRWDT();
                 if (isNok) {
                     UartRxBufferCount = 0;
                     uartbuffers_txAppend('!');
                     uartbuffers_txAppend('\r');
                     uartbuffers_txAppend('\n');
                 }
+                UartRxBufferCount = 0;
             } else {
                 uartbuffers_rxAppend(data);
             }

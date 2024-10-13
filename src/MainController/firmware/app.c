@@ -92,6 +92,7 @@ void main(void) {
     uint8_t currButtonMask = 0;         // currently pressed buttons
     uint8_t prevButtonMask = 0;         // previously pressed buttons
 
+    bool prevBlinking = false;
     uint8_t tickCounter = 0;
     while(true) {
         CLRWDT();
@@ -220,6 +221,53 @@ void main(void) {
                 currDepthButtonTicks = 0;
                 tickCounter = 0;  // force update
             }
+
+            bool currBlinking = false;
+            if (currDepth == DEPTH_PENDING_RESET) {
+                switch (currChannel) {  // blinking while waiting for reset (12/s)
+                    case 1: ioex_button_led_toggle1(); break;
+                    case 2: ioex_button_led_toggle2(); break;
+                    case 3: ioex_button_led_toggle3(); break;
+                    case 4: ioex_button_led_toggle4(); break;
+                    case 5: ioex_button_led_toggle5(); break;
+                }
+                currBlinking = true;
+            } else if (currDepth == DEPTH_PENDING_OFF) {
+                if ((tickCounter % 2) == 0) {  // blinking while checking off is (6/s)
+                    switch (currChannel) {
+                        case 1: ioex_button_led_toggle1(); break;
+                        case 2: ioex_button_led_toggle2(); break;
+                        case 3: ioex_button_led_toggle3(); break;
+                        case 4: ioex_button_led_toggle4(); break;
+                        case 5: ioex_button_led_toggle5(); break;
+                    }
+                    currBlinking = true;
+                }
+            } else if (currDepth == DEPTH_DETAILS) {
+                if ((currButtonMask > 0) && ((tickCounter % 12) == 0)) {  // blink while waiting for reset (1/s)
+                    switch (currChannel) {
+                        case 1: ioex_button_led_toggle1(); break;
+                        case 2: ioex_button_led_toggle2(); break;
+                        case 3: ioex_button_led_toggle3(); break;
+                        case 4: ioex_button_led_toggle4(); break;
+                        case 5: ioex_button_led_toggle5(); break;
+                    }
+                    currBlinking = true;
+                }
+            }
+            if (prevBlinking != currBlinking) {
+                if (!currBlinking && prevBlinking) {  // reset LEDs if blinking is over
+                    ioex_button_led_setAll(
+                        (currOutputs & 0b00001) != 0,
+                        (currOutputs & 0b00010) != 0,
+                        (currOutputs & 0b00100) != 0,
+                        (currOutputs & 0b01000) != 0,
+                        (currOutputs & 0b10000) != 0
+                    );
+                }
+                prevBlinking = currBlinking;
+            }
+
             switch (currDepth) {
                 case DEPTH_SUMMARY: {
                     switch (currButtonMask) {  // switch to details
@@ -248,6 +296,7 @@ void main(void) {
                                 nextDepth = DEPTH_PENDING_RESET;
                             }
                         } else {
+                            ioex_button_led_setAll(currOutputs & 0b00001, currOutputs & 0b00010, currOutputs & 0b00100, currOutputs & 0b01000, currOutputs & 0b10000);  // reset lights
                             switch (currButtonMask) {  // switch to other details
                                 case 0b00001: nextDepth = DEPTH_DETAILS; currChannel = 1; break;
                                 case 0b00010: nextDepth = DEPTH_DETAILS; currChannel = 2; break;

@@ -65,6 +65,31 @@ void ioex_button_led_set5(bool led5) {
     i2c_master_writeRegisterBytes(IOEX_DEVICE_ADDRESS, IOEX_DEVICE_REGISTER_OUTPUT0, &outState0, 1);
 }
 
+void ioex_button_led_toggle1() {
+    outState1 ^= 0b01000000;
+    i2c_master_writeRegisterBytes(IOEX_DEVICE_ADDRESS, IOEX_DEVICE_REGISTER_OUTPUT1, &outState1, 1);
+}
+
+void ioex_button_led_toggle2() {
+    outState1 ^= 0b00010000;
+    i2c_master_writeRegisterBytes(IOEX_DEVICE_ADDRESS, IOEX_DEVICE_REGISTER_OUTPUT1, &outState1, 1);
+}
+
+void ioex_button_led_toggle3() {
+    outState1 ^= 0b00000100;
+    i2c_master_writeRegisterBytes(IOEX_DEVICE_ADDRESS, IOEX_DEVICE_REGISTER_OUTPUT1, &outState1, 1);
+}
+
+void ioex_button_led_toggle4() {
+    outState1 ^= 0b00000001;
+    i2c_master_writeRegisterBytes(IOEX_DEVICE_ADDRESS, IOEX_DEVICE_REGISTER_OUTPUT1, &outState1, 1);
+}
+
+void ioex_button_led_toggle5() {
+    outState0 ^= 0b10000000;
+    i2c_master_writeRegisterBytes(IOEX_DEVICE_ADDRESS, IOEX_DEVICE_REGISTER_OUTPUT0, &outState0, 1);
+}
+
 
 void ioex_output_setAll(bool output1, bool output2, bool output3, bool output4, bool output5) {
 #if defined (_REV_A)

@@ -110,19 +110,35 @@ void main(void) {
                             case 'D':
                             case 'd':
                                 nextOutputs = disableOutputMask(channelIndex, nextOutputs);
+                                isNok = false;
                                 break;
 
                             case 'E':
                             case 'e':
                                 nextOutputs = enableOutputMask(channelIndex, nextOutputs);
+                                isNok = false;
                                 break;
                                break;
+
+                            case 'I':
+                            case 'i':
+                                currChannel = channelIndex;
+                                nextDepth = DEPTH_DETAILS;
+                                break;
 
                             case 'R':
                             case 'r':
                                 nextOutputs = resetOutput(channelIndex, nextOutputs);
+                                isNok = false;
                                 break;
                         }
+                    }
+                } else if  (UartRxBufferCount == 1) {
+                    switch (UartRxBuffer[0]) {
+                        case 'I':
+                        case 'i':
+                            nextDepth = DEPTH_SUMMARY;
+                            isNok = false;
                     }
                 } else if  (UartRxBufferCount == 0) {
                     isNok = false;  // ignore empty

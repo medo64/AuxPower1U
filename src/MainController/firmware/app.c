@@ -96,12 +96,15 @@ void main(void) {
     while(true) {
         CLRWDT();
 
-        if ((UartTxBufferStart < UartTxBufferCount) && (uart_canWrite())) {  // send data if in buffer
-            uart_writeByte(UartTxBuffer[UartTxBufferStart]);
-            UartTxBufferStart++;
-        } else if (uart_canRead()) {
-            uint8_t data = uart_readByte();
-            if ((data == '\n') || (data == '\r')) {
+        if (UartTxBufferStart < UartTxBufferCount) {  // send data if in buffer
+            if (uart_tryWriteByte(UartTxBuffer[UartTxBufferStart])) {
+                UartTxBufferStart++;
+            }
+        }
+
+        uint8_t rxData;
+        while (uart_tryReadByte(&rxData)) {
+            if ((rxData == '\n') || (rxData == '\r')) {
                 bool isNok = true;
                 if (UartRxBufferCount == 2) {
                     uint8_t channelIndex = UartRxBuffer[1] - 0x30;
@@ -152,7 +155,7 @@ void main(void) {
                 }
                 UartRxBufferCount = 0;
             } else {
-                uartbuffers_rxAppend(data);
+                uartbuffers_rxAppend(rxData);
             }
         }
 

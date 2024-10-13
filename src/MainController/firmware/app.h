@@ -27,7 +27,8 @@
 #define _SSD1306_CONTROL_INVERT
 
 // UART
-#define _UART_BAUD_RATE      9600
+#define _UART_BAUD_RATE       9600
+#define _UART_EXTENDED_WRITE
 
 
 // CONFIG1L

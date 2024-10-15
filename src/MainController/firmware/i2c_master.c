@@ -119,15 +119,23 @@
         #endif
 
         // Setup I2C
-        I2C_MASTER_I2CCON1_REGISTER.ACKCNT = 1;    // Acknowledge value transmitted after received data, when I2CxCNT = 0 - NACK
-        I2C_MASTER_I2CCON2_REGISTER.FME = 0;       // 100 kHz - SCL is sampled high twice before driving SCL low. (FSCL = FI2CXCLK/5)
-        I2C_MASTER_I2CCON2_REGISTER.ABD = 0;       // Received address data is loaded only into the I2CxADB; Transmitted address data is loaded from the I2CxADB0/1 registers.
-        I2C_MASTER_I2CCON2_REGISTER.BFRET = 0b00;  // 8 I2C Clock pulses (bus free)
+        I2C_MASTER_I2CCON1_REGISTER.ACKCNT = 1;       // Acknowledge value transmitted after received data, when I2CxCNT = 0 - NACK
+        #if defined(_I2C_MASTER_RATE_KHZ)
+            T6CLK = 0b0010;                           // Fosc
+            T6PR = _XTAL_FREQ / 4 / _I2C_MASTER_RATE_KHZ / 1000 - 1;  // Fosc / 5(FME=0) / KHz - 1
+            T6HLT = 0x00;                             // pre not sync, rising edge, clk not sync, SW ctrl
+            T6CONbits.ON = 1;                         // Timer6 is On
+            I2C_MASTER_I2CCLK_REGISTER.CLK = 0b1000;  // Timer6 post scaled output
+            I2C_MASTER_I2CCON2_REGISTER.FME = 1;      // SCL is sampled high once before driving SCL low. (FSCL = FI2CXCLK/4)
+        #else
+            I2C_MASTER_I2CCLK_REGISTER.CLK = 0b0011;  // MFINTOSC (500 kHz)
+            I2C_MASTER_I2CCON2_REGISTER.FME = 0;      // SCL is sampled high twice before driving SCL low. (FSCL = FI2CXCLK/5)
+        #endif
+        I2C_MASTER_I2CCON2_REGISTER.ABD = 0;          // Received address data is loaded only into the I2CxADB; Transmitted address data is loaded from the I2CxADB0/1 registers.
+        I2C_MASTER_I2CCON2_REGISTER.BFRET = 0b00;     // 8 I2C Clock pulses (bus free)
 
-        I2C_MASTER_I2CCLK_REGISTER.CLK = 0b0011;   // MFINTOSC (500 kHz)
-
-        I2C_MASTER_I2CCON0_REGISTER.MODE = 0b100;  // I2C Master mode, 7-bit address
-        I2C_MASTER_I2CCON0_REGISTER.EN = 1;        // Enables the I2C module
+        I2C_MASTER_I2CCON0_REGISTER.MODE = 0b100;     // I2C Master mode, 7-bit address
+        I2C_MASTER_I2CCON0_REGISTER.EN = 1;           // Enables the I2C module
 
         #if defined(_I2C_MASTER_MODULE2)  // I2C2
             I2C2PIR = 0x0;

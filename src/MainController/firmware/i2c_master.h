@@ -9,6 +9,7 @@
  * Defines used:
  *   _I2C_MASTER_MODULE2:          Use module 2 (where PIC supports it)
  *   _I2C_MASTER_RATE_KHZ <value>: If used, sets I2C speed to defined value; requires Timer 6
+ *   _I2C_MASTER_CUSTOM_INIT:      If set, allows for custom speed initialization; requires Timer 6
  *
  * Notes:
  *   Both CLOCK and DATA pin has to be configured as input
@@ -19,8 +20,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#if !defined(_16F1454) && !defined(_16F1455) && !defined(_18F25K83) && !defined(_18F26K83)
-    #error "Unsupported device"
+#if defined(_I2C_MASTER_CUSTOM_INIT) && defined(_I2C_MASTER_RATE_KHZ)
+    #error "Cannot have both custom and rate defined"
 #endif
 
 #if defined(_I2C_MASTER_RATE_KHZ)
@@ -33,10 +34,11 @@
 #endif
 
 
-#if defined(_16F1454) || defined(_16F1455)  // RC0 RC1
-    /** Initializes I2C as a master. */
-    void i2c_master_init(uint8_t baudRateCounter);
-#elif defined(_18F25K83) || defined(_18F26K83)
+
+#if defined(_I2C_MASTER_CUSTOM_INIT)
+    /** Initializes I2C as a master; rate is in 10 kHz increments */
+    void i2c_master_init(uint8_t rate);
+#else
     /** Initializes I2C as a master. */
     void i2c_master_init(void);
 #endif

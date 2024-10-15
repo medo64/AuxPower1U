@@ -11,11 +11,11 @@ void ioex_button_led_set2(bool led2);
 void ioex_button_led_set3(bool led3);
 void ioex_button_led_set4(bool led4);
 void ioex_button_led_set5(bool led5);
-void ioex_button_led_toggle1();
-void ioex_button_led_toggle2();
-void ioex_button_led_toggle3();
-void ioex_button_led_toggle4();
-void ioex_button_led_toggle5();
+void ioex_button_led_toggle1(void);
+void ioex_button_led_toggle2(void);
+void ioex_button_led_toggle3(void);
+void ioex_button_led_toggle4(void);
+void ioex_button_led_toggle5(void);
 
 void ioex_output_setAll(bool output1, bool output2, bool output3, bool output4, bool output5);
 void ioex_output_set1(bool output1);

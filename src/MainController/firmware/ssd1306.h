@@ -1,4 +1,5 @@
 /* Josip Medved <jmedved@jmedved.com> * www.medo64.com * MIT License */
+// 2024-10-15: Adjusted for 128x128 display
 // 2024-09-26: Added inverse writing
 //             Added progress bar
 // 2024-09-23: Always uses external master
@@ -11,7 +12,7 @@
  *
  * Defines used:
  *   _SSD1306_DISPLAY_ADDRESS <N>: I2C address; default is 0x3C
- *   _SSD1306_DISPLAY_HEIGHT <N>:  Display height; can be 32 or 64
+ *   _SSD1306_DISPLAY_HEIGHT <N>:  Display height; can be 32, 64, or 128
  *   _SSD1306_DISPLAY_WIDTH <N>:   Display width; can be 64 or 128
  *   _SSD1306_DISPLAY_FLIP:        Flips screen to other direction
  *   _SSD1306_FONT_8x8:            Use 8-pixel high text
@@ -53,7 +54,7 @@
 
     #if !defined(_SSD1306_DISPLAY_HEIGHT)
         #define _SSD1306_DISPLAY_HEIGHT   32
-    #elif (_SSD1306_DISPLAY_HEIGHT != 32) && (_SSD1306_DISPLAY_HEIGHT != 64)
+    #elif (_SSD1306_DISPLAY_HEIGHT != 32) && (_SSD1306_DISPLAY_HEIGHT != 64) && (_SSD1306_DISPLAY_HEIGHT != 128)
         #error SSD1306 display height not supported
     #endif
 
@@ -138,7 +139,6 @@ void ssd1306_clearAll(void);
 /** Writes custom 8x8 character at the current position from 8 bytes given. */
 bool ssd1306_drawCustom(const uint8_t* data);
 
-
 #if defined(_SSD1306_FONT_8x8)
     /** Writes 8x8 character at the current position */
     bool ssd1306_writeCharacter(const char value);
@@ -150,6 +150,9 @@ bool ssd1306_drawCustom(const uint8_t* data);
 #endif
 
 #if defined(_SSD1306_FONT_8x16)
+    /** Writes custom 8x16 character at the current position from 8 bytes given. */
+    bool ssd1306_drawCustom16(const uint8_t* data);
+
     /** Writes 8x16 character at the current position */
     bool ssd1306_writeCharacter16(const char value);
 

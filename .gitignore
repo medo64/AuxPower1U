@@ -27,3 +27,6 @@ src/**/firmware/nbproject/Makefile-genesis.properties
 src/**/firmware/nbproject/Makefile-*.mk
 src/**/firmware/nbproject/Package-*.bash
 /hardware/FanController/firmware/build/
+
+# Else
+*(blueprint)*

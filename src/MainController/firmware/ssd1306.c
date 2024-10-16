@@ -58,11 +58,11 @@ uint8_t currentColumn;
 
 void ssd1306_internalInit() {
     ssd1306_writeRawCommand1(SSD1306_SET_DISPLAY_OFF);                                    // Set Display Off
-    ssd1306_writeRawCommand2(SSD1306_SET_DISPLAY_CLOCK_DIVIDE_RATIO, 0x80);               // Set Display Clock Divide Ratio/Oscillator Frequency
+    ssd1306_writeRawCommand2(SSD1306_SET_DISPLAY_CLOCK_DIVIDE_RATIO, 0xF0);               // Set Display Clock Divide Ratio/Oscillator Frequency (highest frequency)
     ssd1306_writeRawCommand2(SSD1306_SET_MULTIPLEX_RATIO, displayHeight - 1);             // Set Multiplex Ratio (line count - 1)
     ssd1306_writeRawCommand2(SSD1306_SET_DISPLAY_OFFSET, 0x00);                           // Set Display Offset
-    ssd1306_writeRawCommand1(SSD1306_SET_DISPLAY_START_LINE);                             // Set Display Start Line 
-    ssd1306_writeRawCommand2(SSD1306_SET_CHARGE_PUMP, 0x14);                              // Set Charge Pump (0x10 external vcc, 0x14 internal vcc)
+    ssd1306_writeRawCommand1(SSD1306_SET_DISPLAY_START_LINE);                             // Set Display Start Line
+    ssd1306_writeRawCommand2(SSD1306_SET_CHARGE_PUMP, 0x14);                              // Set Charge Pump (0x10 off, 0x14 on)
     #if defined(_SSD1306_DISPLAY_FLIP)
         ssd1306_writeRawCommand1(SSD1306_SET_SEGMENT_REMAP_COL127);                       // Set Segment Re-Map
         ssd1306_writeRawCommand1(SSD1306_SET_COM_OUTPUT_SCAN_DIRECTION_DEC);              // Set COM Output Scan Direction
@@ -72,13 +72,14 @@ void ssd1306_internalInit() {
     #endif
     if (displayHeight == 32) {
         ssd1306_writeRawCommand2(SSD1306_SET_COM_PINS_HARDWARE_CONFIGURATION, 0x02);      // Set COM Pins Hardware Configuration (0x02 128x32)
-        ssd1306_writeRawCommand2(SSD1306_SET_CONTRAST_CONTROL, 0x8F);                     // Set Contrast Control (0x8F 128x32; external vcc; internal vcc)
+    } else if (displayHeight == 128) {
+        ssd1306_writeRawCommand2(SSD1306_SET_COM_PINS_HARDWARE_CONFIGURATION, 0x00);      // Set COM Pins Hardware Configuration (0x02 128x32)
     } else {
         ssd1306_writeRawCommand2(SSD1306_SET_COM_PINS_HARDWARE_CONFIGURATION, 0x12);      // Set COM Pins Hardware Configuration (0x12 128x64)
-        ssd1306_writeRawCommand2(SSD1306_SET_CONTRAST_CONTROL, 0xCF);                     // Set Contrast Control (0xCF 128x64; external vcc; internal vcc)
     }
-    ssd1306_writeRawCommand2(SSD1306_SET_PRECHARGE_PERIOD, 0xF1);                         // Set Pre-Charge Period (0x22 external vcc; 0xF1 internal vcc)
-    ssd1306_writeRawCommand2(SSD1306_SET_VCOMH_DESELECT_LEVEL, 0x40);                     // Set VCOMH Deselect Level
+    ssd1306_writeRawCommand2(SSD1306_SET_CONTRAST_CONTROL, 0x7F);                         // Set Contrast Control
+    ssd1306_writeRawCommand2(SSD1306_SET_PRECHARGE_PERIOD, 0xF1);                         // Set Pre-Charge Period
+    ssd1306_writeRawCommand2(SSD1306_SET_VCOMH_DESELECT_LEVEL, 0x30);                     // Set VCOMH Deselect Level
     ssd1306_writeRawCommand1(SSD1306_ENTIRE_DISPLAY_ON);                                  // Set Entire Display On/Off
     ssd1306_writeRawCommand1(SSD1306_SET_NORMAL_DISPLAY);                                 // Set Normal Display
 
@@ -243,26 +244,9 @@ bool ssd1306_moveTo(const uint8_t row, const uint8_t column) {
 #endif
 
 
-bool ssd1306_drawCustom(const uint8_t* data) {
+bool ssd1306_drawCustom(const uint8_t* data) {  // always present since it's used by other functions
     if (currentColumn >= displayColumns) { return false; }
 
-    ssd1306_writeRawData(data, 8);
-    currentColumn++;
-
-    return true;
-}
-
-bool ssd1306_drawCustom16(const uint8_t* data) {
-    if (currentColumn >= displayColumns) { return false; }
-
-    ssd1306_writeRawCommand1(SSD1306_SET_PAGE_START_ADDRESS | (currentRow + 1));
-    ssd1306_writeRawData(data + 8, 8);
-
-    uint8_t currentColumnLow = (currentColumn << 3) & 0x0F;
-    uint8_t currentColumnHigh = (currentColumn >> 1) & 0x0F;
-    ssd1306_writeRawCommand1(SSD1306_SET_PAGE_START_ADDRESS | currentRow);
-    ssd1306_writeRawCommand1(SSD1306_SET_LOWER_START_COLUMN_ADDRESS | currentColumnLow);
-    ssd1306_writeRawCommand1(SSD1306_SET_UPPER_START_COLUMN_ADDRESS | currentColumnHigh);
     ssd1306_writeRawData(data, 8);
     currentColumn++;
 
@@ -294,6 +278,23 @@ bool ssd1306_drawCustom16(const uint8_t* data) {
 #endif
 
 #if defined(_SSD1306_FONT_8x16)
+    bool ssd1306_drawCustom16(const uint8_t* data) {
+        if (currentColumn >= displayColumns) { return false; }
+
+        ssd1306_writeRawCommand1(SSD1306_SET_PAGE_START_ADDRESS | (currentRow + 1));
+        ssd1306_writeRawData(data + 8, 8);
+
+        uint8_t currentColumnLow = (currentColumn << 3) & 0x0F;
+        uint8_t currentColumnHigh = (currentColumn >> 1) & 0x0F;
+        ssd1306_writeRawCommand1(SSD1306_SET_PAGE_START_ADDRESS | currentRow);
+        ssd1306_writeRawCommand1(SSD1306_SET_LOWER_START_COLUMN_ADDRESS | currentColumnLow);
+        ssd1306_writeRawCommand1(SSD1306_SET_UPPER_START_COLUMN_ADDRESS | currentColumnHigh);
+        ssd1306_writeRawData(data, 8);
+        currentColumn++;
+
+        return true;
+    }
+
     bool ssd1306_writeCharacter16(const char value) {
         if (value < 32) {
             #if defined(_SSD1306_FONT_8x16_LOW)
@@ -380,7 +381,7 @@ bool ssd1306_drawCustom16(const uint8_t* data) {
         return true;
     }
 #endif
-    
+
 #if defined(_SSD1306_FONT_8x8) && defined(_SSD1306_WRITE_INVERSE)
     bool ssd1306_writeInverseCharacter(const char value) {
         if (value < 32) {

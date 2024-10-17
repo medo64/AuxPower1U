@@ -30,7 +30,7 @@
 |  5 | R 4.42K 0.125W 1% (0805)                           | R36-R40  | RMCF0805FT4K42CT-ND                                         |
 |  1 | R 5.6K 0.125W 1% (0805)                            | R41      | RMCF0805FT6K20CT-ND                                         |
 | 11 | R 10K 1% 0.125W (0805)                             | R42-R52  | RMCF0805FT10K0CT-ND                                         |
-|  4 | R 18K 1% 0.125W (0805)                             | R53-R56  | RMCF0805FT158K0CT-ND                                        |
+|  4 | R 18K 1% 0.125W (0805)                             | R53-R56  | RMCF0805FT18K0CT-ND                                        |
 |  1 | R 39.2K 0.125W 1% (0805)                           | R57      | RMCF0805FT39K2CT-ND                                         |
 |  5 | R 137K 1% 0.125W (0805)                            | R58-R62  | RMCF0805FT137KCT-ND                                         |
 |  5 | U CurrentMonitor [HV7801] (SOT23-5)                | U1-U5    | HV7801K1-GCT-ND                                             |

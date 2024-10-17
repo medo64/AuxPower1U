@@ -8604,7 +8604,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "AO4421"
+		(property "Value" "RS3L110"
 			(at 0.7 0 0)
 			(layer "B.SilkS")
 			(uuid "031000a8-e183-45f3-b53d-79bdc5f19f54")
@@ -10032,7 +10032,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "AO4421"
+		(property "Value" "RS3L110"
 			(at 0.7 0 0)
 			(layer "B.SilkS")
 			(uuid "c3e0d2e9-f1d5-4061-aabf-e2ae0318ee6f")
@@ -11154,7 +11154,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "AO4421"
+		(property "Value" "RS3L110"
 			(at 0.7 0 0)
 			(layer "B.SilkS")
 			(uuid "046f27c2-eda5-4dab-86c8-f88f021cee0b")
@@ -12123,7 +12123,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "AO4421"
+		(property "Value" "RS3L110"
 			(at 0.7 0 0)
 			(layer "B.SilkS")
 			(uuid "b4a0d029-7bcd-453b-8c60-ba12626dd221")
@@ -21951,7 +21951,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "AO4421"
+		(property "Value" "RS3L110"
 			(at 0.7 0 0)
 			(layer "B.SilkS")
 			(uuid "cc4a2122-0008-4915-863d-74df703e269d")

@@ -45,6 +45,16 @@ For example, to disable channel 2 use:
 
     D2
 
+### 3.5mm Uart Connector
+
+This is pinout, as viewed from board side (i.e. as marked on board).
+
+| JST | 3.5mm  | Signal |
+|-----|--------|--------|
+|  1  | Tip    | RX     |
+|  2  | Sleeve | GND    |
+|  3  | Ring   | TX     |
+
 
 ## Test Mode
 

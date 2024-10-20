@@ -23,8 +23,9 @@
 #define DEPTH_PENDING_NOTHING  4
 
 #define TICKS_CLOSE_DETAILS  60 * 24
-#define TICKS_GOTO_RESET      5 * 24
-#define TICKS_WAIT_RESET      5 * 24
+#define TICKS_IGNORE_DETAILS       6
+#define TICKS_GOTO_RESET      3 * 24
+#define TICKS_WAIT_RESET      3 * 24
 #define TICKS_WAIT_OFF        3 * 24
 #define TICKS_DURATION_RESET  3 * 24
 
@@ -233,7 +234,7 @@ void main(void) {
                 }
                 currBlinking = true;
             } else if (currDepth == DEPTH_PENDING_OFF) {
-                if ((tickCounter % 2) == 0) {  // blinking while checking off is (6/s)
+                if ((tickCounter % 6) == 0) {  // blinking while checking off is (4/s)
                     switch (currChannel) {
                         case 1: ioex_button_led_toggle1(); break;
                         case 2: ioex_button_led_toggle2(); break;
@@ -282,7 +283,7 @@ void main(void) {
                 case DEPTH_DETAILS: {
                     if (currButtonMask == 0) {  // button has been released
                         if ((prevButtonMask == currChannelButtonMask) && (currDepthButtonTicks < 12)) {  // short double-click brings back to summary
-                            if (currDepthTicks > 6) {
+                            if (currDepthTicks > TICKS_IGNORE_DETAILS) {
                                 currDepthTicks = 0;
                             } else {
                                 nextDepth = DEPTH_SUMMARY;

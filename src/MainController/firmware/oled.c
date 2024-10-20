@@ -171,22 +171,22 @@ void oled_writeChannel(uint8_t channel, uint16_t voltage, uint16_t current, bool
     char textTR[7];
     textTR[0] = ' ';
     if (state == 1) {  // DEPTH_DETAILS
-        textTR[1] = (ticks > 12)  ? '.' : ' ';
-        textTR[2] = (ticks > 36)  ? '.' : ' ';
-        textTR[3] = (ticks > 60)  ? '.' : ' ';
-        textTR[4] = (ticks > 84)  ? '.' : ' ';
-        textTR[5] = (ticks > 108) ? '.' : ' ';
+        textTR[1] = (ticks >= 12) ? '.' : ' ';
+        textTR[2] = (ticks >= 24) ? '.' : ' ';
+        textTR[3] = (ticks >= 36) ? '.' : ' ';
+        textTR[4] = (ticks >= 48) ? '.' : ' ';
+        textTR[5] = (ticks >= 60) ? '.' : ' ';
     } else if (state == 2) {  // DEPTH_PENDING_RESET
-        textTR[1] = (ticks > 12)  ? 'R' : 'r';
-        textTR[2] = (ticks > 36)  ? 'E' : 'e';
-        textTR[3] = (ticks > 60)  ? 'S' : 's';
-        textTR[4] = (ticks > 84)  ? 'E' : 'e';
-        textTR[5] = (ticks > 108) ? 'T' : 't';
+        textTR[1] = (ticks >= 12) ? 'R' : 'r';
+        textTR[2] = (ticks >= 24) ? 'E' : 'e';
+        textTR[3] = (ticks >= 36) ? 'S' : 's';
+        textTR[4] = (ticks >= 48) ? 'E' : 'e';
+        textTR[5] = (ticks >= 60) ? 'T' : 't';
     } else if (state == 3) {  // DEPTH_PENDING_OFF
         textTR[1] = ' ';
-        textTR[2] = (ticks > 12) ? 'O' : 'o';
-        textTR[3] = (ticks > 36) ? 'F' : 'f';
-        textTR[4] = (ticks > 60) ? 'F' : 'f';
+        textTR[2] = (ticks >= 18) ? 'O' : 'o';
+        textTR[3] = (ticks >= 36) ? 'F' : 'f';
+        textTR[4] = (ticks >= 54) ? 'F' : 'f';
         textTR[5] = ' ';
     } else {
         textTR[1] = ' ';

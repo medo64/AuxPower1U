@@ -25,8 +25,8 @@
 |  5 | Q MOSFET P 11A 60V ±20Vgs [RS3L110ATTB1] (SO-8)    | Q6-Q10   | 846-RS3L110ATTB1CT-ND                                       |
 |  5 | R 0.050 1% 3W (2512)                               | R1-R5    | CSRT2512FT50L0-UP                                           |
 |  5 | R 470 1% 0.125W (0805)                             | R6-R10   | RMCF0805FT470RCT-ND                                         |
-| 11 | R 1.0K 1% 0.125W (0805)                            | R11-R21  | RMCF0805FT1K00CT-ND                                         |
-| 14 | R 3.3K 1% 0.125W (0805)                            | R22-R35  | RMCF0805FT3K30CT-ND                                         |
+|  6 | R 1.0K 1% 0.125W (0805)                            | R11-R16  | RMCF0805FT1K00CT-ND                                         |
+| 19 | R 3.3K 1% 0.125W (0805)                            | R17-R35  | RMCF0805FT3K30CT-ND                                         |
 |  5 | R 4.42K 0.125W 1% (0805)                           | R36-R40  | RMCF0805FT4K42CT-ND                                         |
 |  1 | R 5.6K 0.125W 1% (0805)                            | R41      | RMCF0805FT6K20CT-ND                                         |
 |  5 | R 10K 1% 0.125W (0805)                             | R42-R46  | RMCF0805FT10K0CT-ND                                         |

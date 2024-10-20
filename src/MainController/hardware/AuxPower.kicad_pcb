@@ -6114,7 +6114,7 @@
 		(uuid "05b16361-bfb8-4c6d-9ce5-2041fe48d4e9")
 		(at 48.1 65 -90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R20"
+		(property "Reference" "R21"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -6127,7 +6127,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "1K"
+		(property "Value" "3K3"
 			(at -2.3 0 0)
 			(layer "B.SilkS")
 			(uuid "98102c91-d602-4ade-9766-4a0e9cfcd41f")
@@ -9511,7 +9511,7 @@
 		(uuid "375fca5d-3f3c-4806-ad0b-6d2e3489ee67")
 		(at 42.6 59.7 -90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R16"
+		(property "Reference" "R17"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -9524,7 +9524,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "1K"
+		(property "Value" "3K3"
 			(at -2.3 0.3 0)
 			(layer "B.SilkS")
 			(uuid "71454dbe-95f3-481a-acad-dcd4bb6c191c")
@@ -10327,7 +10327,7 @@
 		(uuid "485c8f4b-5a23-4b7e-8fd6-0b8288bd4243")
 		(at 49.2 59.7 -90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R19"
+		(property "Reference" "R20"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -10340,7 +10340,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "1K"
+		(property "Value" "3K3"
 			(at -2.3 -0.25 0)
 			(layer "B.SilkS")
 			(uuid "b3c3257c-c5c5-464f-9247-ed76d8fe9183")
@@ -12418,7 +12418,7 @@
 		(uuid "5c627bde-fd60-403f-b7d2-c5f941c35051")
 		(at 40.5 66.5 180)
 		(tags "RESC2013X70N")
-		(property "Reference" "R21"
+		(property "Reference" "R16"
 			(at 0 1.6 0)
 			(layer "B.SilkS")
 			(hide yes)
@@ -12571,7 +12571,7 @@
 		(uuid "5f6645bf-a7dc-49f8-9e7a-f9fa0446167c")
 		(at 44.8 59.7 -90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R17"
+		(property "Reference" "R18"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -12584,7 +12584,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "1K"
+		(property "Value" "3K3"
 			(at -2.3 0.1 0)
 			(layer "B.SilkS")
 			(uuid "44c0b2c5-3561-467c-95ba-6b5b10e44460")
@@ -17129,7 +17129,7 @@
 		(uuid "a9f88f3a-9df0-4a01-a56b-931ff864cc61")
 		(at 47 59.7 -90)
 		(tags "RESC2013X70N")
-		(property "Reference" "R18"
+		(property "Reference" "R19"
 			(at 0 1.6 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -17142,7 +17142,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "1K"
+		(property "Value" "3K3"
 			(at -2.3 -0.1 0)
 			(layer "B.SilkS")
 			(uuid "41ce3915-1160-4c56-a51b-2d2c8d8ecef0")
@@ -21187,7 +21187,7 @@
 			)
 		)
 		(property "Value" "3K3"
-			(at -2.35 -0.05 0)
+			(at -2.8 0.05 0)
 			(layer "B.SilkS")
 			(uuid "e62cb19f-331c-4963-b13d-8f86f1c738a0")
 			(effects

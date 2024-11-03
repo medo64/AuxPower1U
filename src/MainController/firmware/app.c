@@ -29,6 +29,10 @@
 #define TICKS_WAIT_OFF        3 * 24
 #define TICKS_DURATION_RESET  3 * 24
 
+#define CUTOFF_CURRENT_FAST   8000
+#define CUTOFF_CURRENT_AVG    6666
+
+
 void fillUartFromChannel(uint8_t index, uint16_t voltage, uint16_t current, bool isOn);
 void fillUartFromTemperature(uint16_t temperature);
 
@@ -78,6 +82,14 @@ void main(void) {
     uint16_t voltage1, current1, voltage2, current2, voltage3, current3, voltage4, current4, voltage5, current5, temperature;
     adc_measureBasic(&voltage1, &current1, &voltage2, &current2, &voltage3, &current3, &voltage4, &current4, &voltage5, &current5, &temperature);
 
+    // lower current measurement to avoid tripping average current protection due to a single measurement
+    if (current1 > 100) { current1 -= 100; } else { current1 = 0; }
+    if (current2 > 100) { current2 -= 100; } else { current2 = 0; }
+    if (current3 > 100) { current3 -= 100; } else { current3 = 0; }
+    if (current4 > 100) { current4 -= 100; } else { current4 = 0; }
+    if (current5 > 100) { current5 -= 100; } else { current5 = 0; }
+
+    // expand initial measurement
     uint32_t voltage1Sum = (uint32_t)voltage1 << AVG_SHIFT, current1Sum = (uint32_t)current1 << AVG_SHIFT;
     uint32_t voltage2Sum = (uint32_t)voltage2 << AVG_SHIFT, current2Sum = (uint32_t)current2 << AVG_SHIFT;
     uint32_t voltage3Sum = (uint32_t)voltage3 << AVG_SHIFT, current3Sum = (uint32_t)current3 << AVG_SHIFT;
@@ -169,19 +181,48 @@ void main(void) {
 
             // measure each tick
             adc_measureBasic(&voltage1, &current1, &voltage2, &current2, &voltage3, &current3, &voltage4, &current4, &voltage5, &current5, &temperature);
-            voltage1Sum -= (voltage1Sum >> AVG_SHIFT); voltage1Sum += voltage1;
-            voltage2Sum -= (voltage2Sum >> AVG_SHIFT); voltage2Sum += voltage2;
-            voltage3Sum -= (voltage3Sum >> AVG_SHIFT); voltage3Sum += voltage3;
-            voltage4Sum -= (voltage4Sum >> AVG_SHIFT); voltage4Sum += voltage4;
-            voltage5Sum -= (voltage5Sum >> AVG_SHIFT); voltage5Sum += voltage5;
-            current1Sum -= (current1Sum >> AVG_SHIFT); current1Sum += current1;
-            current2Sum -= (current2Sum >> AVG_SHIFT); current2Sum += current2;
-            current3Sum -= (current3Sum >> AVG_SHIFT); current3Sum += current3;
-            current4Sum -= (current4Sum >> AVG_SHIFT); current4Sum += current4;
-            current5Sum -= (current5Sum >> AVG_SHIFT); current5Sum += current5;
-            temperatureSum -= (temperatureSum >> AVG_SHIFT); temperatureSum += temperature;
 
-            // check if button state needs change
+            // cutoff if exceeding current
+            if (current1 > CUTOFF_CURRENT_FAST) { nextOutputs &= 0b11110; }
+            if (current2 > CUTOFF_CURRENT_FAST) { nextOutputs &= 0b11101; }
+            if (current3 > CUTOFF_CURRENT_FAST) { nextOutputs &= 0b11011; }
+            if (current4 > CUTOFF_CURRENT_FAST) { nextOutputs &= 0b10111; }
+            if (current5 > CUTOFF_CURRENT_FAST) { nextOutputs &= 0b01111; }
+
+            // calculate average from previous tick
+            uint16_t voltage1Avg = (uint16_t)(voltage1Sum >> AVG_SHIFT);
+            uint16_t voltage2Avg = (uint16_t)(voltage2Sum >> AVG_SHIFT);
+            uint16_t voltage3Avg = (uint16_t)(voltage3Sum >> AVG_SHIFT);
+            uint16_t voltage4Avg = (uint16_t)(voltage4Sum >> AVG_SHIFT);
+            uint16_t voltage5Avg = (uint16_t)(voltage5Sum >> AVG_SHIFT);
+            uint16_t current1Avg = (uint16_t)(current1Sum >> AVG_SHIFT);
+            uint16_t current2Avg = (uint16_t)(current2Sum >> AVG_SHIFT);
+            uint16_t current3Avg = (uint16_t)(current3Sum >> AVG_SHIFT);
+            uint16_t current4Avg = (uint16_t)(current4Sum >> AVG_SHIFT);
+            uint16_t current5Avg = (uint16_t)(current5Sum >> AVG_SHIFT);
+            uint16_t temperatureAvg = (uint16_t)(temperatureSum >> AVG_SHIFT);
+
+            // cutoff if exceeding average current
+            if (current1Avg > CUTOFF_CURRENT_AVG) { nextOutputs &= 0b11110; }
+            if (current2Avg > CUTOFF_CURRENT_AVG) { nextOutputs &= 0b11101; }
+            if (current3Avg > CUTOFF_CURRENT_AVG) { nextOutputs &= 0b11011; }
+            if (current4Avg > CUTOFF_CURRENT_AVG) { nextOutputs &= 0b10111; }
+            if (current5Avg > CUTOFF_CURRENT_AVG) { nextOutputs &= 0b01111; }
+
+            // add new value to averages
+            voltage1Sum -= voltage1Avg; voltage1Sum += voltage1;
+            voltage2Sum -= voltage2Avg; voltage2Sum += voltage2;
+            voltage3Sum -= voltage3Avg; voltage3Sum += voltage3;
+            voltage4Sum -= voltage4Avg; voltage4Sum += voltage4;
+            voltage5Sum -= voltage5Avg; voltage5Sum += voltage5;
+            current1Sum -= current1Avg; current1Sum += current1;
+            current2Sum -= current2Avg; current2Sum += current2;
+            current3Sum -= current3Avg; current3Sum += current3;
+            current4Sum -= current4Avg; current4Sum += current4;
+            current5Sum -= current5Avg; current5Sum += current5;
+            temperatureSum -= temperatureAvg; temperatureSum += temperature;
+
+            // check if state needs change
             if (currOutputs != nextOutputs) {
                 currOutputs = nextOutputs;
                 bool nextState1 = (currOutputs & 0b00001) != 0;
@@ -189,8 +230,8 @@ void main(void) {
                 bool nextState3 = (currOutputs & 0b00100) != 0;
                 bool nextState4 = (currOutputs & 0b01000) != 0;
                 bool nextState5 = (currOutputs & 0b10000) != 0;
-                ioex_button_led_setAll(nextState1, nextState2, nextState3, nextState4, nextState5);
-                ioex_output_setAll(nextState1, nextState2, nextState3, nextState4, nextState5);
+                ioex_output_setAll(nextState1, nextState2, nextState3, nextState4, nextState5);  // set outputs
+                ioex_button_led_setAll(nextState1, nextState2, nextState3, nextState4, nextState5);  // set LEDs
                 settings_outputs_set(nextOutputs);  // save for the next startup
             }
 

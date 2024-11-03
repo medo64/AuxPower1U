@@ -23183,8 +23183,8 @@
 		)
 	)
 	(gr_rect
-		(start 34.75 50.15)
-		(end 45.25 57.15)
+		(start 34.75 47.15)
+		(end 45.25 54.15)
 		(stroke
 			(width 0.2)
 			(type default)
@@ -23194,8 +23194,8 @@
 		(uuid "1a98ea06-b8e0-458c-9a07-747a313f9138")
 	)
 	(gr_rect
-		(start 23.3 40.15)
-		(end 33.8 47.15)
+		(start 23.3 37.15)
+		(end 33.8 44.15)
 		(stroke
 			(width 0.2)
 			(type default)
@@ -23205,8 +23205,8 @@
 		(uuid "3775bf19-25c1-402b-92a0-d014366bd5b5")
 	)
 	(gr_rect
-		(start 38 40.65)
-		(end 45 46.15)
+		(start 38 37.65)
+		(end 45 43.15)
 		(stroke
 			(width 0.2)
 			(type default)
@@ -23216,8 +23216,8 @@
 		(uuid "39a4dd29-f2a6-4678-8f04-cd770c6027f6")
 	)
 	(gr_rect
-		(start 23.3 59.9)
-		(end 31.3 69.4)
+		(start 23.3 56.9)
+		(end 31.3 66.4)
 		(stroke
 			(width 0.2)
 			(type default)
@@ -23227,8 +23227,8 @@
 		(uuid "63a093b5-1864-4559-9299-6c174dbbf52e")
 	)
 	(gr_rect
-		(start 23.6 50.2)
-		(end 31.6 57.2)
+		(start 23.6 47.2)
+		(end 31.6 54.2)
 		(stroke
 			(width 0.2)
 			(type default)
@@ -23329,7 +23329,7 @@
 		)
 	)
 	(gr_text "GND"
-		(at 36.25 52.9 90)
+		(at 36.25 49.9 90)
 		(layer "F.SilkS")
 		(uuid "21c41a69-a7a1-4d5a-a352-c379bb494ce6")
 		(effects
@@ -23342,7 +23342,7 @@
 		)
 	)
 	(gr_text "LED"
-		(at 29.8 66.9 90)
+		(at 29.8 63.9 90)
 		(layer "F.SilkS")
 		(uuid "2d294a33-a651-4300-a038-648702d712f0")
 		(effects
@@ -23355,7 +23355,7 @@
 		)
 	)
 	(gr_text "SDA"
-		(at 41.25 52.9 90)
+		(at 41.25 49.9 90)
 		(layer "F.SilkS")
 		(uuid "2f77e736-e268-4a9d-a919-b7329ce307aa")
 		(effects
@@ -23368,7 +23368,7 @@
 		)
 	)
 	(gr_text "V+"
-		(at 24.8 42.9 90)
+		(at 24.8 39.9 90)
 		(layer "F.SilkS")
 		(uuid "32867236-461c-4262-b8c3-8f2bc49eb6e1")
 		(effects
@@ -23393,7 +23393,7 @@
 		)
 	)
 	(gr_text "~{SWITCH}"
-		(at 27.3 66.9 90)
+		(at 27.3 63.9 90)
 		(layer "F.SilkS")
 		(uuid "3b2d1cc0-cb9f-494f-ac58-e28a7d591c67")
 		(effects
@@ -23442,7 +23442,7 @@
 		)
 	)
 	(gr_text "V+"
-		(at 42.25 42.15 0)
+		(at 42.25 39.15 0)
 		(layer "F.SilkS")
 		(uuid "4179184e-e46a-49d6-ac3f-b7a96e6e7e2b")
 		(effects
@@ -23455,7 +23455,7 @@
 		)
 	)
 	(gr_text "GND"
-		(at 27.3 42.9 90)
+		(at 27.3 39.9 90)
 		(layer "F.SilkS")
 		(uuid "46643160-38de-4899-9dee-bcff1cb40544")
 		(effects
@@ -23468,7 +23468,7 @@
 		)
 	)
 	(gr_text "TX"
-		(at 30.1 52.9 90)
+		(at 30.1 49.9 90)
 		(layer "F.SilkS")
 		(uuid "6a4203c6-eea4-4d63-9e27-5618e78d47ae")
 		(effects
@@ -23493,7 +23493,7 @@
 		)
 	)
 	(gr_text "OUT"
-		(at 28.55 41.4 0)
+		(at 28.55 38.4 0)
 		(layer "F.SilkS" knockout)
 		(uuid "6b60987a-2db5-4e15-81f1-e7907317c6b4")
 		(effects
@@ -23505,7 +23505,7 @@
 		)
 	)
 	(gr_text "GND"
-		(at 32.3 42.9 90)
+		(at 32.3 39.9 90)
 		(layer "F.SilkS")
 		(uuid "7032d587-7b49-43c6-8e29-a605e4f98c0c")
 		(effects
@@ -23530,7 +23530,7 @@
 		)
 	)
 	(gr_text "UART"
-		(at 27.6 51.4 0)
+		(at 27.6 48.4 0)
 		(layer "F.SilkS" knockout)
 		(uuid "8c1345b6-52e2-47aa-aa55-d6b0610b4822")
 		(effects
@@ -23578,7 +23578,7 @@
 		)
 	)
 	(gr_text "BUTTON"
-		(at 27.3 68.4 0)
+		(at 27.3 65.4 0)
 		(layer "F.SilkS" knockout)
 		(uuid "a21cd92f-1620-4e4a-81f3-c420e2cd1e75")
 		(effects
@@ -23602,7 +23602,7 @@
 		)
 	)
 	(gr_text "GND"
-		(at 42.25 44.65 0)
+		(at 42.25 41.65 0)
 		(layer "F.SilkS")
 		(uuid "a53d0de8-d2af-46ed-af58-942a04f413f3")
 		(effects
@@ -23639,7 +23639,7 @@
 		)
 	)
 	(gr_text "IN"
-		(at 44 43.4 90)
+		(at 44 40.4 90)
 		(layer "F.SilkS" knockout)
 		(uuid "b45d3de2-398d-4ab8-9571-d511d13deaf7")
 		(effects
@@ -23675,7 +23675,7 @@
 		)
 	)
 	(gr_text "GND"
-		(at 27.6 52.9 90)
+		(at 27.6 49.9 90)
 		(layer "F.SilkS")
 		(uuid "bb34f32f-174b-45bb-bceb-464f5d91c48a")
 		(effects
@@ -23688,7 +23688,7 @@
 		)
 	)
 	(gr_text "SCL"
-		(at 43.75 52.9 90)
+		(at 43.75 49.9 90)
 		(layer "F.SilkS")
 		(uuid "befe94b0-52af-48ae-a1b5-04154476fb39")
 		(effects
@@ -23749,7 +23749,7 @@
 		)
 	)
 	(gr_text "5V"
-		(at 38.75 52.9 90)
+		(at 38.75 49.9 90)
 		(layer "F.SilkS")
 		(uuid "d1197c1b-34af-4f9e-9a22-820d426a1702")
 		(effects
@@ -23762,7 +23762,7 @@
 		)
 	)
 	(gr_text "RX"
-		(at 25.1 52.9 90)
+		(at 25.1 49.9 90)
 		(layer "F.SilkS")
 		(uuid "d555b439-2911-4890-9ed1-89f52c53b610")
 		(effects
@@ -23775,7 +23775,7 @@
 		)
 	)
 	(gr_text "I2C"
-		(at 40 51.4 0)
+		(at 40 48.4 0)
 		(layer "F.SilkS" knockout)
 		(uuid "e32c12e1-859f-4ab3-afa9-150d4cbb964a")
 		(effects
@@ -23799,7 +23799,7 @@
 		)
 	)
 	(gr_text "GND"
-		(at 24.8 66.9 90)
+		(at 24.8 63.9 90)
 		(layer "F.SilkS")
 		(uuid "e830f742-8f33-40cf-9897-b05c0d5f82ab")
 		(effects
@@ -23812,7 +23812,7 @@
 		)
 	)
 	(gr_text "V+"
-		(at 29.8 42.9 90)
+		(at 29.8 39.9 90)
 		(layer "F.SilkS")
 		(uuid "eefa8990-f63b-471e-b3e2-6ad92cf2426a")
 		(effects

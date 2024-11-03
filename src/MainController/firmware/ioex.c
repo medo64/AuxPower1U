@@ -12,18 +12,14 @@
 #define IOEX_DEVICE_REGISTER_PULL0    0b01000110
 #define IOEX_DEVICE_REGISTER_PULL1    0b01000111
 
-#if defined (_REV_A)
-    #define IOEX_BITMASK_SETUP_TRIS0  0b01100000
-#else
-    #define IOEX_BITMASK_SETUP_TRIS0  0b01111111
-#endif
+#define IOEX_BITMASK_SETUP_TRIS0      0b01111111
 #define IOEX_BITMASK_SETUP_TRIS1      0b10101010
 #define IOEX_BITMASK_SETUP_PULL0      0b01100000
 #define IOEX_BITMASK_SETUP_PULL1      0b10101010
 
-
 uint8_t outState0 = 0;
 uint8_t outState1 = 0;
+uint8_t outTris0 = IOEX_BITMASK_SETUP_TRIS0;
 
 
 void ioex_button_switch_getAll(bool* switch1, bool* switch2, bool* switch3, bool* switch4, bool* switch5) {
@@ -101,96 +97,78 @@ void ioex_button_led_toggle5() {
 }
 
 
-void ioex_output_checkOpenDrain() {
+void ioex_output_checkOpenDrain(void) {
     while(true) {  // ensure output is setupp correctly to open-drain
         uint8_t state0;
         i2c_master_readRegisterBytes(IOEX_DEVICE_ADDRESS, IOEX_DEVICE_REGISTER_OUTPUT0, &state0, 1);
         if ((state0 & 0b00011111) == 0) { break; }  // all good
 
-        outState0 = outState0 & 0b11100000;  // probably not needed, but let's do it anyhow
+        outState0 &= 0b11100000;  // probably not needed, but let's do it anyhow
         i2c_master_writeRegisterBytes(IOEX_DEVICE_ADDRESS, IOEX_DEVICE_REGISTER_OUTPUT0, &outState0, 1);
     }
 }
 
 void ioex_output_setAll(bool output1, bool output2, bool output3, bool output4, bool output5) {
-#if defined (_REV_A)
-    if (output1) { outState0 |= 0b00000001; } else { outState0 &= 0b11111110; }
-    if (output2) { outState0 |= 0b00000010; } else { outState0 &= 0b11111101; }
-    if (output3) { outState0 |= 0b00000100; } else { outState0 &= 0b11111011; }
-    if (output4) { outState0 |= 0b00001000; } else { outState0 &= 0b11110111; }
-    if (output5) { outState0 |= 0b00010000; } else { outState0 &= 0b11101111; }
-    i2c_master_writeRegisterBytes(IOEX_DEVICE_ADDRESS, IOEX_DEVICE_REGISTER_OUTPUT0, &outState0, 1);
-#else
     // outputs are controlled via open-drain
-    uint8_t tris0 = 0b01111111;  // Led5 Switch5 - Out5 Out4 Out3 Out2 Out1
-    if (output1) { tris0 &= 0b11100001; }
-    if (output2) { tris0 &= 0b11100010; }
-    if (output3) { tris0 &= 0b11100100; }
-    if (output4) { tris0 &= 0b11101000; }
-    if (output5) { tris0 &= 0b11110000; }
-    ioex_output_checkOpenDrain()
-    i2c_master_writeRegisterBytes(IOEX_DEVICE_ADDRESS, IOEX_DEVICE_REGISTER_TRIS0, &tris0, 1);
-#endif
+    outTris0 = IOEX_BITMASK_SETUP_TRIS0;  // Led5 Switch5 - Out5 Out4 Out3 Out2 Out1
+    if (!output1) { outTris0 &= 0b11111110; }
+    if (!output2) { outTris0 &= 0b11111101; }
+    if (!output3) { outTris0 &= 0b11111011; }
+    if (!output4) { outTris0 &= 0b11110111; }
+    if (!output5) { outTris0 &= 0b11101111; }
+
+    ioex_output_checkOpenDrain();
+    i2c_master_writeRegisterBytes(IOEX_DEVICE_ADDRESS, IOEX_DEVICE_REGISTER_TRIS0, &outTris0, 1);
 }
 
 void ioex_output_set1(bool output1) {
-#if defined (_REV_A)
-    if (output1) { outState0 |= 0b00000001; } else { outState0 &= 0b11111110; }
-    i2c_master_writeRegisterBytes(IOEX_DEVICE_ADDRESS, IOEX_DEVICE_REGISTER_OUTPUT0, &outState0, 1);
-#else
-    uint8_t tris0 = 0b01111111;  // Led5 Switch5 - Out5 Out4 Out3 Out2 Out1
-    if (output1) { tris0 &= 0b11100001; }
-    if (output1) { ioex_output_checkOpenDrain(); }
-    i2c_master_writeRegisterBytes(IOEX_DEVICE_ADDRESS, IOEX_DEVICE_REGISTER_TRIS0, &tris0, 1);
-#endif
+    if (output1) {
+        outTris0 |= 0b00000001;  // Led5 Switch5 - Out5 Out4 Out3 Out2 Out1
+        ioex_output_checkOpenDrain();
+    } else {
+        outTris0 &= 0b11111110;  // Led5 Switch5 - Out5 Out4 Out3 Out2 Out1
+    }
+    i2c_master_writeRegisterBytes(IOEX_DEVICE_ADDRESS, IOEX_DEVICE_REGISTER_TRIS0, &outTris0, 1);
 }
 
 void ioex_output_set2(bool output2) {
-#if defined (_REV_A)
-    if (output2) { outState0 |= 0b00000010; } else { outState0 &= 0b11111101; }
-    i2c_master_writeRegisterBytes(IOEX_DEVICE_ADDRESS, IOEX_DEVICE_REGISTER_OUTPUT0, &outState0, 1);
-#else
-    uint8_t tris0 = 0b01111111;  // Led5 Switch5 - Out5 Out4 Out3 Out2 Out1
-    if (output2) { tris0 &= 0b11100010; }
-    if (output2) { ioex_output_checkOpenDrain(); }
-    i2c_master_writeRegisterBytes(IOEX_DEVICE_ADDRESS, IOEX_DEVICE_REGISTER_TRIS0, &tris0, 1);
-#endif
+    if (output2) {
+        outTris0 |= 0b00000010;  // Led5 Switch5 - Out5 Out4 Out3 Out2 Out1
+        ioex_output_checkOpenDrain();
+    } else {
+        outTris0 &= 0b11111101;  // Led5 Switch5 - Out5 Out4 Out3 Out2 Out1
+    }
+    i2c_master_writeRegisterBytes(IOEX_DEVICE_ADDRESS, IOEX_DEVICE_REGISTER_TRIS0, &outTris0, 1);
 }
 
 void ioex_output_set3(bool output3) {
-#if defined (_REV_A)
-    if (output3) { outState0 |= 0b00000100; } else { outState0 &= 0b11111011; }
-    i2c_master_writeRegisterBytes(IOEX_DEVICE_ADDRESS, IOEX_DEVICE_REGISTER_OUTPUT0, &outState0, 1);
-#else
-    uint8_t tris0 = 0b01111111;  // Led5 Switch5 - Out5 Out4 Out3 Out2 Out1
-    if (output3) { tris0 &= 0b11100100; }
-    if (output3) { ioex_output_checkOpenDrain(); }
-    i2c_master_writeRegisterBytes(IOEX_DEVICE_ADDRESS, IOEX_DEVICE_REGISTER_TRIS0, &tris0, 1);
-#endif
+    if (output3) {
+        outTris0 |= 0b00000100;  // Led5 Switch5 - Out5 Out4 Out3 Out2 Out1
+        ioex_output_checkOpenDrain();
+    } else {
+        outTris0 &= 0b11111011;  // Led5 Switch5 - Out5 Out4 Out3 Out2 Out1
+    }
+    i2c_master_writeRegisterBytes(IOEX_DEVICE_ADDRESS, IOEX_DEVICE_REGISTER_TRIS0, &outTris0, 1);
 }
 
 void ioex_output_set4(bool output4) {
-#if defined (_REV_A)
-    if (output4) { outState0 |= 0b00001000; } else { outState0 &= 0b11110111; }
-    i2c_master_writeRegisterBytes(IOEX_DEVICE_ADDRESS, IOEX_DEVICE_REGISTER_OUTPUT0, &outState0, 1);
-#else
-    uint8_t tris0 = 0b01111111;  // Led5 Switch5 - Out5 Out4 Out3 Out2 Out1
-    if (output4) { tris0 &= 0b11101000; }
-    if (output4) { ioex_output_checkOpenDrain(); }
-    i2c_master_writeRegisterBytes(IOEX_DEVICE_ADDRESS, IOEX_DEVICE_REGISTER_TRIS0, &tris0, 1);
-#endif
+    if (output4) {
+        outTris0 |= 0b00001000;  // Led5 Switch5 - Out5 Out4 Out3 Out2 Out1
+        ioex_output_checkOpenDrain();
+    } else {
+        outTris0 &= 0b11110111;  // Led5 Switch5 - Out5 Out4 Out3 Out2 Out1
+    }
+    i2c_master_writeRegisterBytes(IOEX_DEVICE_ADDRESS, IOEX_DEVICE_REGISTER_TRIS0, &outTris0, 1);
 }
 
 void ioex_output_set5(bool output5) {
-#if defined (_REV_A)
-    if (output5) { outState0 |= 0b00010000; } else { outState0 &= 0b11101111; }
-    i2c_master_writeRegisterBytes(IOEX_DEVICE_ADDRESS, IOEX_DEVICE_REGISTER_OUTPUT0, &outState0, 1);
-#else
-    uint8_t tris0 = 0b01111111;  // Led5 Switch5 - Out5 Out4 Out3 Out2 Out1
-    if (output5) { tris0 &= 0b11110000; }
-    if (output5) { ioex_output_checkOpenDrain(); }
-    i2c_master_writeRegisterBytes(IOEX_DEVICE_ADDRESS, IOEX_DEVICE_REGISTER_TRIS0, &tris0, 1);
-#endif
+    if (output5) {
+        outTris0 |= 0b00010000;  // Led5 Switch5 - Out5 Out4 Out3 Out2 Out1
+        ioex_output_checkOpenDrain();
+    } else {
+        outTris0 &= 0b11101111;  // Led5 Switch5 - Out5 Out4 Out3 Out2 Out1
+    }
+    i2c_master_writeRegisterBytes(IOEX_DEVICE_ADDRESS, IOEX_DEVICE_REGISTER_TRIS0, &outTris0, 1);
 }
 
 
@@ -200,20 +178,14 @@ void ioex_init(void) {
     i2c_master_writeBytes(IOEX_DEVICE_ADDRESS, data0, 2);
     i2c_master_writeBytes(IOEX_DEVICE_ADDRESS, data1, 2);
 
-    #if !defined (_REV_A)
-        ioex_output_checkOpenDrain();
-    #endif
+    ioex_output_checkOpenDrain();
 
     uint8_t pullData0[2] = { IOEX_DEVICE_REGISTER_PULL0, IOEX_BITMASK_SETUP_PULL0 };
     uint8_t pullData1[2] = { IOEX_DEVICE_REGISTER_PULL1, IOEX_BITMASK_SETUP_PULL1 };
     i2c_master_writeBytes(IOEX_DEVICE_ADDRESS, pullData0, 2);
     i2c_master_writeBytes(IOEX_DEVICE_ADDRESS, pullData1, 2);
 
-#if defined (_REV_A)
     uint8_t trisData0[2] = { IOEX_DEVICE_REGISTER_TRIS0, IOEX_BITMASK_SETUP_TRIS0 };
-#else
-    uint8_t trisData0[2] = { IOEX_DEVICE_REGISTER_TRIS0, IOEX_BITMASK_SETUP_TRIS0 };
-#endif
     uint8_t trisData1[2] = { IOEX_DEVICE_REGISTER_TRIS1, IOEX_BITMASK_SETUP_TRIS1 };
     i2c_master_writeBytes(IOEX_DEVICE_ADDRESS, trisData0, 2);
     i2c_master_writeBytes(IOEX_DEVICE_ADDRESS, trisData1, 2);

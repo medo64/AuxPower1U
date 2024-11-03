@@ -61,7 +61,9 @@ uint16_t adc_getChannel(uint8_t channel) {
 
     ADPCHbits.PCH = 0b111100;  // GND channel
 
-    return (uint16_t)((ADRES + ADPREV) >> 1);  // return average of 2 measurements
+    uint16_t avg = (uint16_t)((ADRES + ADPREV) >> 1);
+    if (avg <= 2) { avg = 0; }  // to avoid noise when there is no measurement
+    return avg;  // return average of 2 measurements
 }
 
 uint16_t adc_getChannelViaVdd(uint8_t channel) {

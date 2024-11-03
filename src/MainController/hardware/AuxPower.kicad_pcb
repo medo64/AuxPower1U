@@ -11602,7 +11602,7 @@
 		(uuid "5af84033-55ea-4820-8c3e-4b882da3dfd2")
 		(at 52.3 27.1 180)
 		(descr "Onsemi SS24FL")
-		(property "Reference" "D2"
+		(property "Reference" "D3"
 			(at 0.1 0 0)
 			(layer "B.SilkS")
 			(uuid "eddb6bad-dcac-4ec1-b4c9-bbc17b411c23")
@@ -19216,7 +19216,7 @@
 		(uuid "d1c1ab2a-e418-4e65-8cbd-a42a888a4fed")
 		(at 57.4 38.9 180)
 		(tags "SOT95P240X110-3N")
-		(property "Reference" "U5"
+		(property "Reference" "U4"
 			(at 0 2.2 0)
 			(layer "B.SilkS")
 			(uuid "65c24c66-c1d2-4d64-9950-97970aa790b2")

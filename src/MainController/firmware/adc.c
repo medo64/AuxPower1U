@@ -1,8 +1,9 @@
 #include <xc.h>
 #include "app.h"
 
-#define ADC_VOLTAGE_OUT_MULTIPLIER       15  // 30 / 2
-#define ADC_VOLTAGE_12V_MULTIPLIER    7 / 2  // 7 / 2
+#define ADC_CURRENT_OUT_MULTIPLIER       34
+#define ADC_VOLTAGE_OUT_MULTIPLIER       16  // 32:1 / 2
+#define ADC_VOLTAGE_12V_MULTIPLIER    8 / 2  // 8:1 / 2
 #define ADC_TEMPERATURE_0C              800  // 400mV / 2048mV * 4096
 #define ADC_TEMPERATURE_BITS_PER_10THC    5  // 2048mV / 4096 * 10
 #define TS02_Mv                        3684  // Temperature Indicator Voltage Sensitivity
@@ -83,19 +84,19 @@ uint16_t adc_getChannelViaVdd(uint8_t channel) {
 void adc_measureBasic(uint16_t* voltage1, uint16_t* current1, uint16_t* voltage2, uint16_t* current2, uint16_t* voltage3, uint16_t* current3, uint16_t* voltage4, uint16_t* current4, uint16_t* voltage5, uint16_t* current5, uint16_t* temperature) {
     // all values are in mV, mA, 10th of a C
 
-    *current1 = adc_getChannel(0b000000);                                // ANA0
+    *current1 = adc_getChannel(0b000000) * ADC_CURRENT_OUT_MULTIPLIER;   // ANA0
     *voltage1 = adc_getChannel(0b000001) * ADC_VOLTAGE_OUT_MULTIPLIER;   // ANA1
 
-    *current2 = adc_getChannel(0b000010);                                // ANA2
+    *current2 = adc_getChannel(0b000010) * ADC_CURRENT_OUT_MULTIPLIER;   // ANA2
     *voltage2 = adc_getChannel(0b000011) * ADC_VOLTAGE_OUT_MULTIPLIER;   // ANA3
 
-    *current3 = adc_getChannel(0b000100);                                // ANA4
+    *current3 = adc_getChannel(0b000100) * ADC_CURRENT_OUT_MULTIPLIER;   // ANA4
     *voltage3 = adc_getChannel(0b000101) * ADC_VOLTAGE_OUT_MULTIPLIER;   // ANA5
 
-    *current4 = adc_getChannel(0b000111);                                // ANA7
+    *current4 = adc_getChannel(0b000111) * ADC_CURRENT_OUT_MULTIPLIER;   // ANA7
     *voltage4 = adc_getChannel(0b000110) * ADC_VOLTAGE_OUT_MULTIPLIER;   // ANA6
 
-    *current5 = adc_getChannel(0b010000);                                // ANC0
+    *current5 = adc_getChannel(0b010000) * ADC_CURRENT_OUT_MULTIPLIER;   // ANC0
     *voltage5 = adc_getChannel(0b010001) * ADC_VOLTAGE_OUT_MULTIPLIER;   // ANC1
 
     *temperature = (adc_getChannel(0b010010) - ADC_TEMPERATURE_0C) / ADC_TEMPERATURE_BITS_PER_10THC;  // ANC2

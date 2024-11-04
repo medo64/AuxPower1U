@@ -6670,7 +6670,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "4K42"
+		(property "Value" "6K19"
 			(at 2.3 0 0)
 			(layer "B.SilkS")
 			(uuid "efedf05e-4cd2-4629-a2c7-f51ca06662a2")
@@ -6823,7 +6823,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "0R05"
+		(property "Value" "0R025"
 			(at 0 0 90)
 			(layer "B.SilkS")
 			(uuid "1c5383d1-032d-4b6b-8e88-6a374e73fe02")
@@ -7992,7 +7992,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "137K"
+		(property "Value" "390K"
 			(at 2.3 0 0)
 			(layer "B.SilkS")
 			(uuid "7ed6094b-7e75-44f8-9d62-af35174364b7")
@@ -8912,7 +8912,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "137K"
+		(property "Value" "390K"
 			(at 2.3 0 0)
 			(layer "B.SilkS")
 			(uuid "e15adde5-d27c-4803-ad49-4c643b6dc89e")
@@ -9218,7 +9218,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "0R05"
+		(property "Value" "0R025"
 			(at 0 0 90)
 			(layer "B.SilkS")
 			(uuid "650c6c71-9b54-4571-b71a-63ae47951232")
@@ -9371,7 +9371,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "0R05"
+		(property "Value" "0R025"
 			(at 0 0 90)
 			(layer "B.SilkS")
 			(uuid "2a9c493d-2ad9-4d1a-b9fd-bef7a5401fa1")
@@ -10848,7 +10848,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "137K"
+		(property "Value" "390K"
 			(at 2.3 0 0)
 			(layer "B.SilkS")
 			(uuid "425e256b-134e-4d2b-b857-8f6ceadbdaf3")
@@ -11001,7 +11001,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "0R05"
+		(property "Value" "0R025"
 			(at 0 0 90)
 			(layer "B.SilkS")
 			(uuid "91f66e5c-a7b9-4563-a712-fb38bcefc550")
@@ -11462,7 +11462,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "4K42"
+		(property "Value" "6K19"
 			(at 2.3 0 0)
 			(layer "B.SilkS")
 			(uuid "bca6f0a0-7426-42cd-b2f0-69ac209a3220")
@@ -16786,7 +16786,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "0R05"
+		(property "Value" "0R025"
 			(at 0 0 90)
 			(layer "B.SilkS")
 			(uuid "1a59f582-71db-476d-b098-5093433518ea")
@@ -17448,7 +17448,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "4K42"
+		(property "Value" "6K19"
 			(at 2.3 0 0)
 			(layer "B.SilkS")
 			(uuid "ab88f790-df9f-484e-a98e-beef92d45217")
@@ -18262,7 +18262,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "4K42"
+		(property "Value" "6K19"
 			(at 2.3 0 0)
 			(layer "B.SilkS")
 			(uuid "241333aa-3001-452a-929f-2b0cbf51088c")
@@ -19076,7 +19076,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "137K"
+		(property "Value" "390K"
 			(at 2.3 0 0)
 			(layer "B.SilkS")
 			(uuid "647f13e3-8db3-4631-a28d-29c1ff7a1744")
@@ -20337,7 +20337,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "39K2"
+		(property "Value" "102K"
 			(at 2.3 0 90)
 			(layer "B.SilkS")
 			(uuid "f3f63daa-1e8b-4bb2-be30-7fbee16b07ee")
@@ -20490,7 +20490,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "137K"
+		(property "Value" "390K"
 			(at 2.3 0 0)
 			(layer "B.SilkS")
 			(uuid "fef5ff46-13db-4339-8692-113f6c3583a0")
@@ -21339,7 +21339,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "5K6"
+		(property "Value" "6K8"
 			(at -2.3 0 -90)
 			(layer "B.SilkS")
 			(uuid "19ca5ab0-4120-4c5c-ab76-a15e33b29638")
@@ -22504,7 +22504,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "4K42"
+		(property "Value" "6K19"
 			(at 2.3 0 0)
 			(layer "B.SilkS")
 			(uuid "9f9abd65-541b-4a3a-9748-4428052f84d7")

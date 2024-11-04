@@ -23,17 +23,17 @@
 |  1 | J JST XH (4w)                                      | J17      | 455-B4B-XH-A-ND                                             |
 |  5 | Q Transistor NPN 100 mA 65V [BC846B,235] (SOT23-3) | Q1-Q5    | 1727-1876-1-ND                                              |
 |  5 | Q MOSFET P 11A 60V ±20Vgs [RS3L110ATTB1] (SO-8)    | Q6-Q10   | 846-RS3L110ATTB1CT-ND                                       |
-|  5 | R 0.050 1% 3W (2512)                               | R1-R5    | CSRT2512FT50L0-UP                                           |
+|  5 | R 0.025 1% 3W (2512)                               | R1-R5    | CRA2512-FZ-R025ELFCT-ND                                     |
 |  5 | R 470 1% 0.125W (0805)                             | R6-R10   | RMCF0805FT470RCT-ND                                         |
 |  6 | R 1.0K 1% 0.125W (0805)                            | R11-R16  | RMCF0805FT1K00CT-ND                                         |
 | 19 | R 3.3K 1% 0.125W (0805)                            | R17-R35  | RMCF0805FT3K30CT-ND                                         |
-|  5 | R 4.42K 0.125W 1% (0805)                           | R36-R40  | RMCF0805FT4K42CT-ND                                         |
-|  1 | R 5.6K 0.125W 1% (0805)                            | R41      | RMCF0805FT6K20CT-ND                                         |
+|  5 | R 6.19K 0.125W 1% (0805)                           | R36-R40  | RMCF0805FT6K19CT-ND                                         |
+|  1 | R 6.8K 0.125W 1% (0805)                            | R41      | RMCF0805FT6K80CT-ND                                         |
 |  5 | R 10K 1% 0.125W (0805)                             | R42-R46  | RMCF0805FT10K0CT-ND                                         |
 |  5 | R 30K 1% 0.125W (0805)                             | R47-R51  | RMCF0805FT30K0CT-ND                                         |
-|  1 | R 39.2K 0.125W 1% (0805)                           | R52      | RMCF0805FT39K2CT-ND                                         |
-|  5 | R 62K 1% 0.125W (0805)                             | R53-R57  | RMCF0805FT62K0CT-ND                                        |
-|  5 | R 137K 1% 0.125W (0805)                            | R58-R62  | RMCF0805FT137KCT-ND                                         |
+|  1 | R 102K 0.125W 1% (0805)                            | R52      | RMCF0805FT102KCT-ND                                         |
+|  5 | R 62K 1% 0.125W (0805)                             | R53-R57  | RMCF0805FT62K0CT-ND                                         |
+|  5 | R 390K 1% 0.125W (0805)                            | R58-R62  | RMCF0805FT390KCT-ND                                         |
 |  5 | U CurrentMonitor [HV7801] (SOT23-5)                | U1-U5    | HV7801K1-GCT-ND                                             |
 |  1 | U Micro [PIC18F26K83] (SOIC-28)                    | U6       | PIC18F26K83-I/SO-ND                                         |
 |  1 | U Expander I2C [PI4IOE5V6416LEX] (TSSOP-24)        | U7       | PI4IOE5V6416LEXDICT-ND                                      |
@@ -49,19 +49,19 @@
 |  # | Pin | ICSP | Function | Description                                |
 |---:|:---:|------|----------|--------------------------------------------|
 |  1 | RE3 | MCLR |          |                                            |
-|  2 | RA0 |      | ANA0     | Out 1: Current (ADC 2.048V 2mA/bit)        |
-|  3 | RA1 |      | ANA1     | Out 1: Voltage (ADC 2.048V 16mV/bit; 1:32) |
-|  4 | RA2 |      | ANA2     | Out 2: Current (ADC 2.048V 2mA/bit)        |
-|  5 | RA3 |      | ANA3     | Out 2: Voltage (ADC 2.048V 16mV/bit; 1:32) |
-|  6 | RA4 |      | ANA4     | Out 3: Current (ADC 2.048V 2mA/bit)        |
-|  7 | RA5 |      | ANA5     | Out 3: Voltage (ADC 2.048V 16mV/bit; 1:32) |
+|  2 | RA0 |      | ANA0     | Out 1: Current (ADC 1.024V 1:5)            |
+|  3 | RA1 |      | ANA1     | Out 1: Voltage (ADC 1.024V 16mV/bit; 1:64) |
+|  4 | RA2 |      | ANA2     | Out 2: Current (ADC 1.024V 1:5)            |
+|  5 | RA3 |      | ANA3     | Out 2: Voltage (ADC 1.024V 16mV/bit; 1:64) |
+|  6 | RA4 |      | ANA4     | Out 3: Current (ADC 1.024V 1:5)            |
+|  7 | RA5 |      | ANA5     | Out 3: Voltage (ADC 1.024V 16mV/bit; 1:64) |
 |  8 | Vss | GND  | -        | -                                          |
-|  9 | RA7 |      | ANA7     | Out 4: Current (ADC 2.048V 2mA/bit)        |
-| 10 | RA6 |      | ANA6     | Out 4: Voltage (ADC 2.048V 16mV/bit; 1:32) |
-| 11 | RC0 |      | ANC0     | Out 5: Current (ADC 2.048V 2mA/bit)        |
-| 12 | RC1 |      | ANC1     | Out 5: Voltage (ADC 2.048V 16mV/bit; 1:32) |
+|  9 | RA7 |      | ANA7     | Out 4: Current (ADC 1.024V 1:5)            |
+| 10 | RA6 |      | ANA6     | Out 4: Voltage (ADC 1.024V 16mV/bit; 1:64) |
+| 11 | RC0 |      | ANC0     | Out 5: Current (ADC 1.024V 1:5)            |
+| 12 | RC1 |      | ANC1     | Out 5: Voltage (ADC 1.024V 16mV/bit; 1:64) |
 | 13 | RC2 |      | ANC2     | Temperature sensor (ADC 2.048V 0.02C/bit)  |
-| 14 | RC3 |      | ANC3     | In 1: Voltage  (ADC 2.048V 4mV/bit; 1:8)   |
+| 14 | RC3 |      | ANC3     | In 1: Voltage  (ADC 1.024V 4mV/bit; 1:16)   |
 | 15 | RC4 |      |          |                                            |
 | 16 | RC5 |      |          |                                            |
 | 17 | RC6 |      |          |                                            |

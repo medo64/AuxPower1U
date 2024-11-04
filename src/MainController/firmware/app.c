@@ -68,6 +68,7 @@ void main(void) {
     bool switch1State, switch2State, switch3State, switch4State, switch5State;
     ioex_button_switch_getAll(&switch1State, &switch2State, &switch3State, &switch4State, &switch5State);
     if (switch1State && !switch2State && !switch3State && !switch4State && switch5State) {
+        adc_init();
         test();
         return;
     }
@@ -673,13 +674,13 @@ void test(void) {
                 updateCounter = 0;
 
                 switch(index) {
-                    case 0: oled_writeTestVT(index, (uint16_t)(voltage12VSum >> AVG_SHIFT), (uint16_t)(temperatureSum >> AVG_SHIFT)); break;
-                    case 1: oled_writeTestVC(1, (uint16_t)(voltage1Sum >> AVG_SHIFT), (uint16_t)(current1Sum >> AVG_SHIFT)); break;
-                    case 2: oled_writeTestVC(2, (uint16_t)(voltage2Sum >> AVG_SHIFT), (uint16_t)(current2Sum >> AVG_SHIFT)); break;
-                    case 3: oled_writeTestVC(3, (uint16_t)(voltage3Sum >> AVG_SHIFT), (uint16_t)(current3Sum >> AVG_SHIFT)); break;
-                    case 4: oled_writeTestVC(4, (uint16_t)(voltage4Sum >> AVG_SHIFT), (uint16_t)(current4Sum >> AVG_SHIFT)); break;
-                    case 5: oled_writeTestVC(5, (uint16_t)(voltage5Sum >> AVG_SHIFT), (uint16_t)(current5Sum >> AVG_SHIFT)); break;
-                    case 6: oled_writeTestVT(index, (uint16_t)(voltage5VSum >> AVG_SHIFT), (uint16_t)(temperatureDieSum >> AVG_SHIFT)); break;
+                    case 0: oled_writeTestVT(index, (uint16_t)(voltage12VSum >> AVG_SHIFT), (uint16_t)(temperatureSum >> AVG_SHIFT)); break;    // 12V + Temperature
+                    case 1: oled_writeTestVC(1, (uint16_t)(voltage1Sum >> AVG_SHIFT), (uint16_t)(current1Sum >> AVG_SHIFT)); break;             // Channel 1: Voltage + Current
+                    case 2: oled_writeTestVC(2, (uint16_t)(voltage2Sum >> AVG_SHIFT), (uint16_t)(current2Sum >> AVG_SHIFT)); break;             // Channel 2: Voltage + Current
+                    case 3: oled_writeTestVC(3, (uint16_t)(voltage3Sum >> AVG_SHIFT), (uint16_t)(current3Sum >> AVG_SHIFT)); break;             // Channel 3: Voltage + Current
+                    case 4: oled_writeTestVC(4, (uint16_t)(voltage4Sum >> AVG_SHIFT), (uint16_t)(current4Sum >> AVG_SHIFT)); break;             // Channel 4: Voltage + Current
+                    case 5: oled_writeTestVC(5, (uint16_t)(voltage5Sum >> AVG_SHIFT), (uint16_t)(current5Sum >> AVG_SHIFT)); break;             // Channel 5: Voltage + Current
+                    case 6: oled_writeTestVT(index, (uint16_t)(voltage5VSum >> AVG_SHIFT), (uint16_t)(temperatureDieSum >> AVG_SHIFT)); break;  // Internal Voltage + Internal Temperature
                 }
 
                 ioex_button_switch_getAll(&switch1State, &switch2State, &switch3State, &switch4State, &switch5State);

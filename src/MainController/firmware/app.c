@@ -247,9 +247,9 @@ void main(void) {
                 bool nextState3 = (currOutputs & 0b00100) != 0;
                 bool nextState4 = (currOutputs & 0b01000) != 0;
                 bool nextState5 = (currOutputs & 0b10000) != 0;
-                ioex_output_setAll(nextState1, nextState2, nextState3, nextState4, nextState5);  // set outputs
+                ioex_output_setAll(nextState1, nextState2, nextState3, nextState4, nextState5);      // set outputs
                 ioex_button_led_setAll(nextState1, nextState2, nextState3, nextState4, nextState5);  // set LEDs
-                settings_outputs_set(nextOutputs);  // save for the next startup
+                settings_outputs_set(nextOutputs);                                                   // save for the next startup
             }
 
             // check buttons each tick

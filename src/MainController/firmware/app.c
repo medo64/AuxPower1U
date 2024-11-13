@@ -31,6 +31,8 @@
 
 #define CUTOFF_CURRENT_FAST   8000
 #define CUTOFF_CURRENT_AVG    6666
+#define CUTOFF_POWER_FAST   120000
+#define CUTOFF_POWER_AVG    100000
 
 
 void fillUartFromChannel(uint8_t index, uint16_t voltage, uint16_t current, bool isOn);
@@ -190,6 +192,13 @@ void main(void) {
             if (current4 > CUTOFF_CURRENT_FAST) { nextOutputs &= 0b10111; }
             if (current5 > CUTOFF_CURRENT_FAST) { nextOutputs &= 0b01111; }
 
+            // cutoff if exceeding power
+            if (((uint32_t)voltage1 * current1) > (CUTOFF_POWER_FAST * 1000)) { nextOutputs &= 0b11110; }
+            if (((uint32_t)voltage2 * current2) > (CUTOFF_POWER_FAST * 1000)) { nextOutputs &= 0b11101; }
+            if (((uint32_t)voltage3 * current3) > (CUTOFF_POWER_FAST * 1000)) { nextOutputs &= 0b11011; }
+            if (((uint32_t)voltage4 * current4) > (CUTOFF_POWER_FAST * 1000)) { nextOutputs &= 0b10111; }
+            if (((uint32_t)voltage5 * current5) > (CUTOFF_POWER_FAST * 1000)) { nextOutputs &= 0b01111; }
+
             // calculate average from previous tick
             uint16_t voltage1Avg = (uint16_t)(voltage1Sum >> AVG_SHIFT);
             uint16_t voltage2Avg = (uint16_t)(voltage2Sum >> AVG_SHIFT);
@@ -209,6 +218,13 @@ void main(void) {
             if (current3Avg > CUTOFF_CURRENT_AVG) { nextOutputs &= 0b11011; }
             if (current4Avg > CUTOFF_CURRENT_AVG) { nextOutputs &= 0b10111; }
             if (current5Avg > CUTOFF_CURRENT_AVG) { nextOutputs &= 0b01111; }
+
+            // cutoff if exceeding average power
+            if (((uint32_t)voltage1Avg * current1Avg) > (CUTOFF_POWER_AVG * 1000)) { nextOutputs &= 0b11110; }
+            if (((uint32_t)voltage2Avg * current2Avg) > (CUTOFF_POWER_AVG * 1000)) { nextOutputs &= 0b11101; }
+            if (((uint32_t)voltage3Avg * current3Avg) > (CUTOFF_POWER_AVG * 1000)) { nextOutputs &= 0b11011; }
+            if (((uint32_t)voltage4Avg * current4Avg) > (CUTOFF_POWER_AVG * 1000)) { nextOutputs &= 0b10111; }
+            if (((uint32_t)voltage5Avg * current5Avg) > (CUTOFF_POWER_AVG * 1000)) { nextOutputs &= 0b01111; }
 
             // add new value to averages
             voltage1Sum -= voltage1Avg; voltage1Sum += voltage1;

@@ -31,8 +31,8 @@
 
 #define CUTOFF_CURRENT_FAST   8000
 #define CUTOFF_CURRENT_AVG    6666
-#define CUTOFF_POWER_FAST   120000
-#define CUTOFF_POWER_AVG    100000
+#define CUTOFF_POWER_FAST   125000
+#define CUTOFF_POWER_AVG    105000
 
 
 void fillUartFromChannel(uint8_t index, uint16_t voltage, uint16_t current, bool isOn);

@@ -40,7 +40,9 @@ void fillUartFromTemperature(uint16_t temperature);
 
 uint8_t enableOutputMask(const uint8_t channel, const uint8_t currOutputs);
 uint8_t disableOutputMask(const uint8_t channel, const uint8_t currOutputs);
+uint8_t toggleOutputMask(const uint8_t channel, const uint8_t currOutputs);
 uint8_t resetOutput(const uint8_t channel, const uint8_t currOutputs);
+
 
 void main(void) {
     init();
@@ -380,7 +382,7 @@ void main(void) {
 
                 case DEPTH_PENDING_OFF: {
                     if (currButtonMask == 0) {  // button has been released
-                        nextOutputs = disableOutputMask(currChannel, nextOutputs);
+                        nextOutputs = toggleOutputMask(currChannel, nextOutputs);
                         nextDepth = DEPTH_PENDING_NOTHING;
                     } else if (currChannelButtonMask == currButtonMask) {
                         if (currDepthButtonTicks > TICKS_WAIT_OFF)  {  // held longer than 3 seconds
@@ -575,6 +577,19 @@ uint8_t enableOutputMask(const uint8_t channel, const uint8_t currOutputs) {
         case 3: nextOutputs |= 0b00100; break;
         case 4: nextOutputs |= 0b01000; break;
         case 5: nextOutputs |= 0b10000; break;
+    }
+    return nextOutputs;
+}
+
+uint8_t toggleOutputMask(const uint8_t channel, const uint8_t currOutputs) {
+    uint8_t nextOutputs = currOutputs;
+
+    switch (channel) {
+        case 1: nextOutputs ^= 0b00001; break;
+        case 2: nextOutputs ^= 0b00010; break;
+        case 3: nextOutputs ^= 0b00100; break;
+        case 4: nextOutputs ^= 0b01000; break;
+        case 5: nextOutputs ^= 0b10000; break;
     }
     return nextOutputs;
 }

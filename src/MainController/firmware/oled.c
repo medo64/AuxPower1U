@@ -183,11 +183,11 @@ void oled_writeChannel(uint8_t channel, uint16_t voltage, uint16_t current, bool
         textTR[4] = (ticks >= 48) ? 'E' : 'e';
         textTR[5] = (ticks >= 60) ? 'T' : 't';
     } else if (state == 3) {  // DEPTH_PENDING_OFF
-        textTR[1] = ' ';
-        textTR[2] = (ticks >= 18) ? 'O' : 'o';
-        textTR[3] = (ticks >= 36) ? 'F' : 'f';
-        textTR[4] = (ticks >= 54) ? 'F' : 'f';
-        textTR[5] = ' ';
+        textTR[1] = (ticks >= 12) ? 'P' : 'p';
+        textTR[2] = (ticks >= 24) ? 'O' : 'o';
+        textTR[3] = (ticks >= 36) ? 'W' : 'w';
+        textTR[4] = (ticks >= 48) ? 'E' : 'e';
+        textTR[5] = (ticks >= 60) ? 'R' : 'r';
     } else {
         textTR[1] = ' ';
         textTR[2] = ' ';

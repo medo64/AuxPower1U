@@ -26249,6 +26249,22 @@
 		(uuid "e4c73431-4e75-409a-8ace-d315e874437e")
 	)
 	(segment
+		(start 17.85 44.9)
+		(end 18 45.05)
+		(width 0.2)
+		(layer "B.Cu")
+		(net 21)
+		(uuid "24a9033e-d446-4c30-8078-3b17ab311966")
+	)
+	(segment
+		(start 17.85 35.65)
+		(end 17.85 44.9)
+		(width 0.2)
+		(layer "B.Cu")
+		(net 21)
+		(uuid "278b1c53-4082-4e1f-ba4f-2bb07ddaf00b")
+	)
+	(segment
 		(start 77.38 27.15)
 		(end 79.23 29)
 		(width 0.2)

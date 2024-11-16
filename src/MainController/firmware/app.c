@@ -354,7 +354,12 @@ void main(void) {
                     } else {
                         if (currChannelButtonMask == currButtonMask) {
                             if (currDepthButtonTicks > TICKS_GOTO_RESET)  {  // held longer than 5 seconds
-                                nextDepth = DEPTH_PENDING_RESET;
+                                bool isOutputOn = (currOutputs & (0b1 << (currChannel - 1))) != 0;
+                                if (isOutputOn) {
+                                    nextDepth = DEPTH_PENDING_RESET;
+                                } else {
+                                    nextDepth = DEPTH_PENDING_OFF;
+                                }
                             }
                         } else {
                             ioex_button_led_setAll(currOutputs & 0b00001, currOutputs & 0b00010, currOutputs & 0b00100, currOutputs & 0b01000, currOutputs & 0b10000);  // reset lights

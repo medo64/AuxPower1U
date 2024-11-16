@@ -49,13 +49,8 @@ void main(void) {
     pps_init();
     ticker_init();
 
-    CLRWDT();
     io_init();
-    io_led_activity_on(); ticker_waitTick(); io_led_activity_off(); ticker_waitTick();
-    io_led_activity_on(); ticker_waitTick(); io_led_activity_off(); ticker_waitTick();
-    io_led_activity_on(); ticker_waitTick(); io_led_activity_off(); ticker_waitTick();
 
-    CLRWDT();
     io_led_activity_on();
     uart_init();
     uart_writeString("AuxPower1U\r\n");

@@ -12431,7 +12431,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "1K"
+		(property "Value" "3K3"
 			(at -2.4 -0.1 180)
 			(layer "B.SilkS")
 			(uuid "2e1b8aea-72d2-44ea-9479-037e08f872c0")

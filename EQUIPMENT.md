@@ -2,7 +2,7 @@
 
 | Machine                    | Connector     | Specification | Tested | Using | UPS | Btn | Color  | Resistor |
 |----------------------------|---------------|---------------|--------|------ |-----|-----|--------|----------|
-| Arris SURFboard SB6141     | 2.1x5.5mm     | 12V 2A    25W | -      | 12.0V |  Y  |  1  | Red    |  1,000 Ω |
+| Arris SURFboard SB6141     | 2.1x5.5mm     | 12V 2A    25W | -      | 12.0V |  Y  |  1  | Red    |  1,200 Ω |
 | Mikrotik hAP ac            | 2.1x5.5mm PoE | 11-57V    17W | -      | 54.0V |  Y  |  2  | Orange |    270 Ω |
 | Mikrotik Audience          | 2.1x5.5mm PoE | 24-57V    27W | -      | 54.0V |  Y  |  2  |        |          |
 | NetGear                    | 5.5x2.5mm     | 54V 2.4A 138W | -      | 54.0V |  Y  |  3  | Green  |  3,000 Ω |

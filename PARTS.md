@@ -56,6 +56,6 @@
 
 ### PCBs
 
-* [DellController](hardware/DellTrigger/src/DellTrigger.md)
-* [MainController](hardware/MainController/src/AuxPower.md)
-* [FanController](hardware/FanController/src/FanController.md)
+* [DellController](src/DellTrigger/hardware/DellTrigger.md)
+* [MainController](src/MainController/hardware/AuxPower.md)
+* [FanController](src/DellTrigger/hardware/src/DellTrigger.md)

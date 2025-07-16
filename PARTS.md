@@ -32,7 +32,7 @@
 |  1 | Power supply UHP-200-12  | https://www.digikey.com/en/products/detail/mean-well-usa-inc/UHP-200-12/7707237                  |
 |  1 | Power supply UHP-200-15  | https://www.digikey.com/en/products/detail/mean-well-usa-inc/UHP-200-15/7707238                  |
 |  1 | Power supply UHP-200-55  | https://www.digikey.com/en/products/detail/mean-well-usa-inc/UHP-200-55/13245670                 |
-|  1 | Aluminium plate 200x175  | SendCutSend (200x175 mm, 12 2.5mm holes, deburring)                                              |
+|  1 | Aluminium plate 200x175  | SendCutSend (200x175 mm, 12 4mm holes, 6061 3.2mm, deburring)                                    |
 |    | Heat sink compound       | https://www.super-lube.com/silicone-heat-sink-compound-98003                                     |
 | 12 | Machine screw M3x6       |                                                                                                  |
 | 12 | Nut M3                   |                                                                                                  |

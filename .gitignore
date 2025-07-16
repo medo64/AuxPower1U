@@ -30,3 +30,4 @@ src/**/firmware/nbproject/Package-*.bash
 
 # Else
 *(blueprint)*
+TODO.md

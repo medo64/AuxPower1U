@@ -53,7 +53,7 @@ void main(void) {
 
     io_led_activity_on();
     uart_init();
-    uart_writeString("AuxPower1U\r\n");
+    uart_writeString("AuxPower\r\n");
     io_led_activity_off();
 
     CLRWDT();

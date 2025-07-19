@@ -6,7 +6,7 @@ void oled_init(void) {
 }
 
 void oled_splash(void) {
-    ssd1306_writeText16("   AuxPower1U   ");
+    ssd1306_writeText16("    AuxPower    ");
     ssd1306_moveToNextRow16();
     ssd1306_moveToNextRow();
     ssd1306_writeText("   medo64.com   ");

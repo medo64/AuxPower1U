@@ -12,6 +12,6 @@ Features:
 
 ## Components
 
-* [DellTrigger](src/DellTrigger/README.md): Emulating Dell charger for 5.5x2.1mm input
-* [FanController](src/FanController/README.md): Optional board to run PWM fans dependant on temperature
 * [MainController](src/MainController/README.md): Allowing for monitoring and resetting of lines
+* [AuxFanController](https://github.com/medo64/AuxFanController): Optional board to run PWM fans dependant on temperature
+* [DellPowerTrigger](https://github.com/medo64/DellPowerTrigger): Emulating Dell charger for 5.5x2.1mm input

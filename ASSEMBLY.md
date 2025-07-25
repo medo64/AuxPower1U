@@ -3,7 +3,8 @@
 |  # | Part                     | Source                                                                                    |
 |---:|--------------------------|-------------------------------------------------------------------------------------------|
 |  1 | Cheval PF19AL1UD1        | https://www.amazon.com/dp/B0F9W3KV6V                                                      |
-|  1 | Spacer M3x35mm           | https://www.amazon.com/dp/B0CL4DT2SV                                                      |
+|  1 | Spacer M3x30mm           | https://www.amazon.com/dp/B0CZ3YTVWX                                                      |
+|  1 | Machine screw M3x10      |                                                                                           |
 | 10 | Panel DC 5.5x2.1mm       | https://www.digikey.com/en/products/detail/tensility-international-corp/10-03609/12090912 |
 |  1 | Panel Audio 3.5mm Stereo | https://www.digikey.com/en/products/detail/tensility-international-corp/10-02844/11193625 |
 |  5 | Button 16mm              | https://www.aliexpress.us/item/3256804791551109.html                                      |

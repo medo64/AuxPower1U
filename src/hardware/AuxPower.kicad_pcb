@@ -19094,6 +19094,36 @@
 		(uuid "752d1a27-adb7-46ae-a773-18f59888a78a")
 	)
 	(gr_line
+		(start 30.95 76.05)
+		(end 30.95 76.35)
+		(stroke
+			(width 0.2)
+			(type solid)
+		)
+		(layer "B.SilkS")
+		(uuid "6db72c65-edac-42c8-8070-197b4bc0eac9")
+	)
+	(gr_line
+		(start 34.85 76.05)
+		(end 34.85 76.35)
+		(stroke
+			(width 0.2)
+			(type solid)
+		)
+		(layer "B.SilkS")
+		(uuid "8f771bdc-9258-42e8-a49f-fe34bbd360c4")
+	)
+	(gr_line
+		(start 30.95 76.05)
+		(end 34.85 76.05)
+		(stroke
+			(width 0.2)
+			(type solid)
+		)
+		(layer "B.SilkS")
+		(uuid "a6bf1ad2-37f3-46dc-8513-8c5aa5a9c501")
+	)
+	(gr_line
 		(start 75 40)
 		(end 75 105)
 		(stroke
@@ -19864,6 +19894,19 @@
 				(bold yes)
 			)
 			(justify mirror)
+		)
+	)
+	(gr_text "I2C"
+		(at 32.9 75.8 0)
+		(layer "B.SilkS")
+		(uuid "47d75d72-ee19-4c6b-8a22-f7c86566f7c9")
+		(effects
+			(font
+				(size 1 0.8)
+				(thickness 0.2)
+				(bold yes)
+			)
+			(justify bottom mirror)
 		)
 	)
 	(gr_text "1"
@@ -26515,6 +26558,12 @@
 		(uuid "ba01307c-644a-48a0-85da-eb3b6dee0072")
 		(members "39a4dd29-f2a6-4678-8f04-cd770c6027f6" "4179184e-e46a-49d6-ac3f-b7a96e6e7e2b"
 			"a53d0de8-d2af-46ed-af58-942a04f413f3" "b45d3de2-398d-4ab8-9571-d511d13deaf7"
+		)
+	)
+	(group ""
+		(uuid "70d9b93b-43a0-4947-bcd6-4658dc24ea8c")
+		(members "47d75d72-ee19-4c6b-8a22-f7c86566f7c9" "6db72c65-edac-42c8-8070-197b4bc0eac9"
+			"8f771bdc-9258-42e8-a49f-fe34bbd360c4" "a6bf1ad2-37f3-46dc-8513-8c5aa5a9c501"
 		)
 	)
 	(embedded_fonts no)

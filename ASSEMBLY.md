@@ -4,6 +4,7 @@
 |---:|-----------------------------|-------------------------------------------------------------------------------------------|
 |  1 | Cheval PF19AL1UD1           | https://www.amazon.com/dp/B0F9W3KV6V                                                      |
 | 10 | Panel DC 5.5x2.1mm Φ11mm    | https://www.digikey.com/en/products/detail/tensility-international-corp/10-03609/12090912 |
+| 20 | Crimp Terminal E7508        |                                                                                           |
 |  1 | Panel Audio TRS 3.5mm Φ10mm | https://www.digikey.com/en/products/detail/tensility-international-corp/10-02844/11193625 |
 |  1 | Spacer M3x30mm              | https://www.amazon.com/dp/B0CZ3YTVWX                                                      |
 |  1 | Machine screw M3x10         |                                                                                           |
@@ -59,7 +60,8 @@
 
 |  # | Part                        | Source                                                                                    |
 |---:|-----------------------------|-------------------------------------------------------------------------------------------|
-| 10 | Ring Terminal RV1.25-4s     | https://www.aliexpress.us/item/3256805890650511.html                                      |
+| 12 | Ring Terminal RV1.25-4s     | https://www.aliexpress.us/item/3256805890650511.html                                      |
+| 12 | Crimp Terminal E7508        |                                                                                           |
 |    | Wire AWG 18                 |                                                                                           |
 
 

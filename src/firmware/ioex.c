@@ -109,6 +109,13 @@ void ioex_output_checkOpenDrain(void) {
 }
 
 void ioex_output_setAll(bool output1, bool output2, bool output3, bool output4, bool output5) {
+    // rev C specific - doesn't clash with rev B, so we might as well have both
+    LATBbits.LATB0 = output1;
+    LATCbits.LATC7 = output2;
+    LATCbits.LATC6 = output3;
+    LATCbits.LATC5 = output4;
+    LATCbits.LATC4 = output5;
+
     // outputs are controlled via open-drain
     outTris0 = IOEX_BITMASK_SETUP_TRIS0;  // Led5 Switch5 - Out5 Out4 Out3 Out2 Out1
     if (!output1) { outTris0 &= 0b11111110; }
@@ -122,6 +129,9 @@ void ioex_output_setAll(bool output1, bool output2, bool output3, bool output4, 
 }
 
 void ioex_output_set1(bool output1) {
+    // rev C specific - doesn't clash with rev B, so we might as well have both
+    LATBbits.LATB0 = output1;
+
     if (output1) {
         outTris0 |= 0b00000001;  // Led5 Switch5 - Out5 Out4 Out3 Out2 Out1
         ioex_output_checkOpenDrain();
@@ -132,6 +142,9 @@ void ioex_output_set1(bool output1) {
 }
 
 void ioex_output_set2(bool output2) {
+    // rev C specific - doesn't clash with rev B, so we might as well have both
+    LATCbits.LATC7 = output2;
+
     if (output2) {
         outTris0 |= 0b00000010;  // Led5 Switch5 - Out5 Out4 Out3 Out2 Out1
         ioex_output_checkOpenDrain();
@@ -142,6 +155,9 @@ void ioex_output_set2(bool output2) {
 }
 
 void ioex_output_set3(bool output3) {
+    // rev C specific - doesn't clash with rev B, so we might as well have both
+    LATCbits.LATC6 = output3;
+
     if (output3) {
         outTris0 |= 0b00000100;  // Led5 Switch5 - Out5 Out4 Out3 Out2 Out1
         ioex_output_checkOpenDrain();
@@ -152,6 +168,9 @@ void ioex_output_set3(bool output3) {
 }
 
 void ioex_output_set4(bool output4) {
+    // rev C specific - doesn't clash with rev B, so we might as well have both
+    LATCbits.LATC5 = output4;
+
     if (output4) {
         outTris0 |= 0b00001000;  // Led5 Switch5 - Out5 Out4 Out3 Out2 Out1
         ioex_output_checkOpenDrain();
@@ -162,6 +181,9 @@ void ioex_output_set4(bool output4) {
 }
 
 void ioex_output_set5(bool output5) {
+    // rev C specific - doesn't clash with rev B, so we might as well have both
+    LATCbits.LATC4 = output5;
+
     if (output5) {
         outTris0 |= 0b00010000;  // Led5 Switch5 - Out5 Out4 Out3 Out2 Out1
         ioex_output_checkOpenDrain();
@@ -189,4 +211,21 @@ void ioex_init(void) {
     uint8_t trisData1[2] = { IOEX_DEVICE_REGISTER_TRIS1, IOEX_BITMASK_SETUP_TRIS1 };
     i2c_master_writeBytes(IOEX_DEVICE_ADDRESS, trisData0, 2);
     i2c_master_writeBytes(IOEX_DEVICE_ADDRESS, trisData1, 2);
+
+    // also setup rev C buttons here eventhough they are not part of I2C expander
+    LATBbits.LATB0 = 0;
+    TRISBbits.TRISB0 = 0;
+    ANSELBbits.ANSELB0 = 0;
+    LATCbits.LATC7 = 0;
+    TRISCbits.TRISC7 = 0;
+    ANSELCbits.ANSELC7 = 0;
+    LATCbits.LATC6 = 0;
+    TRISCbits.TRISC6 = 0;
+    ANSELCbits.ANSELC6 = 0;
+    LATCbits.LATC5 = 0;
+    TRISCbits.TRISC5 = 0;
+    ANSELCbits.ANSELC5 = 0;
+    LATCbits.LATC4 = 0;
+    TRISCbits.TRISC4 = 0;
+    ANSELCbits.ANSELC4 = 0;
 }

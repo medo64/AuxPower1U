@@ -30,8 +30,6 @@
 #define TICKS_DURATION_RESET    3 * 24
 #define TICKS_DISPLAY_OFF     300 * 24
 
-#define CUTOFF_CURRENT_FAST   8000
-#define CUTOFF_CURRENT_AVG    6666
 #define CUTOFF_POWER_FAST   125000
 #define CUTOFF_POWER_AVG    105000
 
@@ -80,6 +78,13 @@ void main(void) {
     settings_init();
     uint8_t nextOutputs = settings_outputs_get();
     uint8_t currOutputs = nextOutputs | 0b10000000;  // just to force change when first ran
+    uint16_t cutoffCurrent1Fast, cutoffCurrent2Fast, cutoffCurrent3Fast, cutoffCurrent4Fast, cutoffCurrent5Fast;
+    settings_cutoff_current_get(&cutoffCurrent1Fast, &cutoffCurrent2Fast, &cutoffCurrent3Fast, &cutoffCurrent4Fast, &cutoffCurrent5Fast);
+    uint16_t cutoffCurrent1Avg = cutoffCurrent1Fast - cutoffCurrent1Fast / 6;
+    uint16_t cutoffCurrent2Avg = cutoffCurrent2Fast - cutoffCurrent2Fast / 6;
+    uint16_t cutoffCurrent3Avg = cutoffCurrent3Fast - cutoffCurrent3Fast / 6;
+    uint16_t cutoffCurrent4Avg = cutoffCurrent4Fast - cutoffCurrent4Fast / 6;
+    uint16_t cutoffCurrent5Avg = cutoffCurrent5Fast - cutoffCurrent5Fast / 6;
 
     // ADC setup
     CLRWDT();
@@ -194,11 +199,11 @@ void main(void) {
             adc_measureBasic(&voltage1, &current1, &voltage2, &current2, &voltage3, &current3, &voltage4, &current4, &voltage5, &current5, &temperature);
 
             // cutoff if exceeding current
-            if (current1 > CUTOFF_CURRENT_FAST) { nextOutputs &= 0b11110; }
-            if (current2 > CUTOFF_CURRENT_FAST) { nextOutputs &= 0b11101; }
-            if (current3 > CUTOFF_CURRENT_FAST) { nextOutputs &= 0b11011; }
-            if (current4 > CUTOFF_CURRENT_FAST) { nextOutputs &= 0b10111; }
-            if (current5 > CUTOFF_CURRENT_FAST) { nextOutputs &= 0b01111; }
+            if (current1 > cutoffCurrent1Fast) { nextOutputs &= 0b11110; }
+            if (current2 > cutoffCurrent2Fast) { nextOutputs &= 0b11101; }
+            if (current3 > cutoffCurrent3Fast) { nextOutputs &= 0b11011; }
+            if (current4 > cutoffCurrent4Fast) { nextOutputs &= 0b10111; }
+            if (current5 > cutoffCurrent5Fast) { nextOutputs &= 0b01111; }
 
             // cutoff if exceeding power
             if (((uint32_t)voltage1 * current1) > (CUTOFF_POWER_FAST * 1000)) { nextOutputs &= 0b11110; }
@@ -221,11 +226,11 @@ void main(void) {
             uint16_t temperatureAvg = (uint16_t)(temperatureSum >> AVG_SHIFT);
 
             // cutoff if exceeding average current
-            if (current1Avg > CUTOFF_CURRENT_AVG) { nextOutputs &= 0b11110; }
-            if (current2Avg > CUTOFF_CURRENT_AVG) { nextOutputs &= 0b11101; }
-            if (current3Avg > CUTOFF_CURRENT_AVG) { nextOutputs &= 0b11011; }
-            if (current4Avg > CUTOFF_CURRENT_AVG) { nextOutputs &= 0b10111; }
-            if (current5Avg > CUTOFF_CURRENT_AVG) { nextOutputs &= 0b01111; }
+            if (current1Avg > cutoffCurrent1Avg) { nextOutputs &= 0b11110; }
+            if (current2Avg > cutoffCurrent2Avg) { nextOutputs &= 0b11101; }
+            if (current3Avg > cutoffCurrent3Avg) { nextOutputs &= 0b11011; }
+            if (current4Avg > cutoffCurrent4Avg) { nextOutputs &= 0b10111; }
+            if (current5Avg > cutoffCurrent5Avg) { nextOutputs &= 0b01111; }
 
             // cutoff if exceeding average power
             if (((uint32_t)voltage1Avg * current1Avg) > (CUTOFF_POWER_AVG * 1000)) { nextOutputs &= 0b11110; }

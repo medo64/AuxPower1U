@@ -59,9 +59,10 @@ void main(void) {
     CLRWDT();
     io_led_activity_on();
     i2c_master_init();
+    __delay_ms(50);
+    ioex_init();
     oled_init();
     oled_splash();
-    ioex_init();
     io_led_activity_off();
 
     bool switch1State, switch2State, switch3State, switch4State, switch5State;

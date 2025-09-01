@@ -125,7 +125,7 @@ void adc_measureBasic(uint16_t* voltage1, uint16_t* current1, uint16_t* voltage2
     *voltage5 = adc_getChannelVia1024(0b010001) * ADC_VOLTAGE_OUT_MULTIPLIER;   // ANC1
 
     uint16_t temperatureRaw = adc_getChannelVia2048(0b010010);
-    *temperature = (temperatureRaw - ADC_TEMPERATURE_0C) * ADC_TEMPERATURE_BITS_PER_10THC;  // ANC2
+    *temperature = (uint16_t)(((uint24_t)temperatureRaw - ADC_TEMPERATURE_0C) * ADC_TEMPERATURE_BITS_PER_10THC);  // ANC2
 }
 
 void adc_measureExtra(uint16_t* voltage12V, uint16_t* voltage5V, uint16_t* temperatureDie) {

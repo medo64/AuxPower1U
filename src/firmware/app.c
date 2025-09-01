@@ -22,12 +22,13 @@
 #define DEPTH_PENDING_OFF      3
 #define DEPTH_PENDING_NOTHING  4
 
-#define TICKS_CLOSE_DETAILS  60 * 24
-#define TICKS_IGNORE_DETAILS       6
-#define TICKS_GOTO_RESET      3 * 24
-#define TICKS_WAIT_RESET      3 * 24
-#define TICKS_WAIT_OFF        3 * 24
-#define TICKS_DURATION_RESET  3 * 24
+#define TICKS_CLOSE_DETAILS    60 * 24
+#define TICKS_IGNORE_DETAILS         6
+#define TICKS_GOTO_RESET        3 * 24
+#define TICKS_WAIT_RESET        3 * 24
+#define TICKS_WAIT_OFF          3 * 24
+#define TICKS_DURATION_RESET    3 * 24
+#define TICKS_DISPLAY_OFF     300 * 24
 
 #define CUTOFF_CURRENT_FAST   8000
 #define CUTOFF_CURRENT_AVG    6666
@@ -65,6 +66,7 @@ void main(void) {
     oled_splash();
     io_led_activity_off();
 
+    // check whether to go to test mode (button 1 and 5))
     bool switch1State, switch2State, switch3State, switch4State, switch5State;
     ioex_button_switch_getAll(&switch1State, &switch2State, &switch3State, &switch4State, &switch5State);
     if (switch1State && !switch2State && !switch3State && !switch4State && switch5State) {
@@ -73,11 +75,13 @@ void main(void) {
         return;
     }
 
+    // read config
     CLRWDT();
     settings_init();
     uint8_t nextOutputs = settings_outputs_get();
     uint8_t currOutputs = nextOutputs | 0b10000000;  // just to force change when first ran
 
+    // ADC setup
     CLRWDT();
     adc_init();
     uint16_t voltage1, current1, voltage2, current2, voltage3, current3, voltage4, current4, voltage5, current5, temperature;
@@ -98,25 +102,30 @@ void main(void) {
     uint32_t voltage5Sum = (uint32_t)voltage5 << AVG_SHIFT, current5Sum = (uint32_t)current5 << AVG_SHIFT;
     uint32_t temperatureSum = (uint32_t)temperature << AVG_SHIFT;
 
+    // state variables
     uint8_t currDepth = DEPTH_SUMMARY;  // 0: summary; 1: details; 2: prepare reset; 3: reset; 4: shutdown
     uint8_t nextDepth = DEPTH_SUMMARY;
     uint16_t currDepthTicks = 0;        // how long has system been at the current level
     uint16_t currDepthButtonTicks = 0;  // how many ticks passed with current buttons at current level
+    uint16_t lastActionTicks = 0;       // how many ticks passed since last button press
     uint8_t currChannel = 0;            // 1-5: selected channel
     uint8_t currButtonMask = 0;         // currently pressed buttons
     uint8_t prevButtonMask = 0;         // previously pressed buttons
-
     bool prevBlinking = false;
     uint8_t tickCounter = 0;
+
+    // main loop
     while(true) {
         CLRWDT();
 
+        // send UART data
         if (UartTxBufferStart < UartTxBufferCount) {  // send data if in buffer
             if (uart_tryWriteByte(UartTxBuffer[UartTxBufferStart])) {
                 UartTxBufferStart++;
             }
         }
 
+        // receive UART commands
         uint8_t rxData;
         while (uart_tryReadByte(&rxData)) {
             if ((rxData == '\n') || (rxData == '\r')) {
@@ -179,6 +188,7 @@ void main(void) {
             tickCounter++;
             if (tickCounter == 24) { tickCounter = 0; }
             currDepthTicks++;
+            lastActionTicks++;
 
             // measure each tick
             adc_measureBasic(&voltage1, &current1, &voltage2, &current2, &voltage3, &current3, &voltage4, &current4, &voltage5, &current5, &temperature);
@@ -261,6 +271,9 @@ void main(void) {
             if (switch4State) { currButtonMask |= 0b01000; currButtonMaskCount++; }
             if (switch5State) { currButtonMask |= 0b10000; currButtonMaskCount++; }
             if ((currButtonMaskCount == 1) && (currButtonMask == prevButtonMask)) { currDepthButtonTicks++; } else { currDepthButtonTicks = 0; }
+            if (currButtonMask != prevButtonMask) { lastActionTicks = 0; }
+
+            // figure out button mask
             uint8_t currChannelButtonMask;
             switch (currChannel) {
                 case 1: currChannelButtonMask = 0b00001; break;
@@ -403,34 +416,40 @@ void main(void) {
             if ((tickCounter == 0) || (tickCounter == 12)) {
                 io_led_activity_on();
 
-                switch (currDepth) {
-                    case DEPTH_SUMMARY: {
-                        oled_writeSummary(voltage1Avg, current1Avg, voltage2Avg, current2Avg, voltage3Avg, current3Avg, voltage4Avg, current4Avg, voltage5Avg, current5Avg, temperatureAvg, currOutputs);
-                    } break;
+                if (lastActionTicks > TICKS_DISPLAY_OFF) {
+                    lastActionTicks = TICKS_DISPLAY_OFF;  // to avoid overflow
+                    oled_displayOff();
+                } else {  // display stays on
+                    oled_displayOn();
+                    switch (currDepth) {
+                        case DEPTH_SUMMARY: {
+                            oled_writeSummary(voltage1Avg, current1Avg, voltage2Avg, current2Avg, voltage3Avg, current3Avg, voltage4Avg, current4Avg, voltage5Avg, current5Avg, temperatureAvg, currOutputs);
+                        } break;
 
-                    case DEPTH_DETAILS:
-                    case DEPTH_PENDING_RESET:
-                    case DEPTH_PENDING_OFF:
-                    case DEPTH_PENDING_NOTHING: {
-                        switch (currChannel) {
-                            case 1: {
-                                oled_writeChannel(1, voltage1Avg, current1Avg, currOutputs & 0b00001, currDepth, currDepthButtonTicks);
-                            } break;
-                            case 2: {
-                                oled_writeChannel(2, voltage2Avg, current2Avg, currOutputs & 0b00010, currDepth, currDepthButtonTicks);
-                            } break;
-                            case 3: {
-                                oled_writeChannel(3, voltage3Avg, current3Avg, currOutputs & 0b00100, currDepth, currDepthButtonTicks);
-                            } break;
-                            case 4: {
-                                oled_writeChannel(4, voltage4Avg, current4Avg, currOutputs & 0b01000, currDepth, currDepthButtonTicks);
-                            } break;
-                            case 5: {
-                                oled_writeChannel(5, voltage5Avg, current5Avg, currOutputs & 0b10000, currDepth, currDepthButtonTicks);
-                            } break;
-                        }
+                        case DEPTH_DETAILS:
+                        case DEPTH_PENDING_RESET:
+                        case DEPTH_PENDING_OFF:
+                        case DEPTH_PENDING_NOTHING: {
+                            switch (currChannel) {
+                                case 1: {
+                                    oled_writeChannel(1, voltage1Avg, current1Avg, currOutputs & 0b00001, currDepth, currDepthButtonTicks);
+                                } break;
+                                case 2: {
+                                    oled_writeChannel(2, voltage2Avg, current2Avg, currOutputs & 0b00010, currDepth, currDepthButtonTicks);
+                                } break;
+                                case 3: {
+                                    oled_writeChannel(3, voltage3Avg, current3Avg, currOutputs & 0b00100, currDepth, currDepthButtonTicks);
+                                } break;
+                                case 4: {
+                                    oled_writeChannel(4, voltage4Avg, current4Avg, currOutputs & 0b01000, currDepth, currDepthButtonTicks);
+                                } break;
+                                case 5: {
+                                    oled_writeChannel(5, voltage5Avg, current5Avg, currOutputs & 0b10000, currDepth, currDepthButtonTicks);
+                                } break;
+                            }
 
-                    } break;
+                        } break;
+                    }
                 }
             } else if ((tickCounter == 6) || (tickCounter == 18)) {  // prepare UART twice a second
                 uartbuffers_txReset();

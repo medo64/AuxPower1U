@@ -1,8 +1,12 @@
+#include <stdbool.h>
 #include <stdint.h>
 #include "ssd1306.h"
 
+bool oledDisplayisOn = false;
+
 void oled_init(void) {
     ssd1306_init();
+    oledDisplayisOn = true;
 }
 
 void oled_splash(void) {
@@ -10,6 +14,19 @@ void oled_splash(void) {
     ssd1306_moveToNextRow16();
     ssd1306_moveToNextRow();
     ssd1306_writeText("   medo64.com   ");
+}
+
+void oled_displayOn(void) {
+    if (oledDisplayisOn) { return; }
+    ssd1306_init();
+    ssd1306_displayOn();
+    oledDisplayisOn = true;
+}
+
+void oled_displayOff(void) {
+    if (!oledDisplayisOn) { return; }
+    ssd1306_displayOff();
+    oledDisplayisOn = false;
 }
 
 void oled_fillNumber1(char* text, uint16_t value) {

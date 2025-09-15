@@ -204,12 +204,12 @@
 	(net 78 "LED_OUTPUT3")
 	(net 79 "LED_OUTPUT2")
 	(net 80 "LED_OUTPUT1")
-	(footprint "Medo64:K PhotoMOS [AQZ202G] (SIP-4)"
+	(footprint "Medo64:AT PhotoMOS [AQZ202G] (SIP-4)"
 		(layer "F.Cu")
 		(uuid "0a989378-d512-482b-9746-50ef2b40c1d5")
 		(at 42 57.3)
 		(descr "Panasonic AQZ202G")
-		(property "Reference" "K2"
+		(property "Reference" "AT2"
 			(at 0 0.3 0)
 			(layer "F.SilkS")
 			(uuid "8de3d3f6-c4d5-4764-8d58-ed12500da999")
@@ -1115,12 +1115,12 @@
 			)
 		)
 	)
-	(footprint "Medo64:K PhotoMOS [AQZ202G] (SIP-4)"
+	(footprint "Medo64:AT PhotoMOS [AQZ202G] (SIP-4)"
 		(layer "F.Cu")
 		(uuid "29b39ffd-7eea-47bd-a7f6-04399f69d6da")
 		(at 42 43.05)
 		(descr "Panasonic AQZ202G")
-		(property "Reference" "K5"
+		(property "Reference" "AT5"
 			(at 0 0.3 0)
 			(layer "F.SilkS")
 			(uuid "d58ea654-1e54-4c62-8f24-79e440e7201f")
@@ -3412,12 +3412,12 @@
 			)
 		)
 	)
-	(footprint "Medo64:K PhotoMOS [AQZ202G] (SIP-4)"
+	(footprint "Medo64:AT PhotoMOS [AQZ202G] (SIP-4)"
 		(layer "F.Cu")
 		(uuid "94797aaa-83fb-4a1e-b53b-0f5312fb3693")
 		(at 42 62.05)
 		(descr "Panasonic AQZ202G")
-		(property "Reference" "K1"
+		(property "Reference" "AT1"
 			(at 0 0.35 0)
 			(layer "F.SilkS")
 			(uuid "44074742-7a6f-4d31-a104-591103b14f7e")
@@ -4468,12 +4468,12 @@
 			)
 		)
 	)
-	(footprint "Medo64:K PhotoMOS [AQZ202G] (SIP-4)"
+	(footprint "Medo64:AT PhotoMOS [AQZ202G] (SIP-4)"
 		(layer "F.Cu")
 		(uuid "b0571687-f2c3-40e9-b3c1-cb8dae46f1c8")
 		(at 42 47.8)
 		(descr "Panasonic AQZ202G")
-		(property "Reference" "K4"
+		(property "Reference" "AT4"
 			(at 0 0.3 0)
 			(layer "F.SilkS")
 			(uuid "28d76086-a81c-4a73-97c9-d887a5fe0cab")
@@ -5631,12 +5631,12 @@
 			)
 		)
 	)
-	(footprint "Medo64:K PhotoMOS [AQZ202G] (SIP-4)"
+	(footprint "Medo64:AY PhotoMOS [AQZ202G] (SIP-4)"
 		(layer "F.Cu")
 		(uuid "bb8c269a-dec8-4c6d-b13e-48a7ad6d6835")
 		(at 42 52.55)
 		(descr "Panasonic AQZ202G")
-		(property "Reference" "K3"
+		(property "Reference" "AT3"
 			(at 0 0.3 0)
 			(layer "F.SilkS")
 			(uuid "988523db-7453-4199-a4c9-4f7a065957aa")

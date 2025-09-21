@@ -22,11 +22,11 @@
 |  1 | J JST XH (4w)                                      | J17      | 455-B4B-XH-A-ND                                             |
 |  5 | R 0.025 1% 3W (2512)                               | R1-R5    | CRA2512-FZ-R025ELFCT-ND                                     |
 |  5 | R 470 1% 0.125W (0805)                             | R6-R10   | RMCF0805FT470RCT-ND                                         |
-|  5 | R 1.0K 0.1% 0.125W (0805)                          | R11-R15  | P1.0KDACT-ND                                                |
+|  5 | R 1.07K 0.1% 0.125W (0805)                         | R11-R15  | P1.07KDACT-ND                                               |
 |  5 | R 1.5K 1% 0.125W (0805)                            | R16-R20  | RMCF0805FT1K50CT-ND                                         |
 | 20 | R 3.3K 1% 0.125W (0805)                            | R21-R40  | RMCF0805FT3K30CT-ND                                         |
 |  5 | R 6.19K 0.1% 0.125W (0805)                         | R41-R45  | P6.19KDACT-ND                                               |
-|  1 | R 6.8K 0.1% 0.125W (0805)                          | R46      | P6.8KDACT-ND                                                |
+|  1 | R 6.80K 0.1% 0.125W (0805)                         | R46      | P6.8KDACT-ND                                                |
 |  1 | R 102K 0.1% 0.125W 1% (0805)                       | R47      | P102KDACT-ND                                                |
 |  5 | R 390K 0.1% 0.125W (0805)                          | R48-R52  | P390KDACT-ND                                                |
 |  5 | U CurrentMonitor [HV7801] (SOT23-5)                | U1-U5    | HV7801K1-GCT-ND                                             |

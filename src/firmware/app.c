@@ -6,6 +6,7 @@
 #include "i2c_master.h"
 #include "io.h"
 #include "ioex.h"
+#include "measurement.h"
 #include "oled.h"
 #include "pps.h"
 #include "ticker.h"
@@ -13,8 +14,6 @@
 #include "ssd1306.h"
 #include "uart.h"
 #include "uartbuffers.h"
-
-#define AVG_SHIFT  3
 
 #define DEPTH_SUMMARY          0
 #define DEPTH_DETAILS          1
@@ -29,9 +28,6 @@
 #define TICKS_WAIT_OFF          3 * 24
 #define TICKS_DURATION_RESET    3 * 24
 #define TICKS_DISPLAY_OFF     300 * 24
-
-#define CUTOFF_POWER_FAST   110000
-#define CUTOFF_POWER_AVG     95000
 
 
 void fillUartFromChannel(uint8_t index, uint16_t voltage, uint16_t current, bool isOn);
@@ -64,48 +60,30 @@ void main(void) {
     oled_splash();
     io_led_activity_off();
 
+    // setup config
+    CLRWDT();
+    settings_init();
+
+    // config: outputs
+    uint8_t nextOutputs = settings_outputs_get();
+    uint8_t currOutputs = nextOutputs | 0b10000000;  // just to force change when first ran
+
+    // config: cutoff currents
+    uint16_t cutoffCurrent1Fast, cutoffCurrent2Fast, cutoffCurrent3Fast, cutoffCurrent4Fast, cutoffCurrent5Fast;
+    settings_cutoff_current_get(&cutoffCurrent1Fast, &cutoffCurrent2Fast, &cutoffCurrent3Fast, &cutoffCurrent4Fast, &cutoffCurrent5Fast);
+
+    // setup measurement
+    CLRWDT();
+    uint16_t voltage1, current1, voltage2, current2, voltage3, current3, voltage4, current4, voltage5, current5, temperature;
+    measurement_init(cutoffCurrent1Fast, cutoffCurrent2Fast, cutoffCurrent3Fast, cutoffCurrent4Fast, cutoffCurrent5Fast);
+
     // check whether to go to test mode (button 1 and 5))
     bool switch1State, switch2State, switch3State, switch4State, switch5State;
     ioex_button_switch_getAll(&switch1State, &switch2State, &switch3State, &switch4State, &switch5State);
     if (switch1State && !switch2State && !switch3State && !switch4State && switch5State) {
-        adc_init();
         test();
         return;
     }
-
-    // read config
-    CLRWDT();
-    settings_init();
-    uint8_t nextOutputs = settings_outputs_get();
-    uint8_t currOutputs = nextOutputs | 0b10000000;  // just to force change when first ran
-    uint16_t cutoffCurrent1Fast, cutoffCurrent2Fast, cutoffCurrent3Fast, cutoffCurrent4Fast, cutoffCurrent5Fast;
-    settings_cutoff_current_get(&cutoffCurrent1Fast, &cutoffCurrent2Fast, &cutoffCurrent3Fast, &cutoffCurrent4Fast, &cutoffCurrent5Fast);
-    uint16_t cutoffCurrent1Avg = cutoffCurrent1Fast - cutoffCurrent1Fast / 6;
-    uint16_t cutoffCurrent2Avg = cutoffCurrent2Fast - cutoffCurrent2Fast / 6;
-    uint16_t cutoffCurrent3Avg = cutoffCurrent3Fast - cutoffCurrent3Fast / 6;
-    uint16_t cutoffCurrent4Avg = cutoffCurrent4Fast - cutoffCurrent4Fast / 6;
-    uint16_t cutoffCurrent5Avg = cutoffCurrent5Fast - cutoffCurrent5Fast / 6;
-
-    // ADC setup
-    CLRWDT();
-    adc_init();
-    uint16_t voltage1, current1, voltage2, current2, voltage3, current3, voltage4, current4, voltage5, current5, temperature;
-    adc_measureBasic(&voltage1, &current1, &voltage2, &current2, &voltage3, &current3, &voltage4, &current4, &voltage5, &current5, &temperature);
-
-    // lower current measurement to avoid tripping average current protection due to a single measurement
-    if (current1 > 100) { current1 -= 100; } else { current1 = 0; }
-    if (current2 > 100) { current2 -= 100; } else { current2 = 0; }
-    if (current3 > 100) { current3 -= 100; } else { current3 = 0; }
-    if (current4 > 100) { current4 -= 100; } else { current4 = 0; }
-    if (current5 > 100) { current5 -= 100; } else { current5 = 0; }
-
-    // expand initial measurement
-    uint32_t voltage1Sum = (uint32_t)voltage1 << AVG_SHIFT, current1Sum = (uint32_t)current1 << AVG_SHIFT;
-    uint32_t voltage2Sum = (uint32_t)voltage2 << AVG_SHIFT, current2Sum = (uint32_t)current2 << AVG_SHIFT;
-    uint32_t voltage3Sum = (uint32_t)voltage3 << AVG_SHIFT, current3Sum = (uint32_t)current3 << AVG_SHIFT;
-    uint32_t voltage4Sum = (uint32_t)voltage4 << AVG_SHIFT, current4Sum = (uint32_t)current4 << AVG_SHIFT;
-    uint32_t voltage5Sum = (uint32_t)voltage5 << AVG_SHIFT, current5Sum = (uint32_t)current5 << AVG_SHIFT;
-    uint32_t temperatureSum = (uint32_t)temperature << AVG_SHIFT;
 
     // state variables
     uint8_t currDepth = DEPTH_SUMMARY;  // 0: summary; 1: details; 2: prepare reset; 3: reset; 4: shutdown
@@ -196,61 +174,7 @@ void main(void) {
             lastActionTicks++;
 
             // measure each tick
-            adc_measureBasic(&voltage1, &current1, &voltage2, &current2, &voltage3, &current3, &voltage4, &current4, &voltage5, &current5, &temperature);
-
-            // cutoff if exceeding current
-            if (current1 > cutoffCurrent1Fast) { nextOutputs &= 0b11110; }
-            if (current2 > cutoffCurrent2Fast) { nextOutputs &= 0b11101; }
-            if (current3 > cutoffCurrent3Fast) { nextOutputs &= 0b11011; }
-            if (current4 > cutoffCurrent4Fast) { nextOutputs &= 0b10111; }
-            if (current5 > cutoffCurrent5Fast) { nextOutputs &= 0b01111; }
-
-            // cutoff if exceeding power
-            if (((uint32_t)voltage1 * current1) > (CUTOFF_POWER_FAST * 1000)) { nextOutputs &= 0b11110; }
-            if (((uint32_t)voltage2 * current2) > (CUTOFF_POWER_FAST * 1000)) { nextOutputs &= 0b11101; }
-            if (((uint32_t)voltage3 * current3) > (CUTOFF_POWER_FAST * 1000)) { nextOutputs &= 0b11011; }
-            if (((uint32_t)voltage4 * current4) > (CUTOFF_POWER_FAST * 1000)) { nextOutputs &= 0b10111; }
-            if (((uint32_t)voltage5 * current5) > (CUTOFF_POWER_FAST * 1000)) { nextOutputs &= 0b01111; }
-
-            // calculate average from previous tick
-            uint16_t voltage1Avg = (uint16_t)(voltage1Sum >> AVG_SHIFT);
-            uint16_t voltage2Avg = (uint16_t)(voltage2Sum >> AVG_SHIFT);
-            uint16_t voltage3Avg = (uint16_t)(voltage3Sum >> AVG_SHIFT);
-            uint16_t voltage4Avg = (uint16_t)(voltage4Sum >> AVG_SHIFT);
-            uint16_t voltage5Avg = (uint16_t)(voltage5Sum >> AVG_SHIFT);
-            uint16_t current1Avg = (uint16_t)(current1Sum >> AVG_SHIFT);
-            uint16_t current2Avg = (uint16_t)(current2Sum >> AVG_SHIFT);
-            uint16_t current3Avg = (uint16_t)(current3Sum >> AVG_SHIFT);
-            uint16_t current4Avg = (uint16_t)(current4Sum >> AVG_SHIFT);
-            uint16_t current5Avg = (uint16_t)(current5Sum >> AVG_SHIFT);
-            uint16_t temperatureAvg = (uint16_t)(temperatureSum >> AVG_SHIFT);
-
-            // cutoff if exceeding average current
-            if (current1Avg > cutoffCurrent1Avg) { nextOutputs &= 0b11110; }
-            if (current2Avg > cutoffCurrent2Avg) { nextOutputs &= 0b11101; }
-            if (current3Avg > cutoffCurrent3Avg) { nextOutputs &= 0b11011; }
-            if (current4Avg > cutoffCurrent4Avg) { nextOutputs &= 0b10111; }
-            if (current5Avg > cutoffCurrent5Avg) { nextOutputs &= 0b01111; }
-
-            // cutoff if exceeding average power
-            if (((uint32_t)voltage1Avg * current1Avg) > (CUTOFF_POWER_AVG * 1000)) { nextOutputs &= 0b11110; }
-            if (((uint32_t)voltage2Avg * current2Avg) > (CUTOFF_POWER_AVG * 1000)) { nextOutputs &= 0b11101; }
-            if (((uint32_t)voltage3Avg * current3Avg) > (CUTOFF_POWER_AVG * 1000)) { nextOutputs &= 0b11011; }
-            if (((uint32_t)voltage4Avg * current4Avg) > (CUTOFF_POWER_AVG * 1000)) { nextOutputs &= 0b10111; }
-            if (((uint32_t)voltage5Avg * current5Avg) > (CUTOFF_POWER_AVG * 1000)) { nextOutputs &= 0b01111; }
-
-            // add new value to averages
-            voltage1Sum -= voltage1Avg; voltage1Sum += voltage1;
-            voltage2Sum -= voltage2Avg; voltage2Sum += voltage2;
-            voltage3Sum -= voltage3Avg; voltage3Sum += voltage3;
-            voltage4Sum -= voltage4Avg; voltage4Sum += voltage4;
-            voltage5Sum -= voltage5Avg; voltage5Sum += voltage5;
-            current1Sum -= current1Avg; current1Sum += current1;
-            current2Sum -= current2Avg; current2Sum += current2;
-            current3Sum -= current3Avg; current3Sum += current3;
-            current4Sum -= current4Avg; current4Sum += current4;
-            current5Sum -= current5Avg; current5Sum += current5;
-            temperatureSum -= temperatureAvg; temperatureSum += temperature;
+            measurement_basic(&nextOutputs, &voltage1, &current1, &voltage2, &current2, &voltage3, &current3, &voltage4, &current4, &voltage5, &current5, &temperature);
 
             // check if state needs change
             if (currOutputs != nextOutputs) {
@@ -428,7 +352,7 @@ void main(void) {
                     oled_displayOn();
                     switch (currDepth) {
                         case DEPTH_SUMMARY: {
-                            oled_writeSummary(voltage1Avg, current1Avg, voltage2Avg, current2Avg, voltage3Avg, current3Avg, voltage4Avg, current4Avg, voltage5Avg, current5Avg, temperatureAvg, currOutputs);
+                            oled_writeSummary(voltage1, current1, voltage2, current2, voltage3, current3, voltage4, current4, voltage5, current5, temperature, currOutputs);
                         } break;
 
                         case DEPTH_DETAILS:
@@ -437,19 +361,19 @@ void main(void) {
                         case DEPTH_PENDING_NOTHING: {
                             switch (currChannel) {
                                 case 1: {
-                                    oled_writeChannel(1, voltage1Avg, current1Avg, currOutputs & 0b00001, currDepth, currDepthButtonTicks);
+                                    oled_writeChannel(1, voltage1, current1, currOutputs & 0b00001, currDepth, currDepthButtonTicks);
                                 } break;
                                 case 2: {
-                                    oled_writeChannel(2, voltage2Avg, current2Avg, currOutputs & 0b00010, currDepth, currDepthButtonTicks);
+                                    oled_writeChannel(2, voltage2, current2, currOutputs & 0b00010, currDepth, currDepthButtonTicks);
                                 } break;
                                 case 3: {
-                                    oled_writeChannel(3, voltage3Avg, current3Avg, currOutputs & 0b00100, currDepth, currDepthButtonTicks);
+                                    oled_writeChannel(3, voltage3, current3, currOutputs & 0b00100, currDepth, currDepthButtonTicks);
                                 } break;
                                 case 4: {
-                                    oled_writeChannel(4, voltage4Avg, current4Avg, currOutputs & 0b01000, currDepth, currDepthButtonTicks);
+                                    oled_writeChannel(4, voltage4, current4, currOutputs & 0b01000, currDepth, currDepthButtonTicks);
                                 } break;
                                 case 5: {
-                                    oled_writeChannel(5, voltage5Avg, current5Avg, currOutputs & 0b10000, currDepth, currDepthButtonTicks);
+                                    oled_writeChannel(5, voltage5, current5, currOutputs & 0b10000, currDepth, currDepthButtonTicks);
                                 } break;
                             }
 
@@ -458,12 +382,12 @@ void main(void) {
                 }
             } else if ((tickCounter == 6) || (tickCounter == 18)) {  // prepare UART twice a second
                 uartbuffers_txReset();
-                fillUartFromChannel(1, (uint16_t)(voltage1Sum >> AVG_SHIFT), (uint16_t)(current1Sum >> AVG_SHIFT), (currOutputs & 0b00001) > 0);
-                fillUartFromChannel(2, (uint16_t)(voltage2Sum >> AVG_SHIFT), (uint16_t)(current2Sum >> AVG_SHIFT), (currOutputs & 0b00010) > 0);
-                fillUartFromChannel(3, (uint16_t)(voltage3Sum >> AVG_SHIFT), (uint16_t)(current3Sum >> AVG_SHIFT), (currOutputs & 0b00100) > 0);
-                fillUartFromChannel(4, (uint16_t)(voltage4Sum >> AVG_SHIFT), (uint16_t)(current4Sum >> AVG_SHIFT), (currOutputs & 0b01000) > 0);
-                fillUartFromChannel(5, (uint16_t)(voltage5Sum >> AVG_SHIFT), (uint16_t)(current5Sum >> AVG_SHIFT), (currOutputs & 0b10000) > 0);
-                fillUartFromTemperature((uint16_t)(temperatureSum >> AVG_SHIFT));
+                fillUartFromChannel(1, voltage1, current1, (currOutputs & 0b00001) > 0);
+                fillUartFromChannel(2, voltage2, current2, (currOutputs & 0b00010) > 0);
+                fillUartFromChannel(3, voltage3, current3, (currOutputs & 0b00100) > 0);
+                fillUartFromChannel(4, voltage4, current4, (currOutputs & 0b01000) > 0);
+                fillUartFromChannel(5, voltage5, current5, (currOutputs & 0b10000) > 0);
+                fillUartFromTemperature(temperature);
             }
         }
     }
@@ -666,56 +590,32 @@ void test(void) {
     uint8_t updateCounter = 0;
     uint8_t index = 0;
 
+    uint8_t outputState = 0;
     uint16_t voltage1, current1, voltage2, current2, voltage3, current3, voltage4, current4, voltage5, current5, temperature;
-    adc_measureBasic(&voltage1, &current1, &voltage2, &current2, &voltage3, &current3, &voltage4, &current4, &voltage5, &current5, &temperature);
+    measurement_basic(&outputState, &voltage1, &current1, &voltage2, &current2, &voltage3, &current3, &voltage4, &current4, &voltage5, &current5, &temperature);
 
     uint16_t voltage12V, voltage5V, temperatureDie;
-    adc_measureExtra(&voltage12V, &voltage5V, &temperatureDie);
-
-    uint32_t voltage1Sum = (uint32_t)voltage1 << AVG_SHIFT, current1Sum = (uint32_t)current1 << AVG_SHIFT;
-    uint32_t voltage2Sum = (uint32_t)voltage2 << AVG_SHIFT, current2Sum = (uint32_t)current2 << AVG_SHIFT;
-    uint32_t voltage3Sum = (uint32_t)voltage3 << AVG_SHIFT, current3Sum = (uint32_t)current3 << AVG_SHIFT;
-    uint32_t voltage4Sum = (uint32_t)voltage4 << AVG_SHIFT, current4Sum = (uint32_t)current4 << AVG_SHIFT;
-    uint32_t voltage5Sum = (uint32_t)voltage5 << AVG_SHIFT, current5Sum = (uint32_t)current5 << AVG_SHIFT;
-    uint32_t temperatureSum = (uint32_t)temperature << AVG_SHIFT;
-    uint32_t voltage12VSum = (uint32_t)voltage12V << AVG_SHIFT;
-    uint32_t voltage5VSum = (uint32_t)voltage5V << AVG_SHIFT;
-    uint32_t temperatureDieSum = (uint32_t)temperatureDie << AVG_SHIFT;
+    measurement_extra(&voltage12V, &voltage5V, &temperatureDie);
 
     while(true) {
         CLRWDT();
         if (ticker_hasTicked()) {
             updateCounter++;
 
-            adc_measureBasic(&voltage1, &current1, &voltage2, &current2, &voltage3, &current3, &voltage4, &current4, &voltage5, &current5, &temperature);
-            voltage1Sum -= (voltage1Sum >> AVG_SHIFT); voltage1Sum += voltage1;
-            voltage2Sum -= (voltage2Sum >> AVG_SHIFT); voltage2Sum += voltage2;
-            voltage3Sum -= (voltage3Sum >> AVG_SHIFT); voltage3Sum += voltage3;
-            voltage4Sum -= (voltage4Sum >> AVG_SHIFT); voltage4Sum += voltage4;
-            voltage5Sum -= (voltage5Sum >> AVG_SHIFT); voltage5Sum += voltage5;
-            current1Sum -= (current1Sum >> AVG_SHIFT); current1Sum += current1;
-            current2Sum -= (current2Sum >> AVG_SHIFT); current2Sum += current2;
-            current3Sum -= (current3Sum >> AVG_SHIFT); current3Sum += current3;
-            current4Sum -= (current4Sum >> AVG_SHIFT); current4Sum += current4;
-            current5Sum -= (current5Sum >> AVG_SHIFT); current5Sum += current5;
-            temperatureSum -= (temperatureSum >> AVG_SHIFT); temperatureSum += temperature;
-
-            adc_measureExtra(&voltage12V, &voltage5V, &temperatureDie);
-            voltage12VSum -= (voltage12VSum >> AVG_SHIFT); voltage12VSum += voltage12V;
-            voltage5VSum -= (voltage5VSum >> AVG_SHIFT); voltage5VSum += voltage5V;
-            temperatureDieSum -= (temperatureDieSum >> AVG_SHIFT); temperatureDieSum += temperatureDie;
+            measurement_basic(&outputState, &voltage1, &current1, &voltage2, &current2, &voltage3, &current3, &voltage4, &current4, &voltage5, &current5, &temperature);
+            measurement_extra(&voltage12V, &voltage5V, &temperatureDie);
 
             if (updateCounter == 4) {
                 updateCounter = 0;
 
                 switch(index) {
-                    case 0: oled_writeTestVT(index, (uint16_t)(voltage12VSum >> AVG_SHIFT), (uint16_t)(temperatureSum >> AVG_SHIFT)); break;    // 12V + Temperature
-                    case 1: oled_writeTestVC(1, (uint16_t)(voltage1Sum >> AVG_SHIFT), (uint16_t)(current1Sum >> AVG_SHIFT)); break;             // Channel 1: Voltage + Current
-                    case 2: oled_writeTestVC(2, (uint16_t)(voltage2Sum >> AVG_SHIFT), (uint16_t)(current2Sum >> AVG_SHIFT)); break;             // Channel 2: Voltage + Current
-                    case 3: oled_writeTestVC(3, (uint16_t)(voltage3Sum >> AVG_SHIFT), (uint16_t)(current3Sum >> AVG_SHIFT)); break;             // Channel 3: Voltage + Current
-                    case 4: oled_writeTestVC(4, (uint16_t)(voltage4Sum >> AVG_SHIFT), (uint16_t)(current4Sum >> AVG_SHIFT)); break;             // Channel 4: Voltage + Current
-                    case 5: oled_writeTestVC(5, (uint16_t)(voltage5Sum >> AVG_SHIFT), (uint16_t)(current5Sum >> AVG_SHIFT)); break;             // Channel 5: Voltage + Current
-                    case 6: oled_writeTestVT(index, (uint16_t)(voltage5VSum >> AVG_SHIFT), (uint16_t)(temperatureDieSum >> AVG_SHIFT)); break;  // Internal Voltage + Internal Temperature
+                    case 0: oled_writeTestVT(index, voltage12V, temperature); break;    // 12V + Temperature
+                    case 1: oled_writeTestVC(1, voltage1, current1); break;             // Channel 1: Voltage + Current
+                    case 2: oled_writeTestVC(2, voltage2, current2); break;             // Channel 2: Voltage + Current
+                    case 3: oled_writeTestVC(3, voltage3, current3); break;             // Channel 3: Voltage + Current
+                    case 4: oled_writeTestVC(4, voltage4, current4); break;             // Channel 4: Voltage + Current
+                    case 5: oled_writeTestVC(5, voltage5, current5); break;             // Channel 5: Voltage + Current
+                    case 6: oled_writeTestVT(index, voltage5V, temperatureDie); break;  // Internal Voltage + Internal Temperature
                 }
 
                 ioex_button_switch_getAll(&switch1State, &switch2State, &switch3State, &switch4State, &switch5State);
@@ -730,15 +630,17 @@ void test(void) {
                     ssd1306_displayNormal();
                     ticker_waitTick();
                     switch(index) {
-                        case 0: ioex_button_led_setAll(false, false, false, false, false); ioex_output_setAll(false, false, false, false, false); break;
-                        case 1: ioex_button_led_setAll(true, false, false, false, false); ioex_output_setAll(true, false, false, false, false); break;
-                        case 2: ioex_button_led_setAll(false, true, false, false, false); ioex_output_setAll(false, true, false, false, false); break;
-                        case 3: ioex_button_led_setAll(false, false, true, false, false); ioex_output_setAll(false, false, true, false, false); break;
-                        case 4: ioex_button_led_setAll(false, false, false, true, false); ioex_output_setAll(false, false, false, true, false); break;
-                        case 5: ioex_button_led_setAll(false, false, false, false, true); ioex_output_setAll(false, false, false, false, true); break;
-                        case 6: ioex_button_led_setAll(false, false, false, false, false); ioex_output_setAll(false, false, false, false, false); break;
+                        case 0: ioex_button_led_setAll(false, false, false, false, false); ioex_output_setAll(false, false, false, false, false); outputState = 0b00000; break;
+                        case 1: ioex_button_led_setAll(true, false, false, false, false); ioex_output_setAll(true, false, false, false, false);   outputState = 0b00001; break;
+                        case 2: ioex_button_led_setAll(false, true, false, false, false); ioex_output_setAll(false, true, false, false, false);   outputState = 0b00010; break;
+                        case 3: ioex_button_led_setAll(false, false, true, false, false); ioex_output_setAll(false, false, true, false, false);   outputState = 0b00100; break;
+                        case 4: ioex_button_led_setAll(false, false, false, true, false); ioex_output_setAll(false, false, false, true, false);   outputState = 0b01000; break;
+                        case 5: ioex_button_led_setAll(false, false, false, false, true); ioex_output_setAll(false, false, false, false, true);   outputState = 0b10000; break;
+                        case 6: ioex_button_led_setAll(false, false, false, false, false); ioex_output_setAll(false, false, false, false, false); outputState = 0b00000; break;
                     }
                 }
+
+                if (outputState == 0) { ioex_output_setAll(false, false, false, false, false); }  // disable outputs
             }
         }
     }

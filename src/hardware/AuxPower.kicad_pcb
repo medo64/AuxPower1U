@@ -8722,7 +8722,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "ZXCT1009"
+		(property "Value" "HV7801"
 			(at 0 -2.4 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -16447,7 +16447,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "ZXCT1009"
+		(property "Value" "HV7801"
 			(at 0 -2.4 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -17236,7 +17236,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "ZXCT1009"
+		(property "Value" "HV7801"
 			(at 0 -2.4 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -18315,7 +18315,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "ZXCT1009"
+		(property "Value" "HV7801"
 			(at 0 -2.4 90)
 			(layer "B.SilkS")
 			(hide yes)
@@ -18822,7 +18822,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "ZXCT1009"
+		(property "Value" "HV7801"
 			(at 0 -2.4 90)
 			(layer "B.SilkS")
 			(hide yes)

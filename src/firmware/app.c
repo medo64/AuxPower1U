@@ -30,8 +30,8 @@
 #define TICKS_DURATION_RESET    3 * 24
 #define TICKS_DISPLAY_OFF     300 * 24
 
-#define CUTOFF_POWER_FAST   125000
-#define CUTOFF_POWER_AVG    105000
+#define CUTOFF_POWER_FAST   110000
+#define CUTOFF_POWER_AVG     95000
 
 
 void fillUartFromChannel(uint8_t index, uint16_t voltage, uint16_t current, bool isOn);

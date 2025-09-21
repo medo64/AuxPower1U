@@ -26,7 +26,7 @@
 #define TICKS_GOTO_RESET        3 * 24
 #define TICKS_WAIT_RESET        3 * 24
 #define TICKS_WAIT_OFF          3 * 24
-#define TICKS_DURATION_RESET    3 * 24
+#define TICKS_DURATION_RESET    5 * 24
 #define TICKS_DISPLAY_OFF     300 * 24
 
 
@@ -547,19 +547,40 @@ uint8_t resetOutput(const uint8_t channel, const uint8_t currOutputs) {
     uint8_t nextOutputs = currOutputs;
 
     switch (channel) {  // channel OFF
-        case 1: ioex_output_set1(false); ioex_button_led_set1(false); break;
-        case 2: ioex_output_set2(false); ioex_button_led_set2(false); break;
-        case 3: ioex_output_set3(false); ioex_button_led_set3(false); break;
-        case 4: ioex_output_set4(false); ioex_button_led_set4(false); break;
-        case 5: ioex_output_set5(false); ioex_button_led_set5(false); break;
+        case 1: ioex_output_set1(false); ioex_button_led_set1(false); nextOutputs &= 0b11110; break;
+        case 2: ioex_output_set2(false); ioex_button_led_set2(false); nextOutputs &= 0b11101; break;
+        case 3: ioex_output_set3(false); ioex_button_led_set3(false); nextOutputs &= 0b11011; break;
+        case 4: ioex_output_set4(false); ioex_button_led_set4(false); nextOutputs &= 0b10111; break;
+        case 5: ioex_output_set5(false); ioex_button_led_set5(false); nextOutputs &= 0b01111; break;
     }
 
     uint8_t resetTicks = 0;
     while (true) {
         CLRWDT();
         if (ticker_hasTicked()) {
+            uint8_t prevOutputs = nextOutputs;
+            uint16_t voltage1, voltage2, voltage3, voltage4, voltage5, current1, current2, current3, current4, current5, temperature;
+            measurement_basic(&nextOutputs, &voltage1, &current1, &voltage2, &current2, &voltage3, &current3, &voltage4, &current4, &voltage5, &current5, &temperature);
+            if (prevOutputs != nextOutputs) {
+                bool nextState1 = (nextOutputs & 0b00001) != 0;
+                bool nextState2 = (nextOutputs & 0b00010) != 0;
+                bool nextState3 = (nextOutputs & 0b00100) != 0;
+                bool nextState4 = (nextOutputs & 0b01000) != 0;
+                bool nextState5 = (nextOutputs & 0b10000) != 0;
+                ioex_output_setAll(nextState1, nextState2, nextState3, nextState4, nextState5);      // set outputs
+                ioex_button_led_setAll(nextState1, nextState2, nextState3, nextState4, nextState5);  // set LEDs
+            }
+
             resetTicks++;
-            if (resetTicks % 12 == 0) { oled_writeReset(channel, resetTicks); }
+            if (resetTicks % 12 == 0) {
+                switch (channel) {  // channel ON
+                    case 1: oled_writeReset(channel, voltage1, current1, resetTicks); break;
+                    case 2: oled_writeReset(channel, voltage2, current2, resetTicks); break;
+                    case 3: oled_writeReset(channel, voltage3, current3, resetTicks); break;
+                    case 4: oled_writeReset(channel, voltage4, current4, resetTicks); break;
+                    case 5: oled_writeReset(channel, voltage5, current5, resetTicks); break;
+                }
+            }
             if (resetTicks >= TICKS_DURATION_RESET) { break; }
         }
     }

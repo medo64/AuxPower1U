@@ -229,7 +229,7 @@ void oled_writeChannel(uint8_t channel, uint16_t voltage, uint16_t current, bool
     ssd1306_writeText16(textBR);
 }
 
-void oled_writeReset(uint8_t channel, uint16_t ticks) {
+void oled_writeReset(uint8_t channel, uint16_t voltage, uint16_t current, uint16_t ticks) {
     char text[14];
     text[0] = ' ';
     text[1] = 'R';
@@ -247,13 +247,34 @@ void oled_writeReset(uint8_t channel, uint16_t ticks) {
     text[13] = 0;
 
     ssd1306_moveTo(1, 1);
-    ssd1306_writeLine("                ");
     ssd1306_writeText16(text);
     ssd1306_writeCharacter16(' ');
     ssd1306_writeInverseCharacter16(0xDD);
     ssd1306_writeInverseCharacter16(0x30 + channel);
     ssd1306_moveToNextRow16();
     ssd1306_writeLine("                ");
+
+    char textBL[9];
+    oled_fillNumber2(&textBL[0], (uint16_t)(current / 1000), false);
+    textBL[2] = '.';
+    oled_fillNumber2(&textBL[3], (uint16_t)((current % 1000 ) / 10), true);
+    textBL[5] = ' ';
+    textBL[6] = 'A';
+    textBL[7] = ' ';
+    textBL[8] = 0;
+
+    uint32_t power = (uint32_t)voltage * (uint32_t)current / (uint32_t)1000;  // mW
+    char textBR[9];
+    textBR[0] = ' ';
+    oled_fillNumber3(&textBR[1], (uint16_t)(power / 1000), false);
+    textBR[4] = '.';
+    oled_fillNumber1(&textBR[5], (uint16_t)((power % 1000) / 100));
+    textBR[6] = ' ';
+    textBR[7] = 'W';
+    textBR[8] = 0;
+
+    ssd1306_writeText(textBL);
+    ssd1306_writeText(textBR);
 }
 
 

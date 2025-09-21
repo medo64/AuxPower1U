@@ -1,7 +1,7 @@
 #include <xc.h>
 #include "app.h"
 
-#define ADC_CURRENT_OUT_MULTIPLIER        35 / 1
+#define ADC_CURRENT_OUT_MULTIPLIER             2
 #define ADC_VOLTAGE_OUT_MULTIPLIER            16  // 64:1 * 1024mV / 4096
 #define ADC_VOLTAGE_12V_MULTIPLIER             4  // 16:1 * 1024mV / 4096
 #define ADC_TEMPERATURE_0C                   800  // 400mV / 2048mV * 4096

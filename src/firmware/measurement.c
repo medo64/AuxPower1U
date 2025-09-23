@@ -5,39 +5,25 @@
 
 #define AVG_SHIFT  3
 
-#define CUTOFF_POWER_FAST   110000
-#define CUTOFF_POWER_AVG     95000
+#define CUTOFF_POWER_VA  94500000  //  90W +5%
 
-uint16_t CutoffFastCurrent1;
-uint16_t CutoffFastCurrent2;
-uint16_t CutoffFastCurrent3;
-uint16_t CutoffFastCurrent4;
-uint16_t CutoffFastCurrent5;
-
-uint16_t CutoffAvgCurrent1;
-uint16_t CutoffAvgCurrent2;
-uint16_t CutoffAvgCurrent3;
-uint16_t CutoffAvgCurrent4;
-uint16_t CutoffAvgCurrent5;
+uint16_t CutoffCurrent1;
+uint16_t CutoffCurrent2;
+uint16_t CutoffCurrent3;
+uint16_t CutoffCurrent4;
+uint16_t CutoffCurrent5;
 
 uint32_t Voltage1Sum, Voltage2Sum, Voltage3Sum, Voltage4Sum, Voltage5Sum;
 uint32_t Current1Sum, Current2Sum, Current3Sum, Current4Sum, Current5Sum;
 uint32_t TemperatureSum;
 
-void measurement_init(uint16_t cutoffFastCurrent1, uint16_t cutoffFastCurrent2, uint16_t cutoffFastCurrent3, uint16_t cutoffFastCurrent4, uint16_t cutoffFastCurrent5) {
+void measurement_init(uint16_t cutoffCurrent1, uint16_t cutoffCurrent2, uint16_t cutoffCurrent3, uint16_t cutoffCurrent4, uint16_t cutoffCurrent5) {
     // fast cutoff point
-    CutoffFastCurrent1 = cutoffFastCurrent1;
-    CutoffFastCurrent2 = cutoffFastCurrent2;
-    CutoffFastCurrent3 = cutoffFastCurrent3;
-    CutoffFastCurrent4 = cutoffFastCurrent4;
-    CutoffFastCurrent5 = cutoffFastCurrent5;
-
-    // average current is about 20% lower
-    CutoffAvgCurrent1 = cutoffFastCurrent1 - cutoffFastCurrent1 / 5;
-    CutoffAvgCurrent2 = cutoffFastCurrent2 - cutoffFastCurrent2 / 5;
-    CutoffAvgCurrent3 = cutoffFastCurrent3 - cutoffFastCurrent3 / 5;
-    CutoffAvgCurrent4 = cutoffFastCurrent4 - cutoffFastCurrent4 / 5;
-    CutoffAvgCurrent5 = cutoffFastCurrent5 - cutoffFastCurrent5 / 5;
+    CutoffCurrent1 = cutoffCurrent1;
+    CutoffCurrent2 = cutoffCurrent2;
+    CutoffCurrent3 = cutoffCurrent3;
+    CutoffCurrent4 = cutoffCurrent4;
+    CutoffCurrent5 = cutoffCurrent5;
 
     // ADC setup
     adc_init();
@@ -66,18 +52,18 @@ void measurement_basic(uint8_t* nextOutputs, uint16_t* voltage1, uint16_t* curre
     adc_measureBasic(&u1, &i1, &u2, &i2, &u3, &i3, &u4, &i4, &u5, &i5, &t);
 
     // cutoff if exceeding current
-    if (i1 > CutoffFastCurrent1) { *nextOutputs &= 0b11110; }
-    if (i2 > CutoffFastCurrent2) { *nextOutputs &= 0b11101; }
-    if (i3 > CutoffFastCurrent3) { *nextOutputs &= 0b11011; }
-    if (i4 > CutoffFastCurrent4) { *nextOutputs &= 0b10111; }
-    if (i5 > CutoffFastCurrent5) { *nextOutputs &= 0b01111; }
+    if (i1 > CutoffCurrent1) { *nextOutputs &= 0b11110; }
+    if (i2 > CutoffCurrent2) { *nextOutputs &= 0b11101; }
+    if (i3 > CutoffCurrent3) { *nextOutputs &= 0b11011; }
+    if (i4 > CutoffCurrent4) { *nextOutputs &= 0b10111; }
+    if (i5 > CutoffCurrent5) { *nextOutputs &= 0b01111; }
 
     // cutoff if exceeding power
-    if (((uint32_t)u1 * i1) > (CUTOFF_POWER_FAST * 1000)) { *nextOutputs &= 0b11110; }
-    if (((uint32_t)u2 * i2) > (CUTOFF_POWER_FAST * 1000)) { *nextOutputs &= 0b11101; }
-    if (((uint32_t)u3 * i3) > (CUTOFF_POWER_FAST * 1000)) { *nextOutputs &= 0b11011; }
-    if (((uint32_t)u4 * i4) > (CUTOFF_POWER_FAST * 1000)) { *nextOutputs &= 0b10111; }
-    if (((uint32_t)u5 * i5) > (CUTOFF_POWER_FAST * 1000)) { *nextOutputs &= 0b01111; }
+    if (((uint32_t)u1 * i1) > CUTOFF_POWER_VA) { *nextOutputs &= 0b11110; }
+    if (((uint32_t)u2 * i2) > CUTOFF_POWER_VA) { *nextOutputs &= 0b11101; }
+    if (((uint32_t)u3 * i3) > CUTOFF_POWER_VA) { *nextOutputs &= 0b11011; }
+    if (((uint32_t)u4 * i4) > CUTOFF_POWER_VA) { *nextOutputs &= 0b10111; }
+    if (((uint32_t)u5 * i5) > CUTOFF_POWER_VA) { *nextOutputs &= 0b01111; }
 
     // calculate average from previous tick
     uint16_t voltage1Avg = (uint16_t)(Voltage1Sum >> AVG_SHIFT);
@@ -91,20 +77,6 @@ void measurement_basic(uint8_t* nextOutputs, uint16_t* voltage1, uint16_t* curre
     uint16_t current4Avg = (uint16_t)(Current4Sum >> AVG_SHIFT);
     uint16_t current5Avg = (uint16_t)(Current5Sum >> AVG_SHIFT);
     uint16_t temperatureAvg = (uint16_t)(TemperatureSum >> AVG_SHIFT);
-
-    // cutoff if exceeding average current
-    if (current1Avg > CutoffAvgCurrent1) { *nextOutputs &= 0b11110; }
-    if (current2Avg > CutoffAvgCurrent2) { *nextOutputs &= 0b11101; }
-    if (current3Avg > CutoffAvgCurrent3) { *nextOutputs &= 0b11011; }
-    if (current4Avg > CutoffAvgCurrent4) { *nextOutputs &= 0b10111; }
-    if (current5Avg > CutoffAvgCurrent5) { *nextOutputs &= 0b01111; }
-
-    // cutoff if exceeding average power
-    if (((uint32_t)voltage1Avg * current1Avg) > (CUTOFF_POWER_AVG * 1000)) { *nextOutputs &= 0b11110; }
-    if (((uint32_t)voltage2Avg * current2Avg) > (CUTOFF_POWER_AVG * 1000)) { *nextOutputs &= 0b11101; }
-    if (((uint32_t)voltage3Avg * current3Avg) > (CUTOFF_POWER_AVG * 1000)) { *nextOutputs &= 0b11011; }
-    if (((uint32_t)voltage4Avg * current4Avg) > (CUTOFF_POWER_AVG * 1000)) { *nextOutputs &= 0b10111; }
-    if (((uint32_t)voltage5Avg * current5Avg) > (CUTOFF_POWER_AVG * 1000)) { *nextOutputs &= 0b01111; }
 
     // add new value to averages
     Voltage1Sum -= voltage1Avg; Voltage1Sum += u1;

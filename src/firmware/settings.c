@@ -12,11 +12,11 @@ void settings_outputs_set(uint8_t value) {
 
 
 void settings_cutoff_current_get(uint16_t* current1, uint16_t* current2, uint16_t* current3, uint16_t* current4, uint16_t* current5) {
-    *current1 = 4000;
-    *current2 = 4000;
-    *current3 = 4000;
-    *current4 = 6000;
-    *current5 = 6000;
+    *current1 = 3600;  // 4A -10%
+    *current2 = 3600;  // 4A -10%
+    *current3 = 3600;  // 4A -10%
+    *current4 = 5400;  // 6A -10%
+    *current5 = 5400;  // 6A -10%
 }
 
 
